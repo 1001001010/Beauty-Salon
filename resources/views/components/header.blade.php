@@ -6,10 +6,6 @@
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Главная
                 </a>
-                <a href="{{ url('/masters') }}"
-                    class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
-                    Мастера
-                </a>
                 <a href="{{ url('/services') }}"
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Каталог услуг
@@ -20,13 +16,9 @@
                 </a>
                 @auth
                     @if (Auth::user()->role == 'admin')
-                        <a href="{{ route('index') }}"
+                        <a href="{{ route('admin') }}"
                             class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                             Админка
-                        </a>
-                        <a href="{{ route('index') }}"
-                            class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
-                            Статистика
                         </a>
                     @endif
                 @endauth

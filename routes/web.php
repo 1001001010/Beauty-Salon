@@ -1,11 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController, ProfileController};
+use App\Http\Controllers\{HomeController, ProfileController,
+    AdminController};
+use App\Http\Middleware\IsAdmin;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::controller(AdminController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+    Route::get('/admin', 'index')->name('admin');
+    });
+});
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');

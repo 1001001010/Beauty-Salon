@@ -26,10 +26,23 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function adminUser(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'Admin',
+                'surname' => 'Admin',
+                'email' => 'admin@google.com',
+                'password' => Hash::make('123123123'),
+                'role' => 'admin',
+                'remember_token' => Str::random(10),
+            ];
+        });
     }
 
     /**

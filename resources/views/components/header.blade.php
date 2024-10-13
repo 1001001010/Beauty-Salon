@@ -1,4 +1,4 @@
-<header class="items-center gap-2 py-10 w-full">
+<header class="items-center gap-2 py-6 w-full">
     @if (Route::has('login'))
         <nav class="flex flex-col md:flex-row justify-between">
             <div class="flex flex-col md:flex-row gap-3">
@@ -18,6 +18,18 @@
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Отзывы
                 </a>
+                @auth
+                    @if (Auth::user()->role == 'admin')
+                        <a href="{{ route('index') }}"
+                            class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
+                            Админка
+                        </a>
+                        <a href="{{ route('index') }}"
+                            class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
+                            Статистика
+                        </a>
+                    @endif
+                @endauth
             </div>
             <div class="flex flex-col md:flex-row gap-3">
                 <button id="theme-toggle" type="button"

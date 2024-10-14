@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController,
-    AdminController, ServiceController};
+    AdminController, ServiceController, MasterController};
 use App\Http\Middleware\IsAdmin;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+});
 
 Route::controller(AdminController::class)->group(function () {
     Route::middleware('auth')->group(function () {
@@ -23,8 +24,10 @@ Route::controller(ServiceController::class)->group(function () {
     });
 });
 
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
+Route::controller(MasterController::class)->group(function () {
+    Route::middleware(IsAdmin::class)->group(function () {
+        Route::post('/admin/master/new', 'upload')->name('master.upload');
+    });
 });
 
 Route::controller(ProfileController::class)->group(function () {

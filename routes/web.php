@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController,
-    AdminController};
+    AdminController, ServiceController};
 use App\Http\Middleware\IsAdmin;
 
 // Route::get('/', function () {
@@ -13,6 +13,10 @@ Route::controller(AdminController::class)->group(function () {
     Route::middleware('auth')->group(function () {
     Route::get('/admin', 'index')->name('admin');
     });
+});
+
+Route::controller(ServiceController::class)->group(function () {
+    Route::post('/admin/service/new', 'upload')->name('service.upload')->middleware('auth', IsAdmin::class);
 });
 
 Route::controller(HomeController::class)->group(function () {

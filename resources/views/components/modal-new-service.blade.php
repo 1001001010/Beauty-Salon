@@ -26,7 +26,9 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5" method="POST" action={{}}>
+                <form class="p-4 md:p-5" method="POST" action={{ route('service.upload') }}
+                    enctype="multipart/form-data">
+                    @csrf
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="name"
@@ -40,13 +42,13 @@
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Цена от</label>
                             <input type="number" name="price" id="price"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="₽1999" required min="1">
+                                placeholder="₽" required min="1">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
 
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 for="file_input">Зарузка фоото</label>
-                            <input
+                            <input name="photo"
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                 id="file_input" type="file">
 
@@ -54,7 +56,7 @@
                         <div class="col-span-2">
                             <label for="description"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
-                            <textarea id="description" rows="4"
+                            <textarea id="description" rows="4" name="description"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Описание услуги"></textarea>
                         </div>

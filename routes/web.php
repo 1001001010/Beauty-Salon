@@ -16,7 +16,11 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(ServiceController::class)->group(function () {
-    Route::post('/admin/service/new', 'upload')->name('service.upload')->middleware('auth', IsAdmin::class);
+    Route::middleware(IsAdmin::class)->group(function () {
+        Route::post('/admin/service/new', 'upload')->name('service.upload');
+        Route::delete('/admin/service/destroy', 'destroy')->name('service.destroy');
+        Route::patch('/admin/service/update', 'update')->name('service.update');
+    });
 });
 
 Route::controller(HomeController::class)->group(function () {

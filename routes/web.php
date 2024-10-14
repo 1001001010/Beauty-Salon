@@ -27,6 +27,7 @@ Route::controller(ServiceController::class)->group(function () {
 Route::controller(MasterController::class)->group(function () {
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/master/new', 'upload')->name('master.upload');
+        Route::delete('/admin/master/destroy', 'destroy')->name('master.destroy');
     });
 });
 

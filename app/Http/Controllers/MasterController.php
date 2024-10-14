@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Master;
 
 class MasterController extends Controller
 {
@@ -16,5 +17,30 @@ class MasterController extends Controller
             'services.*' => 'integer',
         ]);
 
+        $file = $request->file('photo');
+        $timestamp = time();
+        $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+
+        // Создание нового мастера
+        $master = Master::create([
+            'name' => $validate['name'],
+            'surname' => $validate['surname'],
+            'fathername' => $validate['fathername'],
+            'photo' => $photoPath,
+        ]);
+
+        // Связывание мастера с услугами
+        $services = $validate['services'];
+        $master->services()->attach($services);
+
+        return redirect()->back();
+    }
+
+    public function destroy(Request $request) {
+        $validate = $request->validate([
+            'service_id' => 'required|integer|min:1',
+        ]);
+
+        
     }
 }

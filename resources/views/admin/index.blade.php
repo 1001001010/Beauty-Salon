@@ -55,9 +55,9 @@
                                 ])
                                 @endcomponent
                                 <div class="w-full">
-                                    @foreach ($services as $service)
-                                        @component('components.service-card', [
-                                            'service' => $service,
+                                    @foreach ($masters as $master)
+                                        @component('components.master-card', [
+                                            'master' => $master,
                                         ])
                                         @endcomponent
                                     @endforeach

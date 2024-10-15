@@ -22,7 +22,7 @@
             class="relative min-h-funn flex w-full flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
             <div class="relative w-full px-6 max-w-7xl">
                 @include('components.header') <!-- Header -->
-                <main class="mt-6">
+                <main class="my-6">
                     @yield('content') <!-- Content -->
                 </main>
             </div>

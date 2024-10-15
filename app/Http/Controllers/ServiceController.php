@@ -31,6 +31,9 @@ class ServiceController extends Controller
         return redirect()->back();
     }
 
+    /*
+    * Удаление услуги
+    */
     public function destroy(Request $request) {
         $validate = $request->validate([
             'service_id' => 'required|integer|min:1',
@@ -42,6 +45,9 @@ class ServiceController extends Controller
         return redirect()->back();
     }
 
+    /*
+    * Редактирование услуги
+    */
     public function update(Request $request) {
         $validate = $request->validate([
             'id' => 'required|integer|min:1',

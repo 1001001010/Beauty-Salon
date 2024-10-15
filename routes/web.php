@@ -17,6 +17,7 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(ServiceController::class)->group(function () {
+    Route::post('/services', 'view')->name('service.index');
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/service/new', 'upload')->name('service.upload');
         Route::delete('/admin/service/destroy', 'destroy')->name('service.destroy');

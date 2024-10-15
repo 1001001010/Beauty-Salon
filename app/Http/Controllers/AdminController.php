@@ -8,6 +8,9 @@ use App\Models\{Service, Master};
 
 class AdminController extends Controller
 {
+    /*
+    * Отображение панель администратора
+    */
     public function index(): View {
         $services = Service::get();
         $masters = Master::with('services')->get();

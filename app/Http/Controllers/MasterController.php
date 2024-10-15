@@ -7,6 +7,9 @@ use App\Models\Master;
 
 class MasterController extends Controller
 {
+    /*
+    * Добавление мастера
+    */
     public function upload(Request $request) {
         $validate = $request->validate([
             'name' => 'required|string|max:255',
@@ -21,7 +24,6 @@ class MasterController extends Controller
         $timestamp = time();
         $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
 
-        // Создание нового мастера
         $master = Master::create([
             'name' => $validate['name'],
             'surname' => $validate['surname'],
@@ -36,6 +38,9 @@ class MasterController extends Controller
         return redirect()->back();
     }
 
+    /*
+    * Удаление услуги
+    */
     public function destroy(Request $request) {
         $validate = $request->validate([
             'master_id' => 'required|integer|min:1',
@@ -51,6 +56,9 @@ class MasterController extends Controller
         return redirect()->back()->with('success', 'Мастер успешно удален');
     }
 
+    /*
+    * Редактирование услуги
+    */
     public function update(Request $request) {
         $validate = $request->validate([
             'id' => 'required|integer|min:1',
@@ -62,7 +70,6 @@ class MasterController extends Controller
             'services.*' => 'integer',
         ]);
 
-        // Retrieve the master from the database
         $master = Master::findOrFail($request->id);
 
         if ($request->hasFile('photo')) {
@@ -83,7 +90,6 @@ class MasterController extends Controller
             ]);
         }
 
-        // Sync the services for the master
         $services = $validate['services'];
         $master->services()->sync($services);
 

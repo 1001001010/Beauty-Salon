@@ -8,19 +8,62 @@
             </h5>
             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">От ₽{{ $service->price }}</p>
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $service->description }}</p>
-            <div class="flex gap-4 max-sm:flex-col">
-                @component('components.modal-edit-service', [
-                    'service' => $service,
-                ])
-                @endcomponent
-                {{-- <x-primary-button>Редактировать</x-primary-button> --}}
-                <form action="{{ route('service.destroy') }}" method="post" class="d-none">
-                    @csrf
-                    @method('delete')
-                    <input type="hidden" name="service_id" value="{{ $service->id }}">
-                    <x-primary-button class="max-sm:w-full">Удалить</x-primary-button>
+            @if ($variant == 'client')
+                <form action={{ route() }} method="post">
+                    <div class="flex flex-start gap-4">
+                        <!-- Календарь -->
+                        <div class="relative max-w-sm">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                </svg>
+                            </div>
+                            <input datepicker id="datepicker-{{ $service->id }}" type="text"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Выберите дату">
+                        </div>
+                        <!-- Часы -->
+                        <div class="max-w-[8rem]">
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="time" id="time"
+                                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    min="08:00" max="21:00" value="00:00" required />
+                            </div>
+                        </div>
+                        <!-- Кнопка -->
+                        @if (count($masters) > 0)
+                            <x-primary-button class="max-sm:w-full">Записаться</x-primary-button>
+                        @else
+                            <x-primary-button class="max-sm:w-full" disabled>Записаться</x-primary-button>
+                        @endif
+                    </div>
                 </form>
-            </div>
+            @else
+                <div class="flex gap-4 max-sm:flex-col">
+                    @component('components.modal-edit-service', [
+                        'service' => $service,
+                    ])
+                    @endcomponent
+                    {{-- <x-primary-button>Редактировать</x-primary-button> --}}
+                    <form action="{{ route('service.destroy') }}" method="post" class="d-none">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="service_id" value="{{ $service->id }}">
+                        <x-primary-button class="max-sm:w-full">Удалить</x-primary-button>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 </div>

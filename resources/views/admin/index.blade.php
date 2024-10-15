@@ -16,8 +16,8 @@
                 </li>
                 <li>
                     <a href="#section2"
-                        class="block py-2 text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-400">Другой
-                        раздел</a>
+                        class="block py-2 text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-400">Список
+                        мастеров</a>
                 </li>
             </ul>
         </div>
@@ -37,6 +37,8 @@
                                         @foreach ($services as $service)
                                             @component('components.service-card', [
                                                 'service' => $service,
+                                                'variant' => 'admin',
+                                                'masters' => $masters,
                                             ])
                                             @endcomponent
                                         @endforeach

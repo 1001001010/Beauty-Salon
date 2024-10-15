@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Service;
+use App\Models\{Service, Master};
 
 class ServiceController extends Controller
 {
+    /*
+    * Добавление услуги
+    */
+    public function index() {
+        return view('services.index', [
+            'services' => Service::get(),
+            'masters' => Master::get()
+        ]);
+    }
+
     /*
     * Добавление услуги
     */

@@ -16,10 +16,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased dark:bg-black w-full dark:text-white/50 min-h-screen">
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 w-full min-h-screen">
+<body class="font-sans antialiased dark:bg-black w-full dark:text-white/50 h-full">
+    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 w-full h-full">
         <div
-            class="relative min-h-funn flex w-full flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+            class="relative h-full flex w-full flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
             <div class="relative w-full px-6 max-w-7xl">
                 @include('components.header') <!-- Header -->
                 <main class="my-6">

@@ -2,14 +2,14 @@
     <div
         class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
         <img class="object-cover w-full rounded-lg h-96 md:h-auto md:w-48" src={{ asset('storage/' . $service->photo) }}
-            alt="">
+            alt="Фото мастера">
         <div class="flex flex-col justify-between p-4 leading-normal w-full">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $service->name }}
             </h5>
             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">От ₽{{ $service->price }}</p>
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $service->description }}</p>
             @if ($variant == 'client')
-                <form action={{ route() }} method="post">
+                <form action={{ route('records.upload') }} method="post">
                     <div class="flex flex-start gap-4">
                         <!-- Календарь -->
                         <div class="relative max-w-sm">
@@ -40,6 +40,65 @@
                                     class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     min="08:00" max="21:00" value="00:00" required />
                             </div>
+                        </div>
+                        <!-- Кнопка выбора мастер -->
+                        <button id="dropdownRadioButton-{{ $service->id }}"
+                            data-dropdown-toggle="dropdownDefaultRadio-{{ $service->id }}"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 max-sm:justify-center"
+                            type="button">Выбрать мастера <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
+                            </svg>
+                        </button>
+
+                        <div id="dropdownDefaultRadio-{{ $service->id }}"
+                            class="z-10 hidden w-max divide-y divide-gray-100 rounded-lg shadow bg-gray-800 dark:bg-gray-200 dark:divide-gray-600">
+                            <ul class="p-3 space-y-3 text-sm text-white dark:text-gray-800"
+                                aria-labelledby="dropdownRadioButton">
+                                @foreach ($service->masters as $item)
+                                    <li>
+                                        <div class="flex items-center">
+                                            <input id="default-radio-{{ $item->id }}" type="radio"
+                                                value={{ $item->id }} name="default-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                            <label for="default-radio-{{ $item->id }}"
+                                                class="ms-2 flex items-center gap-2 text-sm font-medium text-white dark:text-gray-800">
+                                                {{-- <img class="object-cover w-10 rounded-lg"
+                                                    src={{ asset('storage/' . $service->photo) }}
+                                                    alt=""> --}}
+
+                                                <img class="w-10 h-10 rounded"
+                                                    src={{ asset('storage/' . $service->photo) }} alt="">
+                                                <p>
+                                                    {{ $item->surname }}
+                                                    {{ $item->name }}
+                                                    {{ $item->fathername }}
+                                            </label>
+                                            </p>
+                                        </div>
+                                    </li>
+                                @endforeach
+                                {{--  <li>
+                                    <div class="flex items-center">
+                                        <input checked id="default-radio-2" type="radio" value=""
+                                            name="default-radio"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                        <label for="default-radio-2"
+                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked
+                                            state</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="flex items-center">
+                                        <input id="default-radio-3" type="radio" value="" name="default-radio"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                        <label for="default-radio-3"
+                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default
+                                            radio</label>
+                                    </div>
+                                </li> --}}
+                            </ul>
                         </div>
                         <!-- Кнопка -->
                         @if (count($masters) > 0)

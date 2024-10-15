@@ -2,12 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController,
-    AdminController, ServiceController, MasterController};
+    AdminController, ServiceController, MasterController,
+    RecordController};
 use App\Http\Middleware\IsAdmin;
 
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
+});
+
+Route::controller(RecordController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+    Route::get('/records/new', 'upload')->name('records.upload');
+    });
 });
 
 Route::controller(AdminController::class)->group(function () {

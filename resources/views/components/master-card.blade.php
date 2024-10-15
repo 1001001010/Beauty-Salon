@@ -9,17 +9,18 @@
             </h5>
             <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">Работает с
                 {{ $master->created_at->format('d-m-Y') }}</p>
-            {{-- <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $service->description }}</p> --}}
             <div class="flex gap-4">
-                {{-- @component('components.modal-edit-service', [
-    'service' => $service,
-])
-                @endcomponent --}}
+                @component('components.modal-edit-master', [
+                    'master' => $master,
+                    'services' => $services,
+                    'masterServiceIds' => $masterServiceIds,
+                ])
+                @endcomponent
                 {{-- <x-primary-button>Редактировать</x-primary-button> --}}
                 <form action="{{ route('master.destroy') }}" method="post" class="d-none">
                     @csrf
                     @method('delete')
-                    <input type="hidden" name="service_id" value="{{ $master->id }}">
+                    <input type="hidden" name="master_id" value="{{ $master->id }}">
                     <x-primary-button>Удалить</x-primary-button>
                 </form>
             </div>

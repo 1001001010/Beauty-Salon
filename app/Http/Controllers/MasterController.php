@@ -38,9 +38,55 @@ class MasterController extends Controller
 
     public function destroy(Request $request) {
         $validate = $request->validate([
-            'service_id' => 'required|integer|min:1',
+            'master_id' => 'required|integer|min:1',
         ]);
 
-        
+        $masterId = $request->input('master_id');
+        $master = Master::find($masterId);
+        if (!$master) {
+            return redirect()->back()->with('error', 'Мастер не найден');
+        }
+        $master->delete();
+
+        return redirect()->back()->with('success', 'Мастер успешно удален');
+    }
+
+    public function update(Request $request) {
+        $validate = $request->validate([
+            'id' => 'required|integer|min:1',
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'fathername' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'services' => 'nullable|array|min:0',
+            'services.*' => 'integer',
+        ]);
+
+        // Retrieve the master from the database
+        $master = Master::findOrFail($request->id);
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $timestamp = time();
+            $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+            $master->update([
+                'name' => $request->name,
+                'surname' => $request->surname,
+                'fathername' => $request->fathername,
+                'photo' => $coverPath
+            ]);
+        } else {
+            $master->update([
+                'name' => $request->name,
+                'surname' => $request->surname,
+                'fathername' => $request->fathername,
+            ]);
+        }
+
+        // Sync the services for the master
+        $services = $validate['services'];
+        $master->services()->sync($services);
+
+        return redirect()->back();
     }
 }

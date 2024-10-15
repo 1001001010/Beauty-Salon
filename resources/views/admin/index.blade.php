@@ -58,6 +58,8 @@
                                     @foreach ($masters as $master)
                                         @component('components.master-card', [
                                             'master' => $master,
+                                            'services' => $services,
+                                            'masterServiceIds' => $masterServiceIds,
                                         ])
                                         @endcomponent
                                     @endforeach

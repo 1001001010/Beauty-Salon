@@ -9,9 +9,20 @@ use App\Models\{Service, Master};
 class AdminController extends Controller
 {
     public function index(): View {
+        $services = Service::get();
+        $masters = Master::with('services')->get();
+
+        $masterServiceIds = [];
+        foreach ($masters as $master) {
+            foreach ($master->services as $service) {
+                $masterServiceIds[] = $service->id;
+            }
+        }
+
         return view('admin.index', [
-            'services' => Service::get(),
-            'masters' => Master::get()
+            'services' => $services,
+            'masters' => $masters,
+            'masterServiceIds' => $masterServiceIds
         ]);
     }
 }

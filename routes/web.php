@@ -13,7 +13,7 @@ Route::controller(HomeController::class)->group(function () {
 
 Route::controller(RecordController::class)->group(function () {
     Route::middleware('auth')->group(function () {
-    Route::get('/records/new', 'upload')->name('records.upload');
+    Route::post('/records/new', 'upload')->name('records.upload');
     });
 });
 

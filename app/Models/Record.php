@@ -11,8 +11,7 @@ class Record extends Model
 
     protected $fillable = [
         'client_id',
-        'master_id',
-        'service_id',
+        'master_service_id',
         'datetime',
         'status'
     ];

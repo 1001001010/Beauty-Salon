@@ -61,14 +61,13 @@
                                     ])
                                     @endcomponent
                                     <div class="w-full">
-                                        @foreach ($masters as $master)
-                                            @component('components.master-card', [
-                                                'master' => $master,
-                                                'services' => $services,
-                                                'masterServiceIds' => $masterServiceIds,
-                                            ])
-                                            @endcomponent
-                                        @endforeach
+                                        {{-- @foreach ($masters as $master) --}}
+                                        @component('components.master-card', [
+                                            'masters' => $masters,
+                                            'services' => $services,
+                                        ])
+                                        @endcomponent
+                                        {{-- @endforeach --}}
                                     </div>
                                 </div>
                             </div>

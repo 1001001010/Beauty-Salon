@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Record;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -16,8 +18,22 @@ class ProfileController extends Controller
      */
     public function index(): View
     {
+        $userId = Auth::id();
+        $now = now();
+
+        $upcomingRecords = Record::where('client_id', $userId)
+            ->where('datetime', '>=', $now)
+            ->get();
+        dd($upcomingRecords);
+
+        $pastRecords = Record::where('client_id', $userId)
+            ->where('datetime', '<', $now)
+            ->get();
+
         return view('profile', [
             'user' => Auth::user(),
+            'upcomingRecords' => $upcomingRecords,
+            'pastRecords' => $pastRecords,
         ]);
     }
 

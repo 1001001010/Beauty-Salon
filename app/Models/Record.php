@@ -23,11 +23,11 @@ class Record extends Model
 
     public function master()
     {
-        return $this->belongsTo(Master::class, 'master_id');
+        return $this->belongsTo(Master::class, 'master_service_id', 'id');
     }
 
     public function service()
     {
-        return $this->belongsTo(Service::class, 'service_id');
+        return $this->belongsTo(Service::class, 'master_service_id', 'id');
     }
 }

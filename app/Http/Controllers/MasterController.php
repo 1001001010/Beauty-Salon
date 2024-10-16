@@ -35,7 +35,7 @@ class MasterController extends Controller
         $services = $validate['services'];
         $master->services()->attach($services);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно добавлен!']);
     }
 
     /*
@@ -49,11 +49,11 @@ class MasterController extends Controller
         $masterId = $request->input('master_id');
         $master = Master::find($masterId);
         if (!$master) {
-            return redirect()->back()->with('error', 'Мастер не найден');
+            return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Мастер не найден']);
         }
         $master->delete();
 
-        return redirect()->back()->with('success', 'Мастер успешно удален');
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно удален']);
     }
 
     /*
@@ -93,6 +93,6 @@ class MasterController extends Controller
         $services = $validate['services'];
         $master->services()->sync($services);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Информация о мастере успешно изменена!']);
     }
 }

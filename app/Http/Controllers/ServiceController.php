@@ -38,7 +38,7 @@ class ServiceController extends Controller
             'photo' => $coverPath
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно добавлена!']);
     }
 
     /*
@@ -52,7 +52,7 @@ class ServiceController extends Controller
         $info = Service::find($request->service_id);
         $info->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно удалена!']);
     }
 
     /*
@@ -84,6 +84,6 @@ class ServiceController extends Controller
                 'description' => $request->description,
             ]);
         }
-        return redirect()->back();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно изменена!']);
     }
 }

@@ -13,7 +13,7 @@ class AdminController extends Controller
     */
     public function index(): View {
         $services = Service::get();
-        $masters = Master::with('services')->get();
+        $masters = Master::with('services')->where('visibility', 1)->get();
 
         return view('admin.index', [
             'services' => $services,

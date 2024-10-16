@@ -51,7 +51,9 @@ class MasterController extends Controller
         if (!$master) {
             return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Мастер не найден']);
         }
-        $master->delete();
+        $master->update([
+            'visibility' => 0
+        ]);
 
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно удален']);
     }

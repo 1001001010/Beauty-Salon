@@ -20,4 +20,9 @@ class Service extends Model
     {
         return $this->belongsToMany(Master::class, 'master_service', 'service_id', 'master_id');
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'master_service_id', 'id');
+    }
 }

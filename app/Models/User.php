@@ -30,6 +30,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
     public function records()
     {
         return $this->hasMany(Record::class, 'client_id');

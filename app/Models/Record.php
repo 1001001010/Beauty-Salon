@@ -30,4 +30,9 @@ class Record extends Model
     {
         return $this->belongsTo(Service::class, 'master_service_id', 'id');
     }
+
+    public function feedback()
+    {
+        return $this->hasOne(Feedback::class, 'records_id');
+    }
 }

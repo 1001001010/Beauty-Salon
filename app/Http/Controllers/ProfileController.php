@@ -94,14 +94,21 @@ class ProfileController extends Controller
                     ->where('id', $serviceId)
                     ->first();
 
+                $feedback = DB::table('feedback')
+                    ->where('records_id', $record->id)
+                    ->first();
+
                 // Добавляем информацию о мастере и сервисе в запись
                 $record->master = $master;
                 $record->service = $service;
+                $record->feedback = $feedback;
             }
 
             // Добавляем запись в массив результата
             $pastResult[] = $record;
         }
+
+        // dd($pastResult);
 
         return view('profile', [
             'user' => Auth::user(),

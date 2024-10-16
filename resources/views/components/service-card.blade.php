@@ -11,7 +11,7 @@
             @if ($variant == 'client')
                 <form action="{{ route('records.upload') }}" method="post">
                     @csrf
-                    <div class="flex flex-start gap-4">
+                    <div class="flex flex-start gap-4 max-md:flex-col">
                         <!-- Календарь -->
                         <div class="relative max-w-sm">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -59,23 +59,25 @@
                             <ul class="p-3 space-y-3 text-sm text-white dark:text-gray-800"
                                 aria-labelledby="dropdownRadioButton-{{ $service->id }}">
                                 @foreach ($service->masters as $item)
-                                    <li>
-                                        <div class="flex items-center">
-                                            <input id="default-radio-{{ $item->id }}" type="radio"
-                                                value="{{ $item->id }}" name="master_id"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                            <label for="default-radio-{{ $item->id }}"
-                                                class="ms-2 flex items-center gap-2 text-sm font-medium text-white dark:text-gray-800">
-                                                <img class="w-10 h-10 rounded"
-                                                    src="{{ asset('storage/' . $item->photo) }}" alt="">
-                                                <p>
-                                                    {{ $item->surname }}
-                                                    {{ $item->name }}
-                                                    {{ $item->fathername }}
-                                            </label>
-                                            </p>
-                                        </div>
-                                    </li>
+                                    @if ($item->visibility == 1)
+                                        <li>
+                                            <div class="flex items-center">
+                                                <input id="default-radio-{{ $item->id }}" type="radio"
+                                                    value="{{ $item->id }}" name="master_id"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                                <label for="default-radio-{{ $item->id }}"
+                                                    class="ms-2 flex items-center gap-2 text-sm font-medium text-white dark:text-gray-800">
+                                                    <img class="w-10 h-10 rounded"
+                                                        src="{{ asset('storage/' . $item->photo) }}" alt="">
+                                                    <p>
+                                                        {{ $item->surname }}
+                                                        {{ $item->name }}
+                                                        {{ $item->fathername }}
+                                                </label>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>

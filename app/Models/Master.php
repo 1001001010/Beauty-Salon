@@ -12,6 +12,7 @@ class Master extends Model
     protected $fillable = [
         'name',
         'surname',
+        'visibility',
         'fathername',
         'photo'
     ];
@@ -19,5 +20,10 @@ class Master extends Model
     public function services()
     {
         return $this->belongsToMany(Service::class, 'master_service', 'master_id', 'service_id');
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'master_service_id', 'id');
     }
 }

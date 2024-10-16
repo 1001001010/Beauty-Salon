@@ -99,9 +99,10 @@
                                             {{ $item->master->fathername }}
                                         </p>
                                         @if (!$item->feedback)
-                                            <x-modal-new-feedback></x-modal-new-feedback>
-                                            {{-- <p class="font-normal text-gray-700 dark:text-gray-400 text-end">Оставит отзыв
-                                            </p> --}}
+                                            @component('components.modal-new-feedback', [
+                                                'item' => $item,
+                                            ])
+                                            @endcomponent
                                         @endif
                                     </div>
                                 </div>

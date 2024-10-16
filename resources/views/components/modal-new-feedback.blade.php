@@ -26,32 +26,19 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="p-4 md:p-5" method="POST" action={{ route('service.upload') }} enctype="multipart/form-data">
+            <form class="p-4 md:p-5" method="POST" action={{ route('feedback.upload') }} enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-4 mb-4 grid-cols-2">
-                    {{-- <div class="col-span-2">
-                        <label for="name"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Название</label>
-                        <input type="text" name="name" id="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Название услуги" required>
-                    </div> --}}
-                    {{-- <div class="col-span-2 sm:col-span-1">
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Цена
-                            от</label>
-                        <input type="number" name="price" id="price"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="₽" required min="1">
-                    </div> --}}
                     <div class="col-span-2">
 
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             for="file_input">Добавить фото</label>
                         <input name="photo"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-black dark:border-gray-600 dark:placeholder-gray-400"
-                            id="file_input" type="file">
+                            id="file_input" type="file" required>
 
                     </div>
+                    <input type="text" class="hidden" value={{ $item->id }} name="records_id">
                     <div class="col-span-2">
                         <label for="description"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ваш отзыв</label>
@@ -61,7 +48,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <x-primary-button>Добавить</x-primary-button>
+                    <x-primary-button>Опубликовать</x-primary-button>
                 </div>
             </form>
         </div>

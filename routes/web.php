@@ -3,12 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController,
     AdminController, ServiceController, MasterController,
-    RecordController};
+    RecordController, FeedbackController};
 use App\Http\Middleware\IsAdmin;
 
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
+});
+
+Route::controller(FeedbackController::class)->group(function () {
+    Route::post('/feedback/new', 'upload')->name('feedback.upload');
 });
 
 Route::controller(RecordController::class)->group(function () {

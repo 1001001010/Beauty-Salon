@@ -9,10 +9,13 @@ use App\Http\Middleware\IsAdmin;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
+    Route::post('/search', 'search')->name('search');
 });
 
 Route::controller(FeedbackController::class)->group(function () {
-    Route::post('/feedback/new', 'upload')->name('feedback.upload');
+    Route::get('/feedback/{sort}', 'index')->name('feedback.index');
+    Route::post('/feedback/new', 'upload')->name('feedback.upload')->middleware('auth');
+    Route::delete('/feedback/destroy', 'destroy')->name('feedback.destroy')->middleware('auth');
 });
 
 Route::controller(RecordController::class)->group(function () {

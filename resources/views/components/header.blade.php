@@ -6,11 +6,11 @@
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Главная
                 </a>
-                <a href="{{ url('/services') }}"
+                <a href="{{ route('service.index') }}"
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Каталог услуг
                 </a>
-                <a href="{{ url('/services') }}"
+                <a href="{{ route('feedback.index', ['sort' => 'desc']) }}"
                     class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
                     Отзывы
                 </a>

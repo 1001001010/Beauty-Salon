@@ -8,6 +8,16 @@ use Auth;
 
 class FeedbackController extends Controller
 {
+    public function index($sort) {
+        $feedback = Feedback::with('user')
+            ->orderBy('created_at', $sort)
+            ->get();
+
+        return view('feedback.index', [
+            'feedback' => $feedback,
+        ]);
+    }
+
     public function upload(Request $request) {
         $validate = $request->validate([
             'records_id' => 'required|integer|min:1',
@@ -26,5 +36,19 @@ class FeedbackController extends Controller
         ]);
 
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Комментарий успешно опубликован!']);
+    }
+
+    public function destroy(Request $request) {
+        $validate = $request->validate([
+            'feedback_id' => 'required|integer|min:1'
+        ]);
+
+        $info = Feedback::find($request->feedback_id);
+        if($info) {
+            $info->delete();
+            return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Комментарий успешно удален!']);
+        } else {
+            return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Ошибка удаления комментария!']);
+        }
     }
 }

@@ -21,7 +21,7 @@
                     </ul>
                     </p>
                 @endif
-                <div class="flex gap-4 max-md:flex-col">
+                <div class="flex gap-4 max-sm:flex-col max-sm:w-full">
                     @component('components.modal-edit-master', [
                         'master' => $master,
                         'services' => $services,

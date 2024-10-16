@@ -6,7 +6,7 @@
 @section('content')
     <div class="flex flex-col lg:flex-row h-screen">
         <!-- Сайдбар с якорями -->
-        <div class="w-full lg:w-2/12 p-4 sticky top-0">
+        <div class="w-full lg:w-2/12 p-4 top-0">
             <h3 class="text-lg font-semibold mb-4 text-black dark:text-white">Разделы</h3>
             <ul>
                 <li>

@@ -19,7 +19,7 @@
 - Запустить приложения `npm run dev` и `php artisan serve`
 ---
 Доп. комманды: 
-- Создание админа `php artisan db:seed --class=AdminSeeder` (`admin@google.com`:`admin`)
+- Создание админа `php artisan db:seed --class=AdminSeeder` (`admin@google.com`:`123123123`)
 --- 
 Используемый стек: 
 * Laravel

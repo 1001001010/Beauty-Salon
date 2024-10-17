@@ -13,7 +13,7 @@ class RecordController extends Controller
     public function upload(Request $request) {
         // Валидация входных данных
         $validate = $request->validate([
-            'date' => 'required|date_format:d/m/Y',
+            'date' => 'required|date_format:m/d/Y',
             'time' => 'required|date_format:H:i',
             'master_id' => 'required|integer',
             'service_id' => 'required|integer',
@@ -23,9 +23,9 @@ class RecordController extends Controller
         $clientId = Auth::id();
 
         // Формирование даты и времени
-        $date = Carbon::createFromFormat('d/m/Y', $validate['date']);
+        $date = Carbon::createFromFormat('m/d/Y', $validate['date'])->format('d/m/Y');
         $time = Carbon::createFromFormat('H:i', $validate['time']);
-        $datetime = $date->format('Y-m-d') . ' ' . $time->format('H:i:s');
+        $datetime = Carbon::createFromFormat('d/m/Y H:i', $date . ' ' . $time->format('H:i'))->format('Y-m-d H:i:s');
 
         // Проверка наличия мастера
         $master = Master::find($validate['master_id']);

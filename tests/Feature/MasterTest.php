@@ -6,9 +6,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use App\Models\Master;
-use App\Models\Service;
-use App\Models\User;
+use App\Models\{Master, User, Service};
 
 class MasterTest extends TestCase
 {

@@ -4,6 +4,15 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="flex flex-col lg:flex-row h-screen">
         <!-- Основной контент -->
         <div class="w-full p-4 flex flex-col flex-grow">

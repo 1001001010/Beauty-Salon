@@ -1,3 +1,8 @@
+<?php
+    $today = date('m/d/Y');
+    $tomorrow = date('m/d/Y', strtotime('+1 day'));
+?>
+
 <div class="pt-4 w-full">
     <div
         class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
@@ -22,6 +27,7 @@
                                 </svg>
                             </div>
                             <input datepicker id="datepicker-{{ $service->id }}" type="text" name="date"
+                                datepicker-min-date="<?php echo $tomorrow; ?>"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Выберите дату">
                         </div>
@@ -38,9 +44,8 @@
                                     </svg>
                                 </div>
                                 <input type="time" id="time-{{ $service->id }}" name="time"
-                                    onchange="validateTime(this)"
                                     class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    min="08:00" max="21:00" value="08:00" required />
+                                    min="07:00" max="21:00" value="08:00" required />
                             </div>
                         </div>
                         <!-- Кнопка выбора мастера -->

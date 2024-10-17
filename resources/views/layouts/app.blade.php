@@ -17,9 +17,8 @@
 </head>
 
 <body class="font-sans antialiased dark:bg-black w-full dark:text-white/50">
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 w-full">
-        <div
-            class="relative flex w-full flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 w-full min-h-screen">
+        <div class="relative flex w-full flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
             <div class="relative w-full px-6 max-w-7xl">
                 @include('components.header') <!-- Header -->
                 <main class="my-6">

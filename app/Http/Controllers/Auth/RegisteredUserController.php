@@ -32,7 +32,14 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
+        ], [
+            'name.required' => 'Имя является обязательным полем.',
+            'email.required' => 'Электронная почта является обязательным полем.',
+            'email.email' => 'Некорректный формат электронной почты.',
+            'email.unique' => 'Пользователь с такой электронной почтой уже существует.',
+            'password.required' => 'Пароль является обязательным полем.',
+            'password.confirmed' => 'Пароли не совпадают.',
         ]);
 
         $user = User::create([

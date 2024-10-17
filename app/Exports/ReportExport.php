@@ -35,26 +35,26 @@ class ReportExport implements FromArray, WithHeadings, WithStyles, ShouldAutoSiz
     public function styles(Worksheet $sheet)
     {
         // Объединение ячеек и форматирование
-        $sheet->mergeCells('A1:B1');
-        $sheet->setCellValue('A1', 'Пользователи');
-        $sheet->mergeCells('A6:B6');
-        $sheet->setCellValue('A6', 'Отзывы');
-        $sheet->mergeCells('A11:B11');
-        $sheet->setCellValue('A11', 'Записи');
-        $sheet->mergeCells('A17:B17');
-        $sheet->setCellValue('A17', 'Услуги и мастера');
+        $sheet->mergeCells('A2:B2');
+        $sheet->setCellValue('A2', 'Пользователи');
+        $sheet->mergeCells('A7:B7');
+        $sheet->setCellValue('A7', 'Отзывы');
+        $sheet->mergeCells('A12:B12');
+        $sheet->setCellValue('A12', 'Записи');
+        $sheet->mergeCells('A18:B18');
+        $sheet->setCellValue('A18', 'Услуги и мастера');
 
         // Жирный шрифт для заголовков
-        $sheet->getStyle('A1')->getFont()->setBold(true);
-        $sheet->getStyle('A6')->getFont()->setBold(true);
-        $sheet->getStyle('A11')->getFont()->setBold(true);
-        $sheet->getStyle('A17')->getFont()->setBold(true);
+        $sheet->getStyle('A2')->getFont()->setBold(true);
+        $sheet->getStyle('A7')->getFont()->setBold(true);
+        $sheet->getStyle('A12')->getFont()->setBold(true);
+        $sheet->getStyle('A18')->getFont()->setBold(true);
 
         // Выравнивание по центру
-        $sheet->getStyle('A1:B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A6:B6')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A11:B11')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A17:B17')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2:B2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A7:B7')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A12:B12')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A18:B18')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Авторазмер колонок
         $sheet->getColumnDimension('A')->setAutoSize(true);

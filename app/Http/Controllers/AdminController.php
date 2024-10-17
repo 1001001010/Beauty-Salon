@@ -31,44 +31,44 @@ class AdminController extends Controller
     public function exel()
     {
         // Получаем данные
-        $totalUsers = User::count();
-        $usersThisMonth = User::whereMonth('created_at', Carbon::now()->month)->count();
-        $usersThisHalfYear = User::where('created_at', '>=', Carbon::now()->subMonths(6))->count();
-        $usersThisYear = User::where('created_at', '>=', Carbon::now()->subYear())->count();
+        $totalUsers = User::count() ?: '0';
+        $usersThisMonth = User::whereMonth('created_at', Carbon::now()->month)->count() ?: '0';
+        $usersThisHalfYear = User::where('created_at', '>=', Carbon::now()->subMonths(6))->count() ?: '0';
+        $usersThisYear = User::where('created_at', '>=', Carbon::now()->subYear())->count() ?: '0';
 
-        $totalFeedbacks = Feedback::count();
-        $feedbacksThisMonth = Feedback::whereMonth('created_at', Carbon::now()->month)->count();
-        $feedbacksThisHalfYear = Feedback::where('created_at', '>=', Carbon::now()->subMonths(6))->count();
-        $feedbacksThisYear = Feedback::where('created_at', '>=', Carbon::now()->subYear())->count();
+        $totalFeedbacks = Feedback::count() ?: '0';
+        $feedbacksThisMonth = Feedback::whereMonth('created_at', Carbon::now()->month)->count() ?: '0';
+        $feedbacksThisHalfYear = Feedback::where('created_at', '>=', Carbon::now()->subMonths(6))->count() ?: '0';
+        $feedbacksThisYear = Feedback::where('created_at', '>=', Carbon::now()->subYear())->count() ?: '0';
 
-        $totalRecords = Record::count();
-        $recordsThisMonth = Record::whereMonth('datetime', Carbon::now()->month)->count();
-        $recordsThisHalfYear = Record::where('datetime', '>=', Carbon::now()->subMonths(6))->count();
-        $recordsThisYear = Record::where('datetime', '>=', Carbon::now()->subYear())->count();
-        $upcomingRecords = Record::where('datetime', '>', Carbon::now())->count();
+        $totalRecords = Record::count() ?: '0';
+        $recordsThisMonth = Record::whereMonth('datetime', Carbon::now()->month)->count() ?: '0';
+        $recordsThisHalfYear = Record::where('datetime', '>=', Carbon::now()->subMonths(6))->count() ?: '0';
+        $recordsThisYear = Record::where('datetime', '>=', Carbon::now()->subYear())->count() ?: '0';
+        $upcomingRecords = Record::where('datetime', '>', Carbon::now())->count() ?: '0';
 
-        $totalServices = Service::count();
-        $activeMasters = Master::where('visibility', 1)->count();
+        $totalServices = Service::count() ?: '0';
+        $activeMasters = Master::where('visibility', 1)->count() ?: '0';
 
         // Создаем массив данных для Excel
         $data = [
-            ['Пользователи'],
+            [' '],
             ['Всего пользователей', $totalUsers],
             ['Пользователей за этот месяц', $usersThisMonth],
             ['Пользователей за полгода', $usersThisHalfYear],
             ['Пользователей за год', $usersThisYear],
-            ['Отзывы'],
+            [' '],
             ['Всего отзывов', $totalFeedbacks],
             ['Отзывов за этот месяц', $feedbacksThisMonth],
             ['Отзывов за полгода', $feedbacksThisHalfYear],
             ['Отзывов за год', $feedbacksThisYear],
-            ['Записи'],
+            [' '],
             ['Всего записей', $totalRecords],
             ['Записей за этот месяц', $recordsThisMonth],
             ['Записей за полгода', $recordsThisHalfYear],
             ['Записей за год', $recordsThisYear],
             ['Предстоящих записей', $upcomingRecords],
-            ['Услуги и мастера'],
+            [' '],
             ['Всего услуг', $totalServices],
             ['Активных мастеров', $activeMasters],
         ];

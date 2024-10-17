@@ -20,6 +20,7 @@ class MasterController extends Controller
             'services.*' => 'integer',
         ]);
 
+        // Получаем и сохраняем файл
         $file = $request->file('photo');
         $timestamp = time();
         $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
@@ -72,12 +73,16 @@ class MasterController extends Controller
             'services.*' => 'integer',
         ]);
 
+        // Находим мастера по ID
         $master = Master::findOrFail($request->id);
 
+        //Если есть фото, то сохраняем и обновляем
         if ($request->hasFile('photo')) {
+            // Сохраняем файл
             $file = $request->file('photo');
             $timestamp = time();
             $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+
             $master->update([
                 'name' => $request->name,
                 'surname' => $request->surname,

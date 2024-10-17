@@ -21,100 +21,74 @@ class ProfileController extends Controller
         $userId = Auth::id();
         $now = now();
 
-        // Получаем предстоящие записи
-        $upcomingRecords = Record::where('client_id', $userId)
-            ->where('datetime', '>=', $now)
-            ->get();
+        $upcomingRecords = Record::where('client_id', $userId)->where('datetime', '>=', $now)->get();
 
-        // Создаем массив для результата предстоящих записей
-        $upcomingResult = [];
+        $pastRecords = Record::where('client_id', $userId)->where('datetime', '<', $now)->get();
 
-        // Добавляем предстоящие записи в массив
-        foreach ($upcomingRecords as $record) {
-            // Получаем master_service_id из текущей записи
-            $masterServiceId = $record->master_service_id;
-
-            // Получаем master_id и service_id из таблицы master_service по master_service_id
-            $masterService = DB::table('master_service')
-                ->where('id', $masterServiceId)
-                ->first();
-
-            if ($masterService) {
-                $masterId = $masterService->master_id;
-                $serviceId = $masterService->service_id;
-
-                // Получаем информацию о мастере из таблицы masters по master_id
-                $master = DB::table('masters')
-                    ->where('id', $masterId)
-                    ->first();
-
-                // Получаем информацию о сервисе из таблицы services по service_id
-                $service = DB::table('services')
-                    ->where('id', $serviceId)
-                    ->first();
-
-                // Добавляем информацию о мастере и сервисе в запись
-                $record->master = $master;
-                $record->service = $service;
-            }
-
-            // Добавляем запись в массив результата
-            $upcomingResult[] = $record;
-        }
-
-        // Получаем прошедшие записи
-        $pastRecords = Record::where('client_id', $userId)
-            ->where('datetime', '<', $now)
-            ->get();
-
-        // Создаем массив для результата прошедших записей
-        $pastResult = [];
-
-        // Добавляем прошедшие записи в массив
-        foreach ($pastRecords as $record) {
-            // Получаем master_service_id из текущей записи
-            $masterServiceId = $record->master_service_id;
-
-            // Получаем master_id и service_id из таблицы master_service по master_service_id
-            $masterService = DB::table('master_service')
-                ->where('id', $masterServiceId)
-                ->first();
-
-            if ($masterService) {
-                $masterId = $masterService->master_id;
-                $serviceId = $masterService->service_id;
-
-                // Получаем информацию о мастере из таблицы masters по master_id
-                $master = DB::table('masters')
-                    ->where('id', $masterId)
-                    ->first();
-
-                // Получаем информацию о сервисе из таблицы services по service_id
-                $service = DB::table('services')
-                    ->where('id', $serviceId)
-                    ->first();
-
-                $feedback = DB::table('feedback')
-                    ->where('records_id', $record->id)
-                    ->first();
-
-                // Добавляем информацию о мастере и сервисе в запись
-                $record->master = $master;
-                $record->service = $service;
-                $record->feedback = $feedback;
-            }
-
-            // Добавляем запись в массив результата
-            $pastResult[] = $record;
-        }
-
-        // dd($pastResult);
+        $upcomingResult = $this->GetComminginfo($upcomingRecords);
+        $pastResult = $this->GetPastInfo($pastRecords);
 
         return view('profile', [
             'user' => Auth::user(),
             'upcomingRecords' => $upcomingResult,
             'pastRecords' => $pastResult,
         ]);
+    }
+
+    /**
+     * Получение информации о прошедших записях
+     */
+    private function GetPastInfo($pastRecords) {
+        $pastResult = [];
+
+        foreach ($pastRecords as $record) {
+            $masterServiceId = $record->master_service_id;
+            $masterService = DB::table('master_service')->where('id', $masterServiceId)->first();
+
+            if ($masterService) {
+                $masterId = $masterService->master_id;
+                $serviceId = $masterService->service_id;
+
+                $master = DB::table('masters')->where('id', $masterId)->first();
+                $service = DB::table('services')->where('id', $serviceId)->first();
+                $feedback = DB::table('feedback')->where('records_id', $record->id)->first();
+
+                $record->master = $master;
+                $record->service = $service;
+                $record->feedback = $feedback;
+            }
+            // Добавляем запись в массив результата
+            $pastResult[] = $record;
+        }
+
+        return $pastResult;
+    }
+
+    /**
+     * Получение информации о будующих записях
+     */
+    private function GetComminginfo($upcomingRecords) {
+        $upcomingResult = [];
+
+        foreach ($upcomingRecords as $record) {
+            $masterServiceId = $record->master_service_id;
+            $masterService = DB::table('master_service')->where('id', $masterServiceId)->first();
+
+            if ($masterService) {
+                $masterId = $masterService->master_id;
+                $serviceId = $masterService->service_id;
+
+                $master = DB::table('masters')->where('id', $masterId)->first();
+                $service = DB::table('services')->where('id', $serviceId)->first();
+
+                $record->master = $master;
+                $record->service = $service;
+            }
+            // Добавляем запись в массив результата
+            $upcomingResult[] = $record;
+        }
+
+        return $upcomingResult;
     }
 
     /**
@@ -133,7 +107,6 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
-
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');

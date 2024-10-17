@@ -24,17 +24,15 @@ class HomeController extends Controller
         ]);
 
         $word = $request->input('word');
-
+        // Поиск по названию и описанию по ключевым словам
         $services = Service::with('masters')
             ->where('name', 'like', '%' . $word . '%')
             ->orWhere('description', 'like', '%' . $word . '%')
             ->get();
 
-        $masters = Master::get();
-
         return view('services.index', [
             'services' => $services,
-            'masters' => $masters
+            'masters' => Master::get()
         ]);
     }
 }

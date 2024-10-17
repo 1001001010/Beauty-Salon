@@ -24,10 +24,11 @@ class FeedbackController extends Controller
             'description' => 'required|string',
             'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
-
+        // Получаем и сохраняем файл
         $file = $request->file('photo');
         $timestamp = time();
         $coverPath = $file->storeAs('feedback', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+        // Сохраняем
         Feedback::create([
             'user_id' => Auth::id(),
             'records_id' => $request->records_id,
@@ -35,7 +36,7 @@ class FeedbackController extends Controller
             'photo' => $coverPath
         ]);
 
-        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Комментарий успешно опубликован!']);
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Отзыв успешно опубликован!']);
     }
 
     public function destroy(Request $request) {
@@ -43,12 +44,14 @@ class FeedbackController extends Controller
             'feedback_id' => 'required|integer|min:1'
         ]);
 
+        // Находим отзыв по ID
         $info = Feedback::find($request->feedback_id);
+        //Если найден, то удаляем, если нет, выводим ошибку
         if($info) {
             $info->delete();
-            return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Комментарий успешно удален!']);
+            return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Отзыв успешно удален!']);
         } else {
-            return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Ошибка удаления комментария!']);
+            return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Ошибка удаления отзыва!']);
         }
     }
 }

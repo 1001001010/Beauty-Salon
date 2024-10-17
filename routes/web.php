@@ -27,6 +27,7 @@ Route::controller(RecordController::class)->group(function () {
 Route::controller(AdminController::class)->group(function () {
     Route::middleware('auth')->group(function () {
     Route::get('/admin', 'index')->name('admin');
+    Route::get('/admin/exel', 'exel')->name('admin.exel');
     });
 });
 

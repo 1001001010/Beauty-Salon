@@ -28,9 +28,11 @@ class ServiceController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
+        // Получаем фото и сохраняем его
         $file = $request->file('photo');
         $timestamp = time();
         $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+        // Добавляем услугу в бд
         Service::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -49,6 +51,7 @@ class ServiceController extends Controller
             'service_id' => 'required|integer|min:1',
         ]);
 
+        // Находим услугу и удаляем
         $info = Service::find($request->service_id);
         $info->delete();
 
@@ -67,10 +70,13 @@ class ServiceController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
+        // Если загружено фото, то сохраняем его и редактируем запись
         if ($request->hasFile('photo')) {
+            // Сохраняем фото
             $file = $request->file('photo');
             $timestamp = time();
             $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+            // Редактируем запись в таблице
             Service::where('id', $request->id)->update([
                 'name' => $request->name,
                 'price' => $request->price,
@@ -78,6 +84,7 @@ class ServiceController extends Controller
                 'photo' => $coverPath
             ]);
         } else {
+            // Редактируем запись, если нет фото
             Service::where('id', $request->id)->update([
                 'name' => $request->name,
                 'price' => $request->price,

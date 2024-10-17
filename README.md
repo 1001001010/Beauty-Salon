@@ -20,6 +20,7 @@
 ---
 Доп. комманды: 
 - Создание админа `php artisan db:seed --class=AdminSeeder` (`admin@google.com`:`123123123`)
+- Запуск тестов - `npm run dev` и `php artisan test`
 --- 
 Используемый стек: 
 * Laravel

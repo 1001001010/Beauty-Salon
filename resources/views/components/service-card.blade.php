@@ -63,27 +63,29 @@
                             class="z-10 hidden w-max divide-y divide-gray-100 rounded-lg shadow bg-gray-800 dark:bg-gray-200 dark:divide-gray-600">
                             <ul class="p-3 space-y-3 text-sm text-white dark:text-gray-800"
                                 aria-labelledby="dropdownRadioButton-{{ $service->id }}">
-                                @foreach ($service->masters as $item)
-                                    @if ($item->visibility == 1)
-                                        <li>
-                                            <div class="flex items-center">
-                                                <input id="default-radio-{{ $item->id }}" type="radio"
-                                                    value="{{ $item->id }}" name="master_id"
-                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                <label for="default-radio-{{ $item->id }}"
-                                                    class="ms-2 flex items-center gap-2 text-sm font-medium text-white dark:text-gray-800">
-                                                    <img class="w-10 h-10 rounded"
-                                                        src="{{ asset('storage/' . $item->photo) }}" alt="">
-                                                    <p>
+                                @if(count($service->masters) > 0)
+                                    @foreach($service->masters as $item)
+                                        @if ($item->visibility == 1)
+                                            <li>
+                                                <div class="flex items-center">
+                                                    <input id="default-radio-{{ $item->id }}" type="radio"
+                                                        value="{{ $item->id }}" name="master_id"
+                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                                    <label for="default-radio-{{ $item->id }}"
+                                                        class="ms-2 flex items-center gap-2 text-sm font-medium text-white dark:text-gray-800">
+                                                        <img class="w-10 h-10 rounded"
+                                                            src="{{ asset('storage/' . $item->photo) }}" alt="">
                                                         {{ $item->surname }}
                                                         {{ $item->name }}
                                                         {{ $item->fathername }}
-                                                </label>
-                                                </p>
-                                            </div>
-                                        </li>
-                                    @endif
-                                @endforeach
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <p>Мастеров нет</p>
+                                @endif
                             </ul>
                         </div>
                         <input class="hidden" value={{ $service->id }} name="service_id" />

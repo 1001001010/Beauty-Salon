@@ -58,59 +58,62 @@
 
                 <div class="pt-3 sm:pt-5 w-full">
                     <h2 class="text-xl pb-4 font-semibold text-black dark:text-white">История услуг</h2>
-                    @if ($upcomingRecords)
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                            Предстоящие записи:
-                        </p>
-                        @foreach ($upcomingRecords as $item)
-                            <div class="w-full pb-4">
-                                <div
-                                    class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
-                                    <div class="flex flex-col justify-between p-4 leading-normal w-full">
-                                        <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
-                                            {{ $item->service->name }}
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
-                                        </p>
-                                        <p class="font-normal text-gray-700 dark:text-gray-400">
-                                            Мастер: {{ $item->master->surname }} {{ $item->master->name }}
-                                            {{ $item->master->fathername }}
-                                        </p>
+                    @if (!empty($upcomingRecords) || !empty($pastRecords))
+                        @if (!empty($upcomingRecords))
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                Предстоящие записи:
+                            </p>
+                            @foreach ($upcomingRecords as $item)
+                                <div class="w-full pb-4">
+                                    <div
+                                        class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
+                                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                                            <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
+                                                {{ $item->service->name }}
+                                            </p>
+                                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                                Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
+                                            </p>
+                                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                                Мастер: {{ $item->master->surname }} {{ $item->master->name }}
+                                                {{ $item->master->fathername }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    @endif
-                    @if ($pastRecords)
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                            Прошедшие записи:
-                        </p>
-                        @foreach ($pastRecords as $item)
-                            <div class="w-full pb-4">
-                                <div
-                                    class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
-                                    <div class="flex flex-col justify-between p-4 leading-normal w-full">
-                                        <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
-                                            {{ $item->service->name }}
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
-                                        </p>
-                                        <p class="font-normal text-gray-700 dark:text-gray-400">
-                                            Мастер: {{ $item->master->surname }} {{ $item->master->name }}
-                                            {{ $item->master->fathername }}
-                                        </p>
-                                        @if (!$item->feedback)
-                                            @component('components.modal-new-feedback', [
-                                                'item' => $item,
-                                            ])
-                                            @endcomponent
-                                        @endif
+                            @endforeach
+                        @endif
+
+                        @if (!empty($pastRecords))
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                Прошедшие записи:
+                            </p>
+                            @foreach ($pastRecords as $item)
+                                <div class="w-full pb-4">
+                                    <div
+                                        class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
+                                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                                            <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
+                                                {{ $item->service->name }}
+                                            </p>
+                                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                                Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
+                                            </p>
+                                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                                Мастер: {{ $item->master->surname }} {{ $item->master->name }}
+                                                {{ $item->master->fathername }}
+                                            </p>
+                                            @if (!$item->feedback)
+                                                @component('components.modal-new-feedback', [
+                                                    'item' => $item,
+                                                ])
+                                                @endcomponent
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     @else
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">У вас еще нет записей</p>
                     @endif

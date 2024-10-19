@@ -4,7 +4,7 @@
 - Установить Composer <a>https://getcomposer.org/</a>
 - Клонировать репозиторий `git clone <link>`
 - Скачать модули node `npm install`
-- Установить composer `Composer i`
+- Установить composer `Composer i`, если ошибки - `composer install --ignore-platform-reqs`
 ---
 **Запуск**
 - Создать файл конфигурации с примера `Copy .env.example .env` <br>

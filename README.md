@@ -16,6 +16,7 @@
 
 - Создать ключ приложения `php artisan key:generate`
 - Мигрировать таблицы `php artisan migrate`
+- Создать хранилище `php artisan storage:link`
 - Запустить приложения `npm run dev` и `php artisan serve`
 ---
 Доп. комманды: 

@@ -21,6 +21,7 @@ Route::controller(FeedbackController::class)->group(function () {
 Route::controller(RecordController::class)->group(function () {
     Route::middleware('auth')->group(function () {
     Route::post('/records/new', 'upload')->name('records.upload');
+    Route::delete('/records/delete', 'delete')->name('records.delete');
     });
 });
 

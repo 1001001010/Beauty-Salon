@@ -74,10 +74,16 @@
                                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                                                 Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
                                             </p>
-                                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                            <p class="font-normal text-gray-700 dark:text-gray-400 pb-2">
                                                 Мастер: {{ $item->master->surname }} {{ $item->master->name }}
                                                 {{ $item->master->fathername }}
                                             </p>
+                                            <form action="{{ route('records.delete') }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <input name="id" class="hidden" value="{{ $item->id }}">
+                                            <x-primary-button class="w-max">Отменить запись</x-primary-button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

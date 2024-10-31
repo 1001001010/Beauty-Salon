@@ -21,6 +21,12 @@
                             Админка
                         </a>
                     @endif
+                    @if (Auth::user()->role == 'master')
+                        <a href="{{ route('master.list') }}"
+                            class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">
+                            Записи
+                        </a>
+                    @endif
                 @endauth
             </div>
             <div class="flex flex-col md:flex-row gap-3">

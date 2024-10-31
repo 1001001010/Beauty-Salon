@@ -3,10 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Master;
+use App\Models\{Master, User, Record};
+use Auth;
+use Illuminate\Validation\Rules;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 class MasterController extends Controller
 {
+
+    public function index() {
+        $record = NULL;
+
+        dd(Record::with('client', 'master', 'service')->get());
+
+        return view('master.index', [
+            'records' => $record
+        ]);
+    }
     /*
     * Добавление мастера
     */
@@ -18,9 +32,21 @@ class MasterController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'services' => 'required|array|min:0',
             'services.*' => 'integer',
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
 
-        // Получаем и сохраняем файл
+        // регистрация аккаунта нового мастера
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'master',
+        ]);
+
+        event(new Registered($user));
+
+        // Получаем и сохраняем фото
         $file = $request->file('photo');
         $timestamp = time();
         $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');

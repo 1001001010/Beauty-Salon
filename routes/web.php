@@ -42,6 +42,8 @@ Route::controller(ServiceController::class)->group(function () {
 });
 
 Route::controller(MasterController::class)->group(function () {
+    Route::get('/master/records', 'index')->name('master.list');
+
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/master/new', 'upload')->name('master.upload');
         Route::delete('/admin/master/destroy', 'destroy')->name('master.destroy');

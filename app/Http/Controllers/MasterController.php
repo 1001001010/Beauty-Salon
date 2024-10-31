@@ -8,17 +8,23 @@ use Auth;
 use Illuminate\Validation\Rules;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class MasterController extends Controller
 {
 
     public function index() {
-        $record = NULL;
-
-        dd(Record::with('client', 'master', 'service')->get());
-
+        $currentDateTime = Carbon::now();
+        $records = Record::with('client', 'master', 'service')
+        ->where('datetime', '>', $currentDateTime)
+        ->whereHas('master', function ($query) {
+            $query->whereHas('user', function ($query) {
+                $query->where('users.id', Auth::id());
+            });
+        })->orderBy('datetime', 'asc')
+        ->get();
         return view('master.index', [
-            'records' => $record
+            'records' => $records
         ]);
     }
     /*
@@ -52,6 +58,7 @@ class MasterController extends Controller
         $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
 
         $master = Master::create([
+            'user_id' => $user->id,
             'name' => $validate['name'],
             'surname' => $validate['surname'],
             'fathername' => $validate['fathername'],

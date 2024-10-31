@@ -21,14 +21,19 @@ class Record extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
+    public function masterService()
+    {
+        return $this->belongsTo(MasterService::class, 'master_service_id');
+    }
+
     public function master()
     {
-        return $this->belongsTo(Master::class, 'master_service_id', 'id');
+        return $this->hasOneThrough(Master::class, MasterService::class, 'id', 'id', 'master_service_id', 'master_id');
     }
 
     public function service()
     {
-        return $this->belongsTo(Service::class, 'master_service_id', 'id');
+        return $this->hasOneThrough(Service::class, MasterService::class, 'id', 'id', 'master_service_id', 'service_id');
     }
 
     public function feedback()

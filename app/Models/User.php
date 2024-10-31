@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Record::class, 'client_id');
     }
+
+    public function master()
+    {
+        return $this->hasOne(Master::class);
+    }
 }

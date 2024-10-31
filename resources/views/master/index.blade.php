@@ -20,13 +20,10 @@
                         Дата и время
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Category
+                        Услуга
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Price
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
+                        <span class="sr-only">Отмена</span>
                     </th>
                 </tr>
             </thead>
@@ -40,13 +37,12 @@
                             {{ $record->datetime }}
                         </td>
                         <td class="px-6 py-4">
-                            Laptop PC
-                        </td>
-                        <td class="px-6 py-4">
-                            $1999
+                            {{ $record->service->name }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <a href="#"
+                                class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">Отменить
+                                запись</a>
                         </td>
                     </tr>
                 @endforeach

@@ -14,7 +14,8 @@ class Master extends Model
         'surname',
         'visibility',
         'fathername',
-        'photo'
+        'photo',
+        'user_id'
     ];
 
     public function services()
@@ -25,5 +26,10 @@ class Master extends Model
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class, 'master_service_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{Record, Service, Master};
+use App\Models\{Record, Service, Master, MasterService};
 use Carbon\Carbon;
 use Auth;
 use DB;
@@ -52,8 +52,7 @@ class RecordController extends Controller
         }
 
         // Получение master_service_id на основе master_id и service_id
-        $masterServiceId = DB::table('master_service')
-            ->where('master_id', $validate['master_id'])
+        $masterServiceId = MasterService::where('master_id', $validate['master_id'])
             ->where('service_id', $validate['service_id'])
             ->value('id');
 

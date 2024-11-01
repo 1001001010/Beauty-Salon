@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\Record;
+use App\Models\{Record, MasterService};
 use DB;
 
 class ProfileController extends Controller
@@ -43,18 +43,11 @@ class ProfileController extends Controller
 
         foreach ($pastRecords as $record) {
             $masterServiceId = $record->master_service_id;
-            $masterService = DB::table('master_service')->where('id', $masterServiceId)->first();
+            $masterService = MasterService::with('master', 'service')->where('id', $masterServiceId)->first();
 
             if ($masterService) {
-                $masterId = $masterService->master_id;
-                $serviceId = $masterService->service_id;
-
-                $master = DB::table('masters')->where('id', $masterId)->first();
-                $service = DB::table('services')->where('id', $serviceId)->first();
                 $feedback = DB::table('feedback')->where('records_id', $record->id)->first();
 
-                $record->master = $master;
-                $record->service = $service;
                 $record->feedback = $feedback;
             }
             // Добавляем запись в массив результата
@@ -72,17 +65,12 @@ class ProfileController extends Controller
 
         foreach ($upcomingRecords as $record) {
             $masterServiceId = $record->master_service_id;
-            $masterService = DB::table('master_service')->where('id', $masterServiceId)->first();
+//            $masterService = DB::table('master_service')->where('id', $masterServiceId)->first();
+            $masterService = MasterService::with('master', 'service')->where('id', $masterServiceId)->first();
 
             if ($masterService) {
                 $masterId = $masterService->master_id;
                 $serviceId = $masterService->service_id;
-
-                $master = DB::table('masters')->where('id', $masterId)->first();
-                $service = DB::table('services')->where('id', $serviceId)->first();
-
-                $record->master = $master;
-                $record->service = $service;
             }
             // Добавляем запись в массив результата
             $upcomingResult[] = $record;

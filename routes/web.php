@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController, ProfileController,
     AdminController, ServiceController, MasterController,
     RecordController, FeedbackController};
-use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\{IsAdmin, IsMaster};
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -19,7 +19,7 @@ Route::controller(FeedbackController::class)->group(function () {
 });
 
 Route::controller(RecordController::class)->group(function () {
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth')->group(callback: function () {
     Route::post('/records/new', 'upload')->name('records.upload');
     Route::delete('/records/delete', 'delete')->name('records.delete');
     });
@@ -42,7 +42,9 @@ Route::controller(ServiceController::class)->group(function () {
 });
 
 Route::controller(MasterController::class)->group(function () {
-    Route::get('/master/records', 'index')->name('master.list');
+    Route::middleware(IsMaster::class)->group(function () {
+        Route::get('/master/records', 'index')->name('master.list');
+    });
 
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/master/new', 'upload')->name('master.upload');

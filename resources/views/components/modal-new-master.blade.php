@@ -10,7 +10,7 @@
             <div
                 class="relative bg-white rounded-lg shadow dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <div class="flex items-center justify-between p-4 md:p-5 rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Добавление мастера
                     </h3>
@@ -94,7 +94,7 @@
                         class="text-sm w-full font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-black dark:border-gray-600 dark:text-white">
                         @if (count($services) > 0)
                             @foreach ($services as $item)
-                                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                <li class="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
                                     <div class="flex items-center ps-3">
                                         <input id={{ $item->id }} type="checkbox" value={{ $item->id }}
                                             name='services[]'
@@ -105,7 +105,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                            <li class="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
                                 <div class="flex items-center ps-3">
                                     <label
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Нет

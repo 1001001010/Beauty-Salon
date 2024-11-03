@@ -40,9 +40,15 @@
                             {{ $record->service->name }}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#"
-                                class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">Отменить
-                                запись</a>
+{{--                            <a href="#"--}}
+{{--                                class="rounded-md px-3 py-2 text-black transition hover:text-black/70 dark:text-white dark:hover:text-white/80">Отменить--}}
+{{--                                запись</a>--}}
+                            <form action="{{ route('records.delete') }}" method="post">
+                                @method('DELETE')
+                                @csrf
+                                <input name="id" class="hidden" value="{{ $record->id }}">
+                                <x-primary-button class="w-max">Отменить запись</x-primary-button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

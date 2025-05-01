@@ -8,12 +8,7 @@
 ---
 **Запуск**
 - Создать файл конфигурации с примера `Copy .env.example .env` <br>
-- Отредактировать файл конфигурации (`.env`) <br>
-![image](https://github.com/user-attachments/assets/3de0c670-5f9c-4c5b-a5a7-2c807541b661)
-
-![image](https://github.com/user-attachments/assets/883072c4-abf2-488c-a68e-526e89c7b1a4)
-
-
+- Отредактировать файл конфигурации (`.env`)
 - Создать ключ приложения `php artisan key:generate`
 - Мигрировать таблицы `php artisan migrate`
 - Создать хранилище `php artisan storage:link`

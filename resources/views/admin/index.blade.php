@@ -58,7 +58,7 @@
                                                     <i class="fas fa-chart-bar text-mauve"></i>
                                                 </div>
                                                 <div class="ml-3">
-                                                    <p class="text-sm font-medium text-gray-900">Отчет</p>
+                                                    <p class="text-sm font-medium text-gray-900">Статистика</p>
                                                 </div>
                                             </div>
                                         </a>

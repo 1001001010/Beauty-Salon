@@ -50,6 +50,7 @@ Route::controller(MasterController::class)->group(function () {
         Route::post('/admin/master/new', 'upload')->name('master.upload');
         Route::delete('/admin/master/destroy', 'destroy')->name('master.destroy');
         Route::patch('/admin/master/update', 'update')->name('master.update');
+        Route::get('/api/users/search', 'search')->name('api.users.search');
     });
 });
 

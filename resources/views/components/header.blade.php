@@ -29,6 +29,12 @@
                              Панель администратора
                          </a>
                      @endif
+                     @if (Auth::user() && Auth::user()->role == 'master')
+                         <a href="{{ route('master.list') }}"
+                             class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium {{ request()->routeIs('admin') ? 'border-mauve text-gray-900' : 'border-transparent text-gray-500 hover:border-blush hover:text-gray-700' }}">
+                             Записи
+                         </a>
+                     @endif
                  </div>
 
              </div>

@@ -95,7 +95,8 @@
                                                             <div class="flex items-center">
                                                                 <div
                                                                     class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                                    <i class="fas fa-spa text-mauve"></i>
+                                                                    <img src="{{ asset('storage/' . $service->photo) }}"
+                                                                        alt="">
                                                                 </div>
                                                                 <div class="ml-4">
                                                                     <p class="text-sm font-medium text-gray-900">
@@ -145,7 +146,8 @@
                                                             <div class="flex items-center">
                                                                 <div
                                                                     class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                                    <i class="fas fa-user text-mauve"></i>
+                                                                    <img src="{{ asset('storage/' . $master->photo) }}"
+                                                                        alt="">
                                                                 </div>
                                                                 <div class="ml-4">
                                                                     <p class="text-sm font-medium text-gray-900">

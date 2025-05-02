@@ -67,7 +67,7 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
                                 data-dropdown-toggle="dropdownDefaultRadio-{{ $service->id }}"
                                 class="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
                                 type="button">
-                                Выбрать мастера
+                                <span class="master-selection-text">Выбрать мастера</span>
                                 <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 10 6">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -81,31 +81,32 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
                                     aria-labelledby="dropdownRadioButton-{{ $service->id }}">
                                     @if (count($service->masters) > 0)
                                         @foreach ($service->masters as $item)
-                                            @if ($item->visibility == 1)
-                                                <li>
-                                                    <div class="flex items-center">
-                                                        <input id="default-radio-{{ $item->id }}" type="radio"
-                                                            value="{{ $item->id }}" name="master_id"
-                                                            class="w-4 h-4 text-mauve bg-gray-100 border-gray-300 focus:ring-mauve">
-                                                        <label for="default-radio-{{ $item->id }}"
-                                                            class="ms-2 flex items-center gap-2 text-sm font-medium text-gray-900">
-                                                            @if ($item->photo)
-                                                                <img class="w-10 h-10 rounded-full object-cover"
-                                                                    src="{{ asset('storage/' . $item->photo) }}"
-                                                                    alt="{{ $item->name }}">
-                                                            @else
-                                                                <div
-                                                                    class="w-10 h-10 rounded-full bg-cream flex items-center justify-center">
-                                                                    <i class="fas fa-user text-mauve"></i>
-                                                                </div>
-                                                            @endif
-                                                            {{ $item->surname }}
-                                                            {{ $item->name }}
-                                                            {{ $item->fathername }}
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            @endif
+                                            <li>
+                                                <div class="flex items-center">
+                                                    <input id="default-radio-{{ $item->id }}" type="radio"
+                                                        value="{{ $item->id }}" name="master_id"
+                                                        data-master-id="{{ $item->id }}"
+                                                        data-master-name="{{ $item->surname }} {{ $item->name }} {{ $item->fathername }}"
+                                                        data-master-photo="{{ $item->photo ? asset('storage/' . $item->photo) : '' }}"
+                                                        class="w-4 h-4 text-mauve bg-gray-100 border-gray-300 focus:ring-mauve master-radio">
+                                                    <label for="default-radio-{{ $item->id }}"
+                                                        class="ms-2 flex items-center gap-2 text-sm font-medium text-gray-900">
+                                                        @if ($item->photo)
+                                                            <img class="w-10 h-10 rounded-full object-cover"
+                                                                src="{{ asset('storage/' . $item->photo) }}"
+                                                                alt="{{ $item->name }}">
+                                                        @else
+                                                            <div
+                                                                class="w-10 h-10 rounded-full bg-cream flex items-center justify-center">
+                                                                <i class="fas fa-user text-mauve"></i>
+                                                            </div>
+                                                        @endif
+                                                        {{ $item->surname }}
+                                                        {{ $item->name }}
+                                                        {{ $item->fathername }}
+                                                    </label>
+                                                </div>
+                                            </li>
                                         @endforeach
                                     @else
                                         <li class="p-2">Мастеров нет</li>
@@ -176,5 +177,64 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
             // Инициализация значения времени
             updateTimeInput();
         }
+
+        // Обработка выбора мастера
+        const masterRadios = document.querySelectorAll('.master-radio');
+        const dropdownButtons = document.querySelectorAll('[data-dropdown-toggle^="dropdownDefaultRadio-"]');
+
+        masterRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const masterId = this.getAttribute('data-master-id');
+                    const masterName = this.getAttribute('data-master-name');
+                    const masterPhoto = this.getAttribute('data-master-photo');
+                    const serviceId = this.closest('form').querySelector('[name="service_id"]')
+                        .value;
+                    const dropdownButton = document.getElementById(
+                        `dropdownRadioButton-${serviceId}`);
+                    const selectionText = dropdownButton.querySelector(
+                        '.master-selection-text');
+
+                    // Удаляем предыдущее изображение, если оно есть
+                    const existingImg = dropdownButton.querySelector('img');
+                    const existingIcon = dropdownButton.querySelector('.master-icon');
+                    if (existingImg) existingImg.remove();
+                    if (existingIcon) existingIcon.remove();
+
+                    // Создаем элемент для отображения мастера
+                    if (masterPhoto) {
+                        // Если есть фото, добавляем его
+                        const img = document.createElement('img');
+                        img.src = masterPhoto;
+                        img.alt = masterName;
+                        img.className = 'w-6 h-6 rounded-full object-cover mr-2';
+                        dropdownButton.insertBefore(img, selectionText);
+                    } else {
+                        // Если нет фото, добавляем иконку
+                        const iconDiv = document.createElement('div');
+                        iconDiv.className =
+                            'w-6 h-6 rounded-full bg-cream flex items-center justify-center mr-2 master-icon';
+                        iconDiv.innerHTML = '<i class="fas fa-user text-mauve text-xs"></i>';
+                        dropdownButton.insertBefore(iconDiv, selectionText);
+                    }
+
+                    // Обновляем текст
+                    selectionText.textContent = masterName;
+
+                    // Закрываем выпадающий список
+                    // Примечание: если вы используете библиотеку для управления выпадающими списками,
+                    // возможно, потребуется использовать её API для закрытия
+                }
+            });
+        });
+
+        // Проверяем, есть ли уже выбранный мастер при загрузке страницы
+        masterRadios.forEach(radio => {
+            if (radio.checked) {
+                // Имитируем событие change для отображения выбранного мастера
+                const event = new Event('change');
+                radio.dispatchEvent(event);
+            }
+        });
     });
 </script>

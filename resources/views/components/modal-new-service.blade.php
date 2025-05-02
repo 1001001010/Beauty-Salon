@@ -47,23 +47,46 @@
                                 placeholder="₽" required min="1">
                         </div>
                     </div>
-                    <div class="flex items-center justify-center w-full">
-                        <label for="dropzone-file"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                        class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
-                                    800x400px)</p>
+
+                    <div>
+                        <label for="service-dropzone-file" class="block text-sm font-medium text-gray-700 mb-2">Загрузка
+                            фото</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="service-dropzone-file"
+                                class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-cream hover:bg-cream/80 dark:hover:bg-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-mauve" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-700"><span class="font-semibold">Нажмите для
+                                            загрузки</span> или перетащите файл</p>
+                                    <p class="text-xs text-gray-500">JPG, PNG или GIF (макс. 2MB)</p>
+                                </div>
+                                <input id="service-dropzone-file" name="photo" type="file" class="hidden"
+                                    accept="image/*" />
+                            </label>
+                        </div>
+                        <div id="service-file-preview" class="mt-2 hidden">
+                            <div class="flex items-center p-2 bg-cream rounded-md">
+                                <img id="service-preview-image" class="h-16 w-16 object-cover rounded-md"
+                                    src="/placeholder.svg" alt="Предпросмотр">
+                                <div class="ml-3 flex-grow">
+                                    <p class="text-sm font-medium text-gray-900" id="service-file-name"></p>
+                                    <p class="text-xs text-gray-500" id="service-file-size"></p>
+                                </div>
+                                <button type="button" id="service-remove-file"
+                                    class="text-gray-400 hover:text-red-500">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
                             </div>
-                            <input id="photo" type="file" name="photo" class="hidden" />
-                        </label>
+                        </div>
                     </div>
 
                     <div>
@@ -91,3 +114,59 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработка загрузки файла для услуги
+        const serviceDropzoneFile = document.getElementById('service-dropzone-file');
+        const serviceFilePreview = document.getElementById('service-file-preview');
+        const servicePreviewImage = document.getElementById('service-preview-image');
+        const serviceFileName = document.getElementById('service-file-name');
+        const serviceFileSize = document.getElementById('service-file-size');
+        const serviceRemoveFile = document.getElementById('service-remove-file');
+
+        if (serviceDropzoneFile) {
+            serviceDropzoneFile.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+
+                    // Проверка типа файла
+                    if (!file.type.match('image.*')) {
+                        alert('Пожалуйста, выберите изображение');
+                        return;
+                    }
+
+                    // Проверка размера файла (макс. 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Размер файла не должен превышать 2MB');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        servicePreviewImage.src = e.target.result;
+                        serviceFileName.textContent = file.name;
+                        serviceFileSize.textContent = formatFileSize(file.size);
+                        serviceFilePreview.classList.remove('hidden');
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        if (serviceRemoveFile) {
+            serviceRemoveFile.addEventListener('click', function() {
+                serviceDropzoneFile.value = '';
+                serviceFilePreview.classList.add('hidden');
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+    });
+</script>

@@ -27,49 +27,54 @@ class MasterController extends Controller
             'records' => $records
         ]);
     }
-    /*
-    * Добавление мастера
-    */
+
+    /**
+     * Добавление мастера
+     */
     public function upload(Request $request) {
         $validate = $request->validate([
+            'user_id' => 'required|exists:users,id', // ID существующего пользователя
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'fathername' => 'required|string|max:255',
             'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'services' => 'required|array|min:0',
             'services.*' => 'integer',
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
 
-        // регистрация аккаунта нового мастера
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'master',
-        ]);
+        // Получаем существующего пользователя
+        $user = User::findOrFail($validate['user_id']);
 
-        event(new Registered($user));
+        // Проверяем, не является ли пользователь уже мастером
+        if (Master::where('user_id', $user->id)->exists()) {
+            return redirect()->back()->withErrors(['user_id' => 'Этот пользователь уже является мастером'])->withInput();
+        }
+
+        // Обновляем роль пользователя, если она не установлена как 'master'
+        if ($user->role !== 'master') {
+            $user->update(['role' => 'master']);
+        }
 
         // Получаем и сохраняем фото
         $file = $request->file('photo');
         $timestamp = time();
         $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
 
+        // Создаем запись мастера
         $master = Master::create([
             'user_id' => $user->id,
             'name' => $validate['name'],
             'surname' => $validate['surname'],
             'fathername' => $validate['fathername'],
             'photo' => $photoPath,
+            'visibility' => 1, // Устанавливаем видимость мастера (активный)
         ]);
 
         // Связывание мастера с услугами
         $services = $validate['services'];
         $master->services()->attach($services);
 
-        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно добавлен!']);
+        return redirect()->back()->with('message', ['type' => 'success', 'text' => 'Мастер успешно добавлен!']);
     }
 
     /*
@@ -134,5 +139,22 @@ class MasterController extends Controller
         $master->services()->sync($services);
 
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Информация о мастере успешно изменена!']);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        if (empty($query) || strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $users = User::where('email', 'like', "%{$query}%")
+                    ->orWhere('name', 'like', "%{$query}%")
+                    ->with('master.services')
+                    ->limit(10)
+                    ->get(['id', 'name', 'email']);
+
+        return response()->json($users);
     }
 }

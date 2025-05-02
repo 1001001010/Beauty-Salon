@@ -1,0 +1,47 @@
+<!-- Footer -->
+<footer class="bg-white">
+    <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-mauve font-serif text-2xl font-bold">Elegance</h3>
+                <p class="mt-4 text-gray-500 text-sm">
+                    Предоставляем услуги красоты премиум-класса с 2010 года. Ваша красота — наша страсть.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Услуги</h3>
+                <ul class="mt-4 space-y-4">
+                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Facial Treatments</a>
+                    </li>
+                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Hair Styling</a></li>
+                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Manicure & Pedicure</a>
+                    </li>
+                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Massage Therapy</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Connect</h3>
+                <div class="flex space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-pinterest text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 border-t border-gray-200 pt-8">
+            <p class="text-base text-gray-400 text-center">
+                &copy; 2025 Салон красоты Elegance. Все права защищены
+            </p>
+        </div>
+    </div>
+</footer>

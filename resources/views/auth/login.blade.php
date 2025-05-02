@@ -1,37 +1,101 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 @section('title')
-    {{ config('app.APP_NAME') }} - Главная
+    {{ config('app.APP_NAME') }} - Вход
 @endsection
 
 @section('content')
-    <div
-        class="flex flex-col items-center w-1/3 mx-auto gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-        <form method="POST" action="{{ route('login') }}" class="w-full">
-            @csrf
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Войдите в ваш аккаунт
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Или
+                <a href="/register" class="font-medium text-mauve hover:text-blush">
+                    создайте новый аккаунт
+                </a>
+            </p>
+        </div>
 
-            <!-- Email Address -->
-            <div class="mt-4">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="email" id="email" name="email"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                @if ($errors->any())
+                    <div class="bg-red-500 text-white p-4 rounded mb-6">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form class="space-y-6" action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            Почта
+                        </label>
+                        <div class="mt-1">
+                            <input id="email" name="email" type="email" autocomplete="email" required
+                                placeholder="Введите почту"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                        </div>
+                    </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пароль</label>
-                <input type="password" id="password" name="password"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            Пароль
+                        </label>
+                        <div class="mt-1">
+                            <input id="password" name="password" type="password" autocomplete="current-password" required
+                                placeholder="Введите пароль"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                            Войти
+                        </button>
+                    </div>
+                </form>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button class="ms-4">
-                    {{ __('Войти') }}
-                </x-primary-button>
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">
+                                ИЛИ
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <div>
+                            <a href="#"
+                                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fab fa-google text-red-500 mr-2"></i>
+                                Google
+                            </a>
+                        </div>
+
+                        <div>
+                            <a href="#"
+                                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fab fa-facebook-f text-blue-600 mr-2"></i>
+                                Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="{{ route('index') }}" class="text-sm font-medium text-mauve hover:text-blush">
+                <i class="fas fa-arrow-left mr-2"></i> На главную
+            </a>
+        </div>
     </div>
 @endsection

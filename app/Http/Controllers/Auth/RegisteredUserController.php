@@ -3,55 +3,45 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\{RedirectResponse, Request};
+use Illuminate\Support\Facades\{Auth, Hash};
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Отображение страницы регистрации
      */
-    public function create(): View
+    public function create()
     {
         return view('auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Регистрация пользователя
      */
-    public function store(Request $request): RedirectResponse
+    // public function store(Request $request)/
+    public function store(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()]
-        ], [
-            'name.required' => 'Имя является обязательным полем.',
-            'email.required' => 'Электронная почта является обязательным полем.',
-            'email.email' => 'Некорректный формат электронной почты.',
-            'email.unique' => 'Пользователь с такой электронной почтой уже существует.',
-            'password.required' => 'Пароль является обязательным полем.',
-            'password.confirmed' => 'Пароли не совпадают.',
-        ]);
+        // Получаем валидированные данные
+        $data = $request->validated();
 
+        // Создаем пользователя
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => Hash::make($data['password']),
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::login($user); // Входим в аккаунт
 
-        return redirect(route('index', absolute: false));
+        return redirect(route('profile.index', absolute: false));
     }
 }

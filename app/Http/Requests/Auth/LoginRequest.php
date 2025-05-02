@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Может ли пользователь выполнить запрос
      */
     public function authorize(): bool
     {
@@ -20,9 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * Правила валидации
      */
     public function rules(): array
     {
@@ -33,9 +31,19 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Сообщения об ошибках валидации
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Поле почта обязательно для заполения',
+            'email.email' => 'Введите корректный адрес электронной почты',
+            'password.required' => 'Пароль обязателен для заполения',
+        ];
+    }
+
+    /**
+     * Попытка проверить подлинность учетных данных запроса
      */
     public function authenticate(): void
     {
@@ -53,9 +61,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Проверка, что частота запросов на вход не ограничена
      */
     public function ensureIsNotRateLimited(): void
     {
@@ -76,7 +82,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Получение ключа ограничения скорости для запроса
      */
     public function throttleKey(): string
     {

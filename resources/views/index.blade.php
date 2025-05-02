@@ -4,121 +4,676 @@
 @endsection
 
 @section('content')
-    <div class="grid gap-3 lg:grid-cols-2 lg:gap-8">
-        <a href={{ route('service.index') }} id="docs-card"
-            class="flex flex-col items-start gap-3 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-            <div id="screenshot-container" class="relative flex w-full flex-1 items-stretch">
-                <img src={{ asset('img/examples/2.jpg') }} alt="photo example"
-                    class="aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
-                    style="object-position: center center;" />
+    <!-- Hero Section -->
+    <div class="relative bg-cream">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative z-10 pb-8 bg-cream sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                    <div class="sm:text-center lg:text-left">
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                            <span class="block">Откройте свою</span>
+                            <span class="block text-mauve">естественную красоту</span>
+                        </h1>
+                        <p
+                            class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Испытайте роскошные процедуры, которые подарят вам ощущение свежести, молодости и красоты внутри
+                            и снаружи
+                        </p>
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <div class="mt-3 sm:mt-0">
+                                <a href="#"
+                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white md:py-4 md:text-lg md:px-10">
+                                    Наши услуги
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-            <div class="relative flex items-center gap-6 lg:items-end">
-                <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
-                    <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                        <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <path fill="#FF2D20"
-                                d="M23 4a1 1 0 0 0-1.447-.894L12.224 7.77a.5.5 0 0 1-.448 0L2.447 3.106A1 1 0 0 0 1 4v13.382a1.99 1.99 0 0 0 1.105 1.79l9.448 4.728c.14.065.293.1.447.1.154-.005.306-.04.447-.105l9.453-4.724a1.99 1.99 0 0 0 1.1-1.789V4ZM3 6.023a.25.25 0 0 1 .362-.223l7.5 3.75a.251.251 0 0 1 .138.223v11.2a.25.25 0 0 1-.362.224l-7.5-3.75a.25.25 0 0 1-.138-.22V6.023Zm18 11.2a.25.25 0 0 1-.138.224l-7.5 3.75a.249.249 0 0 1-.329-.099.249.249 0 0 1-.033-.12V9.772a.251.251 0 0 1 .138-.224l7.5-3.75a.25.25 0 0 1 .362.224v11.2Z" />
-                            <path fill="#FF2D20"
-                                d="m3.55 1.893 8 4.048a1.008 1.008 0 0 0 .9 0l8-4.048a1 1 0 0 0-.9-1.785l-7.322 3.706a.506.506 0 0 1-.452 0L4.454.108a1 1 0 0 0-.9 1.785H3.55Z" />
-                        </svg>
+        </div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+                src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                alt="Beauty salon">
+        </div>
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <div class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Почему выбирают нас?</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Элегантность опыта
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Мы верим в необходимость предоставления комплексного подхода к красоте, который заботится как о теле,
+                    так и о душе
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="pt-6">
+                        <div class="flow-root bg-cream rounded-lg px-6 pb-8 h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-award text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Премиум качество</h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Мы используем только продукцию и оборудование высочайшего качества для всех наших
+                                    процедур
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="pt-3 sm:pt-5 lg:pt-0">
-                        <h2 class="text-xl font-semibold text-black dark:text-white">Большой спектор услуг</h2>
+                    <div class="pt-6">
+                        <div class="flow-root bg-cream rounded-lg px-6 pb-8 h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-user-md text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Экспертные специалисты
+                                </h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    В нашей команде сертифицированные профессионалы с многолетним опытом работы в индустрии
+                                    красоты
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                        <p class="mt-4 text-sm/relaxed">
-                            Современное оборудование и профессионализм персонала позволяют удовлетворить требования самых
-                            взыскательных клиентов, как мужчин, так и женщин
-                        </p>
+                    <div class="pt-6">
+                        <div class="flow-root bg-cream rounded-lg px-6 pb-8 h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-heart text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Персонализированный уход
+                                </h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Каждая процедура индивидуально подбирается с учётом ваших уникальных потребностей и
+                                    предпочтений
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="flow-root bg-cream rounded-lg px-6 pb-8 h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-leaf text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Эко-дружелюбность</h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Мы стремимся использовать устойчивые, не тестируемые на животных продукты и практики
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <svg class="size-6 shrink-0 stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                </svg>
             </div>
-        </a>
+        </div>
+    </div>
 
-        <a href={{ route('service.index') }}
-            class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-            <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <g fill="#FF2D20">
-                        <path
-                            d="M24 8.25a.5.5 0 0 0-.5-.5H.5a.5.5 0 0 0-.5.5v12a2.5 2.5 0 0 0 2.5 2.5h19a2.5 2.5 0 0 0 2.5-2.5v-12Zm-7.765 5.868a1.221 1.221 0 0 1 0 2.264l-6.626 2.776A1.153 1.153 0 0 1 8 18.123v-5.746a1.151 1.151 0 0 1 1.609-1.035l6.626 2.776ZM19.564 1.677a.25.25 0 0 0-.177-.427H15.6a.106.106 0 0 0-.072.03l-4.54 4.543a.25.25 0 0 0 .177.427h3.783c.027 0 .054-.01.073-.03l4.543-4.543ZM22.071 1.318a.047.047 0 0 0-.045.013l-4.492 4.492a.249.249 0 0 0 .038.385.25.25 0 0 0 .14.042h5.784a.5.5 0 0 0 .5-.5v-2a2.5 2.5 0 0 0-1.925-2.432ZM13.014 1.677a.25.25 0 0 0-.178-.427H9.101a.106.106 0 0 0-.073.03l-4.54 4.543a.25.25 0 0 0 .177.427H8.4a.106.106 0 0 0 .073-.03l4.54-4.543ZM6.513 1.677a.25.25 0 0 0-.177-.427H2.5A2.5 2.5 0 0 0 0 3.75v2a.5.5 0 0 0 .5.5h1.4a.106.106 0 0 0 .073-.03l4.54-4.543Z" />
-                    </g>
-                </svg>
-            </div>
-
-            <div class="pt-3 sm:pt-5">
-                <h2 class="text-xl font-semibold text-black dark:text-white">Доступные тарифы</h2>
-
-                <p class="mt-4 text-sm/relaxed">
-                    Мы предлагаем конкурентоспособные цены на все наши услуги, чтобы каждый мог позволить себе качественный
-                    уход за собой. Ознакомьтесь с нашим прайс-листом, где вы найдете прозрачные тарифы без скрытых платежей.
-                    Мы уверены, что качественная красота должна быть доступной для всех!
+    <!-- Services Section -->
+    <div class="py-12 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Услуги</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Роскошные процедуры для вас
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Выберите из нашего широкого ассортимента премиальных бьюти-услуг
                 </p>
             </div>
 
-            <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-            </svg>
-        </a>
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="pt-6">
+                        <div class="flow-root bg-white rounded-lg px-6 pb-8 shadow-md h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-spa text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Уход за лицом</h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Омолодите кожу с нашими премиальными процедурами для лица, подобранными в зависимости от
+                                    типа вашей кожи
+                                </p>
+                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                    Узнать больше
+                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-        <a href={{ route('feedback.index', ['sort' => 'desc']) }}
-            class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-            <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <g fill="#FF2D20">
-                        <path
-                            d="M8.75 4.5H5.5c-.69 0-1.25.56-1.25 1.25v4.75c0 .69.56 1.25 1.25 1.25h3.25c.69 0 1.25-.56 1.25-1.25V5.75c0-.69-.56-1.25-1.25-1.25Z" />
-                        <path
-                            d="M24 10a3 3 0 0 0-3-3h-2V2.5a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2V20a3.5 3.5 0 0 0 3.5 3.5h17A3.5 3.5 0 0 0 24 20V10ZM3.5 21.5A1.5 1.5 0 0 1 2 20V3a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 .5.5v17c0 .295.037.588.11.874a.5.5 0 0 1-.484.625L3.5 21.5ZM22 20a1.5 1.5 0 1 1-3 0V9.5a.5.5 0 0 1 .5-.5H21a1 1 0 0 1 1 1v10Z" />
-                        <path
-                            d="M12.751 6.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 7.3v-.5a.75.75 0 0 1 .751-.753ZM12.751 10.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 11.3v-.5a.75.75 0 0 1 .751-.753ZM4.751 14.047h10a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-10A.75.75 0 0 1 4 15.3v-.5a.75.75 0 0 1 .751-.753ZM4.75 18.047h7.5a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-7.5A.75.75 0 0 1 4 19.3v-.5a.75.75 0 0 1 .75-.753Z" />
-                    </g>
-                </svg>
+                    <div class="pt-6">
+                        <div class="flow-root bg-white rounded-lg px-6 pb-8 shadow-md h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-cut text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Укладка волос</h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Получите идеальный образ с помощью наших услуг по укладке волос, окрашиванию и уходу
+                                </p>
+                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                    Узнать больше
+                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="flow-root bg-white rounded-lg px-6 pb-8 shadow-md h-full">
+                            <div class="-mt-6">
+                                <div>
+                                    <span class="inline-flex items-center justify-center p-3 bg-mauve rounded-md shadow-lg">
+                                        <i class="fas fa-hand-sparkles text-white text-2xl"></i>
+                                    </span>
+                                </div>
+                                <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Маникюр и педикюр</h3>
+                                <p class="mt-5 text-base text-gray-500">
+                                    Побалуйте свои руки и ноги нашими роскошными услугами по уходу за ногтями
+                                </p>
+                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                    Узнать больше
+                                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="pt-3 sm:pt-5">
-                <h2 class="text-xl font-semibold text-black dark:text-white">Ваше мнение важно для нас</h2>
 
-                <p class="mt-4 text-sm/relaxed">
-                    Мы ценим каждого клиента и стремимся к совершенству в нашем обслуживании. Читайте отзывы наших довольных
-                    клиентов, которые делятся своими впечатлениями о посещении нашего салона. Ваше мнение помогает нам
-                    становиться лучше, и мы всегда открыты для конструктивной критики и предложений.
+    <!-- Pricing Section -->
+    <div class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Цены</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Прозрачные цены, премиальные результаты
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Наши самые популярные услуги на первый взгляд. Свяжитесь с нами для получения полного списка цен.
                 </p>
             </div>
 
-            <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-            </svg>
-        </a>
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Цены на процедуры для лица -->
+                    <div class="bg-cream rounded-lg overflow-hidden shadow-md">
+                        <div class="px-6 py-8 bg-mauve text-white text-center">
+                            <h3 class="text-2xl font-bold">Уход за лицом</h3>
+                        </div>
+                        <ul class="divide-y divide-gray-200">
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Классический уход</span>
+                                    <span class="font-medium text-mauve">$75</span>
+                                </div>
+                                <p class="text-sm text-gray-500">60 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Антивозрастной уход</span>
+                                    <span class="font-medium text-mauve">$95</span>
+                                </div>
+                                <p class="text-sm text-gray-500">75 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Уход для увлажнения</span>
+                                    <span class="font-medium text-mauve">$85</span>
+                                </div>
+                                <p class="text-sm text-gray-500">60 минут</p>
+                            </li>
+                        </ul>
+                        <div class="px-6 py-4">
+                            <a href="#"
+                                class="block w-full text-center px-4 py-2 border border-mauve rounded-md text-mauve bg-white hover:bg-blush hover:text-white hover:border-blush">
+                                Смотреть все процедуры для лица
+                            </a>
+                        </div>
+                    </div>
 
-        <div
-            class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-            <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <g fill="#FF2D20">
-                        <path
-                            d="M16.597 12.635a.247.247 0 0 0-.08-.237 2.234 2.234 0 0 1-.769-1.68c.001-.195.03-.39.084-.578a.25.25 0 0 0-.09-.267 8.8 8.8 0 0 0-4.826-1.66.25.25 0 0 0-.268.181 2.5 2.5 0 0 1-2.4 1.824.045.045 0 0 0-.045.037 12.255 12.255 0 0 0-.093 3.86.251.251 0 0 0 .208.214c2.22.366 4.367 1.08 6.362 2.118a.252.252 0 0 0 .32-.079 10.09 10.09 0 0 0 1.597-3.733ZM13.616 17.968a.25.25 0 0 0-.063-.407A19.697 19.697 0 0 0 8.91 15.98a.25.25 0 0 0-.287.325c.151.455.334.898.548 1.328.437.827.981 1.594 1.619 2.28a.249.249 0 0 0 .32.044 29.13 29.13 0 0 0 2.506-1.99ZM6.303 14.105a.25.25 0 0 0 .265-.274 13.048 13.048 0 0 1 .205-4.045.062.062 0 0 0-.022-.07 2.5 2.5 0 0 1-.777-.982.25.25 0 0 0-.271-.149 11 11 0 0 0-5.6 2.815.255.255 0 0 0-.075.163c-.008.135-.02.27-.02.406.002.8.084 1.598.246 2.381a.25.25 0 0 0 .303.193 19.924 19.924 0 0 1 5.746-.438ZM9.228 20.914a.25.25 0 0 0 .1-.393 11.53 11.53 0 0 1-1.5-2.22 12.238 12.238 0 0 1-.91-2.465.248.248 0 0 0-.22-.187 18.876 18.876 0 0 0-5.69.33.249.249 0 0 0-.179.336c.838 2.142 2.272 4 4.132 5.353a.254.254 0 0 0 .15.048c1.41-.01 2.807-.282 4.117-.802ZM18.93 12.957l-.005-.008a.25.25 0 0 0-.268-.082 2.21 2.21 0 0 1-.41.081.25.25 0 0 0-.217.2c-.582 2.66-2.127 5.35-5.75 7.843a.248.248 0 0 0-.09.299.25.25 0 0 0 .065.091 28.703 28.703 0 0 0 2.662 2.12.246.246 0 0 0 .209.037c2.579-.701 4.85-2.242 6.456-4.378a.25.25 0 0 0 .048-.189 13.51 13.51 0 0 0-2.7-6.014ZM5.702 7.058a.254.254 0 0 0 .2-.165A2.488 2.488 0 0 1 7.98 5.245a.093.093 0 0 0 .078-.062 19.734 19.734 0 0 1 3.055-4.74.25.25 0 0 0-.21-.41 12.009 12.009 0 0 0-10.4 8.558.25.25 0 0 0 .373.281 12.912 12.912 0 0 1 4.826-1.814ZM10.773 22.052a.25.25 0 0 0-.28-.046c-.758.356-1.55.635-2.365.833a.25.25 0 0 0-.022.48c1.252.43 2.568.65 3.893.65.1 0 .2 0 .3-.008a.25.25 0 0 0 .147-.444c-.526-.424-1.1-.917-1.673-1.465ZM18.744 8.436a.249.249 0 0 0 .15.228 2.246 2.246 0 0 1 1.352 2.054c0 .337-.08.67-.23.972a.25.25 0 0 0 .042.28l.007.009a15.016 15.016 0 0 1 2.52 4.6.25.25 0 0 0 .37.132.25.25 0 0 0 .096-.114c.623-1.464.944-3.039.945-4.63a12.005 12.005 0 0 0-5.78-10.258.25.25 0 0 0-.373.274c.547 2.109.85 4.274.901 6.453ZM9.61 5.38a.25.25 0 0 0 .08.31c.34.24.616.561.8.935a.25.25 0 0 0 .3.127.631.631 0 0 1 .206-.034c2.054.078 4.036.772 5.69 1.991a.251.251 0 0 0 .267.024c.046-.024.093-.047.141-.067a.25.25 0 0 0 .151-.23A29.98 29.98 0 0 0 15.957.764a.25.25 0 0 0-.16-.164 11.924 11.924 0 0 0-2.21-.518.252.252 0 0 0-.215.076A22.456 22.456 0 0 0 9.61 5.38Z" />
-                    </g>
-                </svg>
+                    <!-- Цены на услуги для волос -->
+                    <div class="bg-cream rounded-lg overflow-hidden shadow-md">
+                        <div class="px-6 py-8 bg-mauve text-white text-center">
+                            <h3 class="text-2xl font-bold">Услуги для волос</h3>
+                        </div>
+                        <ul class="divide-y divide-gray-200">
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Стрижка и укладка для женщин</span>
+                                    <span class="font-medium text-mauve">$65+</span>
+                                </div>
+                                <p class="text-sm text-gray-500">45 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Окрашивание и мелирование</span>
+                                    <span class="font-medium text-mauve">$120+</span>
+                                </div>
+                                <p class="text-sm text-gray-500">120 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Фен-укладка</span>
+                                    <span class="font-medium text-mauve">$45</span>
+                                </div>
+                                <p class="text-sm text-gray-500">30 минут</p>
+                            </li>
+                        </ul>
+                        <div class="px-6 py-4">
+                            <a href="#"
+                                class="block w-full text-center px-4 py-2 border border-mauve rounded-md text-mauve bg-white hover:bg-blush hover:text-white hover:border-blush">
+                                Смотреть все услуги для волос
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Цены на услуги для ногтей -->
+                    <div class="bg-cream rounded-lg overflow-hidden shadow-md">
+                        <div class="px-6 py-8 bg-mauve text-white text-center">
+                            <h3 class="text-2xl font-bold">Услуги для ногтей</h3>
+                        </div>
+                        <ul class="divide-y divide-gray-200">
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Классический маникюр</span>
+                                    <span class="font-medium text-mauve">$35</span>
+                                </div>
+                                <p class="text-sm text-gray-500">30 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Гель-маникюр</span>
+                                    <span class="font-medium text-mauve">$50</span>
+                                </div>
+                                <p class="text-sm text-gray-500">45 минут</p>
+                            </li>
+                            <li class="px-6 py-4">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-900">Делюкс педикюр</span>
+                                    <span class="font-medium text-mauve">$65</span>
+                                </div>
+                                <p class="text-sm text-gray-500">60 минут</p>
+                            </li>
+                        </ul>
+                        <div class="px-6 py-4">
+                            <a href="#"
+                                class="block w-full text-center px-4 py-2 border border-mauve rounded-md text-mauve bg-white hover:bg-blush hover:text-white hover:border-blush">
+                                Смотреть все услуги для ногтей
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Meet Our Team Section -->
+    <div class="py-12 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Наши Эксперты</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Познакомьтесь с нашей талантливой командой
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Наши специалисты приносят годы опыта и страсти в каждую процедуру
+                </p>
             </div>
 
-            <div class="pt-3 sm:pt-5">
-                <h2 class="text-xl font-semibold text-black dark:text-white">Профессионализм и опыт</h2>
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Член команды 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-64 object-cover object-center"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                            alt="София Уильямс">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-900">София Уильямс</h3>
+                            <p class="text-mauve">Мастер-стилист</p>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                С более чем 10-летним опытом работы, София специализируется на современных техниках
+                                стрижки и окрашивания волос
+                            </p>
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-                <p class="mt-4 text-sm/relaxed">
-                    Наши мастера — это команда высококвалифицированных специалистов с многолетним опытом работы в индустрии
-                    красоты. Каждый из них прошел тщательное обучение и регулярно повышает свою квалификацию, чтобы быть в
-                    курсе последних трендов и технологий. Мы гордимся тем, что можем предложить нашим клиентам
-                    индивидуальный подход и профессиональные рекомендации, чтобы каждый выходил из нашего салона с улыбкой и
-                    уверенностью.
+                    <!-- Член команды 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-64 object-cover object-center"
+                            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=761&q=80"
+                            alt="Эмма Джонсон">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-900">Эмма Джонсон</h3>
+                            <p class="text-mauve">Эстетист</p>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Эмма — наш эксперт по уходу за кожей, специализируется на антивозрастных процедурах и
+                                персонализированных программах ухода
+                            </p>
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Член команды 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-64 object-cover object-center"
+                            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80"
+                            alt="Оливия Дэвис">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-900">Оливия Дэвис</h3>
+                            <p class="text-mauve">Нейл-специалист</p>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Оливия создаёт потрясающее искусство на ногтях и предоставляет безупречные услуги маникюра и
+                                педикюра
+                            </p>
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Член команды 4 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-64 object-cover object-center"
+                            src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                            alt="Изабелла Мартинес">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-900">Изабелла Мартинес</h3>
+                            <p class="text-mauve">Массажист</p>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Изабелла специализируется на терапевтических и расслабляющих массажах, которые помогают
+                                вам расслабиться и восстановить силы
+                            </p>
+                            <div class="mt-4 flex space-x-3">
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-mauve">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Testimonials -->
+    <div class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Отзывы</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Что говорят наши клиенты
                 </p>
+            </div>
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg"
+                                alt="Клиент">
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">Сара Джонсон</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Процедура по уходу за кожей была потрясающей! Моя кожа
+                            почувствовала
+                            себя обновленной, а персонал был невероятно профессионален."</p>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg"
+                                alt="Клиент">
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">Эмили Дэвис</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Я в восторге от моей новой прически! Стилист действительно понял,
+                            чего я
+                            хотела, и превзошел все мои ожидания."</p>
+                    </div>
+
+                    <div class="bg-cream p-6 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg"
+                                alt="Клиент">
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-gray-900">Мишель Томпсон</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Услуга маникюра и педикюра была такой расслабляющей. Мои ногти
+                            никогда
+                            не выглядели так хорошо!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Blog/Beauty Tips Section -->
+    <div class="py-12 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-mauve font-semibold tracking-wide uppercase">Бьюти Блог</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Последние советы и тренды красоты
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Оставайтесь в курсе последних советов по уходу за собой от наших экспертов
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <!-- Статья 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-48 object-cover"
+                            src="https://images.unsplash.com/photo-1596178060810-72f53ce9a65c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                            alt="Уход за кожей">
+                        <div class="p-6">
+                            <div class="text-xs text-mauve font-semibold uppercase tracking-wide">Уход за кожей</div>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">10 шагов к идеальной коже: ваш ежедневный
+                                уход</h3>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Узнайте основные шаги для поддержания здоровой и сияющей кожи круглый год
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Статья 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-48 object-cover"
+                            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80"
+                            alt="Уход за волосами">
+                        <div class="p-6">
+                            <div class="text-xs text-mauve font-semibold uppercase tracking-wide">Уход за волосами</div>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">Как сохранить яркость окрашенных волос
+                            </h3>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Узнайте лучшие способы поддержания цвета волос и сохранения их свежести
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Статья 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                        <img class="w-full h-48 object-cover"
+                            src="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                            alt="Нейл-арт">
+                        <div class="p-6">
+                            <div class="text-xs text-mauve font-semibold uppercase tracking-wide">Нейл-арт</div>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">Самые горячие тренды ногтей этого сезона
+                            </h3>
+                            <p class="mt-3 text-gray-500 text-sm">
+                                Исследуйте последние дизайны ногтей и цвета, которые популярны в этом сезоне
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 text-center">
+                    <a href="#"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-mauve hover:bg-blush">
+                        Смотреть все статьи
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="py-12 bg-mauve">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-white">Подпишитесь на нашу рассылку</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-white opacity-80">
+                    Подпишитесь, чтобы получать эксклюзивные предложения, советы по красоте и обновления о наших новых
+                    услугах.
+                </p>
+            </div>
+            <div class="mt-8 max-w-md mx-auto">
+                <form class="mt-3 sm:flex">
+                    <label for="email-address" class="sr-only">Email адрес</label>
+                    <input id="email-address" name="email" type="email" autocomplete="email" required
+                        class="w-full px-5 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-mauve focus:ring-white rounded-md"
+                        placeholder="Введите ваш email">
+                    <button type="submit"
+                        class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-white hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-mauve focus:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                        Подписаться
+                    </button>
+                </form>
+                <p class="mt-3 text-sm text-white opacity-80">
+                    Мы уважаем вашу конфиденциальность. Вы можете отписаться в любой момент.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                <span class="block">Готовы испытать роскошь?</span>
+                <span class="block text-mauve">Запишитесь на прием сегодня.</span>
+            </h2>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                <div class="inline-flex rounded-md shadow">
+                    <a href="#"
+                        class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-mauve hover:bg-blush">
+                        Записаться
+                    </a>
+                </div>
+                <div class="ml-3 inline-flex rounded-md shadow">
+                    <a href="#"
+                        class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-white hover:bg-cream">
+                        Связаться с нами
+                    </a>
+                </div>
             </div>
         </div>
     </div>

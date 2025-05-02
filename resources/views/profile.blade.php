@@ -4,127 +4,211 @@
 @endsection
 
 @section('content')
-    <div class="grid gap-3 lg:grid-cols-3 lg:gap-8">
-        <div class="lg:col-span-1">
-            <div
-                class="flex flex-col items-start gap-3 h-min overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-                <div class="relative flex items-center gap-6 lg:items-end">
-                    <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
-                        <div class="pt-3 sm:pt-5 lg:pt-0">
-                            <h2 class="text-xl font-semibold text-black dark:text-white">{{ $user->name }}
-                                {{ $user->surname }}
-                            </h2>
-                            <h2 class="text-xl font-semibold text-black dark:text-white"></h2>
-
-                            <p class="mt-4 text-sm/relaxed">
-                                Почта: {{ $user->email }}
-                            </p>
-                            <p class="text-sm/relaxed">
-                                Дата регистрации: {{ $user->created_at }}
-                            </p>
-                            <div class="mt-3 flex gap-4">
-                                <x-primary-button
-                                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">Выход
-                                </x-primary-button>
-                                <a href={{ route('profile.edit') }}>
-                                    <x-primary-button>Редактировать</x-primary-button>
-                                </a>
+    <div class="py-10">
+        <header>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold text-gray-900">Профиль</h1>
+            </div>
+        </header>
+        <main>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="px-4 py-8 sm:px-0">
+                    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="px-4 py-5 sm:px-6 flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Информация профиля</h3>
+                            </div>
+                            <button type="button"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                Редактировать
+                            </button>
+                        </div>
+                        <div class="border-t border-gray-200">
+                            <div class="bg-cream px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dl class="sm:col-span-2 grid sm:grid-cols-2 gap-x-4 gap-y-8">
+                                    <div class="sm:col-span-1">
+                                        <dt class="text-sm font-medium text-gray-500">Имя</dt>
+                                        <dd class="mt-1 text-sm text-gray-900">{{ $user->name }}</dd>
+                                    </div>
+                                    <div class="sm:col-span-1">
+                                        <dt class="text-sm font-medium text-gray-500">Почта</dt>
+                                        <dd class="mt-1 text-sm text-gray-900">{{ $user->email }}</dd>
+                                    </div>
+                                    <div class="sm:col-span-1">
+                                        <dt class="text-sm font-medium text-gray-500">Номер телефона</dt>
+                                        <dd class="mt-1 text-sm text-gray-900" id="masked-phone">{{ $user->phone }}</dd>
+                                    </div>
+                                    <div class="sm:col-span-1">
+                                        <dt class="text-sm font-medium text-gray-500">Дата регистрации</dt>
+                                        <dd class="mt-1 text-sm text-gray-900">{{ $user->created_at }}</dd>
+                                    </div>
+                                </dl>
                             </div>
                         </div>
                     </div>
-                </div>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </div>
-        </div>
 
-        <div class="lg:col-span-2">
-            <div
-                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800  dark:focus-visible:ring-[#FF2D20]">
-                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <g fill="#FF2D20">
-                            <path
-                                d="M8.75 4.5H5.5c-.69 0-1.25.56-1.25 1.25v4.75c0 .69.56 1.25 1.25 1.25h3.25c.69 0 1.25-.56 1.25-1.25V5.75c0-.69-.56-1.25-1.25-1.25Z" />
-                            <path
-                                d="M24 10a3 3 0 0 0-3-3h-2V2.5a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2V20a3.5 3.5 0 0 0 3.5 3.5h17A3.5 3.5 0 0 0 24 20V10ZM3.5 21.5A1.5 1.5 0 0 1 2 20V3a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 .5.5v17c0 .295.037.588.11.874a.5.5 0 0 1-.484.625L3.5 21.5ZM22 20a1.5 1.5 0 1 1-3 0V9.5a.5.5 0 0 1 .5-.5H21a1 1 0 0 1 1 1v10Z" />
-                            <path
-                                d="M12.751 6.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 7.3v-.5a.75.75 0 0 1 .751-.753ZM12.751 10.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 11.3v-.5a.75.75 0 0 1 .751-.753ZM4.751 14.047h10a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-10A.75.75 0 0 1 4 15.3v-.5a.75.75 0 0 1 .751-.753ZM4.75 18.047h7.5a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-7.5A.75.75 0 0 1 4 19.3v-.5a.75.75 0 0 1 .75-.753Z" />
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="pt-3 sm:pt-5 w-full">
-                    <h2 class="text-xl pb-4 font-semibold text-black dark:text-white">История услуг</h2>
-                    @if (!empty($upcomingRecords) || !empty($pastRecords))
-                        @if (!empty($upcomingRecords))
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                Предстоящие записи:
-                            </p>
-                            @foreach ($upcomingRecords as $item)
-                                <div class="w-full pb-4">
-                                    <div
-                                        class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
-                                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
-                                            <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
-                                                {{ $item->service->name }}
-                                            </p>
-                                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                                Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
-                                            </p>
-                                            <p class="font-normal text-gray-700 dark:text-gray-400 pb-2">
-                                                Мастер: {{ $item->master->surname }} {{ $item->master->name }}
-                                                {{ $item->master->fathername }}
-                                            </p>
-                                            <form action="{{ route('records.delete') }}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <input name="id" class="hidden" value="{{ $item->id }}">
-                                            <x-primary-button class="w-max">Отменить запись</x-primary-button>
-                                            </form>
+                    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="px-4 py-5 sm:px-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">Предстоящие записи</h3>
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Ваши запланированные косметические процедуры</p>
+                        </div>
+                        <div class="border-t border-gray-200">
+                            <ul role="list" class="divide-y divide-gray-200">
+                                <li>
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
+                                                    <i class="fas fa-spa text-mauve"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-medium text-gray-900">Facial Treatment</p>
+                                                    <p class="text-sm text-gray-500">May 15, 2023 at 10:00 AM</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Перепланировать
+                                                </button>
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Отменить
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        @endif
-
-                        @if (!empty($pastRecords))
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                Прошедшие записи:
-                            </p>
-                            @foreach ($pastRecords as $item)
-                                <div class="w-full pb-4">
-                                    <div
-                                        class="flex w-full items-start max-md:flex-col gap-4 rounded-lg bg-white p-2 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] duration-300 focus:outline-none focus-visible:ring-[#FF2D20] dark:bg-zinc-900 dark:ring-zinc-800 dark:focus-visible:ring-[#FF2D20] hover:text-black/70 hover:ring-black/20 dark:hover:text-white/70 dark:hover:ring-zinc-700 transition">
-                                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
-                                            <p class="mb-3 font-bold text-gray-700 dark:text-gray-400">
-                                                {{ $item->service->name }}
-                                            </p>
-                                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                                Дата и время: {{ \Carbon\Carbon::parse($item->datetime)->format('Y-m-d H:i') }}
-                                            </p>
-                                            <p class="font-normal text-gray-700 dark:text-gray-400">
-                                                Мастер: {{ $item->master->surname }} {{ $item->master->name }}
-                                                {{ $item->master->fathername }}
-                                            </p>
-                                            @if (!$item->feedback)
-                                                @component('components.modal-new-feedback', [
-                                                    'item' => $item,
-                                                ])
-                                                @endcomponent
-                                            @endif
+                                </li>
+                                <li>
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
+                                                    <i class="fas fa-cut text-mauve"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-medium text-gray-900">Hair Styling</p>
+                                                    <p class="text-sm text-gray-500">May 22, 2023 at 2:30 PM</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Перепланировать
+                                                </button>
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Отменить
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        @endif
-                    @else
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">У вас еще нет записей</p>
-                    @endif
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div class="px-4 py-5 sm:px-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">История записей</h3>
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Ваши прошедшие процедуры</p>
+                        </div>
+                        <div class="border-t border-gray-200">
+                            <ul role="list" class="divide-y divide-gray-200">
+                                <li>
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
+                                                    <i class="fas fa-hand-sparkles text-mauve"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-medium text-gray-900">Manicure & Pedicure
+                                                    </p>
+                                                    <p class="text-sm text-gray-500">April 10, 2023</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Записаться снова
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
+                                                    <i class="fas fa-spa text-mauve"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-medium text-gray-900">Facial Treatment</p>
+                                                    <p class="text-sm text-gray-500">March 25, 2023</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Записаться снова
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="px-4 py-4 sm:px-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
+                                                    <i class="fas fa-cut text-mauve"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-medium text-gray-900">Hair Styling</p>
+                                                    <p class="text-sm text-gray-500">February 18, 2023</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="button"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    Записаться снова
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <button type="button"
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                Просмотреть полную историю
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/inputmask/dist/inputmask.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Применяем маску на телефонный номер в поле с id "masked-phone"
+            var phoneInput = document.getElementById('masked-phone');
+
+            if (phoneInput) {
+                var im = new Inputmask("+7 (999) 999-99-99", {
+                    clearMaskOnLostFocus: false
+                });
+                im.mask(phoneInput);
+            }
+        });
+    </script>
 @endsection

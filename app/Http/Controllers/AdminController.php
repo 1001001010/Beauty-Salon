@@ -18,9 +18,8 @@ class AdminController extends Controller
     * Отображение панель администратора
     */
     public function index(): View {
-        $services = Service::get();
-        // Получаем мастера и услуги, которые они выполняют, где видимость - 1
-        $masters = Master::with('services')->where('visibility', 1)->get();
+        $services = Service::get(); // Получаем все услуги
+        $masters = Master::with('services')->get(); // Получаем мастеров
 
         return view('admin.index', [
             'services' => $services,

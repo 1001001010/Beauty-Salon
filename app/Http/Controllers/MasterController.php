@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\MasterUploadRequest;
 use App\Models\{Master, User, Record};
 use Auth;
 use Illuminate\Validation\Rules;
@@ -32,7 +33,7 @@ class MasterController extends Controller
      * Добавление мастера
      */
     public function upload(MasterUploadRequest $request) {
-        $validate = $request->validete();
+        $validate = $request->validated();
 
         // Получаем существующего пользователя
         $user = User::findOrFail($validate['user_id']);

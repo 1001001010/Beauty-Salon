@@ -196,7 +196,7 @@
                                             </div>
                                             <div class="bg-white p-4 rounded-md shadow">
                                                 <h4 class="text-sm font-medium text-gray-500">Записей за месяц</h4>
-                                                <p class="text-2xl font-bold text-gray-900">42</p>
+                                                <p class="text-2xl font-bold text-gray-900">{{ $recordsCount }}</p>
                                             </div>
                                         </div>
                                         <div class="flex justify-center">

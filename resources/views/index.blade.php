@@ -220,7 +220,7 @@
     </div>
 
 
-    <!-- Pricing Section -->
+    {{-- <!-- Pricing Section -->
     <div class="py-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
@@ -345,7 +345,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <!-- Meet Our Team Section -->
@@ -623,34 +623,6 @@
                         Смотреть все статьи
                     </a>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="py-12 bg-mauve">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-white">Подпишитесь на нашу рассылку</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-xl text-white opacity-80">
-                    Подпишитесь, чтобы получать эксклюзивные предложения, советы по красоте и обновления о наших новых
-                    услугах.
-                </p>
-            </div>
-            <div class="mt-8 max-w-md mx-auto">
-                <form class="mt-3 sm:flex">
-                    <label for="email-address" class="sr-only">Email адрес</label>
-                    <input id="email-address" name="email" type="email" autocomplete="email" required
-                        class="w-full px-5 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-mauve focus:ring-white rounded-md"
-                        placeholder="Введите ваш email">
-                    <button type="submit"
-                        class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-white hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-mauve focus:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                        Подписаться
-                    </button>
-                </form>
-                <p class="mt-3 text-sm text-white opacity-80">
-                    Мы уважаем вашу конфиденциальность. Вы можете отписаться в любой момент.
-                </p>
             </div>
         </div>
     </div>

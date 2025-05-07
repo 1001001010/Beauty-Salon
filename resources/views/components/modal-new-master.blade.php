@@ -284,9 +284,8 @@
             }
         });
 
-        // Функция для получения пользователей через AJAX
+        // Функция для получения пользователей через
         function fetchUsers(query) {
-            // Здесь нужно заменить на ваш реальный URL для поиска пользователей
             fetch(`/api/users/search?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data => {

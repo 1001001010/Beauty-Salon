@@ -103,7 +103,7 @@
                                                     <i class="fas fa-calendar-alt text-mauve text-xl"></i>
                                                 </div>
                                                 <p class="text-sm text-gray-500">У вас нет предстоящих записей</p>
-                                                <a href="{{ route('services') }}"
+                                                <a href="{{ route('service.index') }}"
                                                     class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
                                                     Записаться на услугу
                                                 </a>

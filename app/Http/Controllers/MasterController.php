@@ -31,16 +31,8 @@ class MasterController extends Controller
     /**
      * Добавление мастера
      */
-    public function upload(Request $request) {
-        $validate = $request->validate([
-            'user_id' => 'required|exists:users,id', // ID существующего пользователя
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'fathername' => 'required|string|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'services' => 'required|array|min:0',
-            'services.*' => 'integer',
-        ]);
+    public function upload(MasterUploadRequest $request) {
+        $validate = $request->validete();
 
         // Получаем существующего пользователя
         $user = User::findOrFail($validate['user_id']);
@@ -67,7 +59,6 @@ class MasterController extends Controller
             'surname' => $validate['surname'],
             'fathername' => $validate['fathername'],
             'photo' => $photoPath,
-            'visibility' => 1, // Устанавливаем видимость мастера (активный)
         ]);
 
         // Связывание мастера с услугами

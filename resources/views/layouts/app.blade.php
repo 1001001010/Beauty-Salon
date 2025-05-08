@@ -7,8 +7,8 @@
     <title>Elegance Beauty Salon</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
-        /* Custom color palette */
         :root {
             --color-cream: #FAF6F3;
             --color-blush: #E9BFB3;
@@ -65,6 +65,8 @@
     </style>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 <body class="bg-cream font-sans">
     @include('components.header')
@@ -72,7 +74,35 @@
     @yield('content')
 
     @include('components.footer')
+    <script>
+        @if (session('message'))
+            const notyf = new Notyf({
+                duration: 3000,
+                ripple: true,
+                position: {
+                    x: 'right',
+                    y: 'top'
+                }
+            });
+
+            let type = "{{ session('message.type') }}";
+            let text = "{{ session('message.text') }}";
+
+            if (type === 'message') {
+                notyf.success(text);
+            } else if (type === 'error') {
+                notyf.error(text);
+            } else {
+                notyf.open({
+                    type: 'info',
+                    message: text
+                });
+            }
+        @endif
+    </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </html>

@@ -144,10 +144,9 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('index') }}"
-                                                        class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                        Записаться снова
-                                                    </a>
+                                                    @include('components.modal-new-feedback', [
+                                                        'item' => $record,
+                                                    ])
                                                 </div>
                                             </div>
                                         </div>

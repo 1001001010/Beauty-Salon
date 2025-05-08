@@ -19,9 +19,9 @@
                          class="ml-8 border-transparent text-gray-500 hover:border-blush hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                          Галерея
                      </a>
-                     <a href="#"
+                     <a href="{{ route('feedback.index') }}"
                          class="ml-8 border-transparent text-gray-500 hover:border-blush hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                         Контакты
+                         Отзывы
                      </a>
                      @if (Auth::user() && Auth::user()->role == 'admin')
                          <a href="{{ route('admin') }}"

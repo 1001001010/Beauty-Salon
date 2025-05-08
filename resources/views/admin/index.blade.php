@@ -78,12 +78,7 @@
                                         <h3 class="text-lg leading-6 font-medium text-gray-900">Список услуг</h3>
                                         <p class="mt-1 max-w-2xl text-sm text-gray-500">Управление услугами салона</p>
                                     </div>
-                                    {{-- <button type="button"
-                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                        Добавить услугу
-                                    </button> --}}
-                                    @component('components.modal-new-service')
-                                    @endcomponent
+                                    @include('components.modal-new-service')
                                 </div>
                                 <div class="border-t border-gray-200">
                                     <div class="bg-cream px-4 py-5">
@@ -106,14 +101,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex space-x-2">
-                                                                <button type="button"
-                                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                                    Редактировать
-                                                                </button>
-                                                                <button type="button"
-                                                                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                                    Удалить
-                                                                </button>
+                                                                @include('components.modal-edit-service', [
+                                                                    'service' => $service,
+                                                                ])
+                                                                @include(
+                                                                    'components.modal-delete-service',
+                                                                    [
+                                                                        'service' => $service,
+                                                                    ]
+                                                                )
                                                             </div>
                                                         </div>
                                                     </div>
@@ -157,14 +153,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex space-x-2">
-                                                                <button type="button"
-                                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                                    Редактировать
-                                                                </button>
-                                                                <button type="button"
-                                                                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                                    Удалить
-                                                                </button>
+                                                                @include('components.modal-edit-master', [
+                                                                    'master' => $master,
+                                                                    'services' => $services,
+                                                                    'masterServiceIds' => $master->services->pluck('id')->toArray(),
+                                                                ])
+                                                                @include('components.modal-delete-master', [
+                                                                    'master' => $master,
+                                                                ])
                                                             </div>
                                                         </div>
                                                     </div>

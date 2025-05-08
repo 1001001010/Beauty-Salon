@@ -46,7 +46,7 @@ class ServiceController extends Controller
     /*
     * Удаление услуги
     */
-    public function destroy(Request $request) {
+    public function delete(Request $request) {
         $validate = $request->validate([
             'service_id' => 'required|integer|min:1',
         ]);

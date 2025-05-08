@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('records_id');
+            $table->unsignedTinyInteger('rating')->default(5);
             $table->text('comment');
             $table->string('photo');
             $table->timestamps();

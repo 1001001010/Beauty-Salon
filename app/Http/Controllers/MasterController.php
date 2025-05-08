@@ -72,7 +72,7 @@ class MasterController extends Controller
     /*
     * Удаление услуги
     */
-    public function destroy(Request $request) {
+    public function delete(Request $request) {
         $validate = $request->validate([
             'master_id' => 'required|integer|min:1',
         ]);

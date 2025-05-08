@@ -8,7 +8,7 @@ use Auth;
 
 class FeedbackController extends Controller
 {
-    public function index($sort) {
+    public function index($sort = 'desc') {
         $feedback = Feedback::with('user')
             ->orderBy('created_at', $sort)
             ->get();
@@ -23,17 +23,21 @@ class FeedbackController extends Controller
             'records_id' => 'required|integer|min:1',
             'description' => 'required|string',
             'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'rating' => 'required|integer|min:1|max:5',
         ]);
+
         // Получаем и сохраняем файл
         $file = $request->file('photo');
         $timestamp = time();
         $coverPath = $file->storeAs('feedback', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+
         // Сохраняем
         Feedback::create([
             'user_id' => Auth::id(),
             'records_id' => $request->records_id,
             'comment' => $request->description,
-            'photo' => $coverPath
+            'photo' => $coverPath,
+            'rating' => $request->rating
         ]);
 
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Отзыв успешно опубликован!']);

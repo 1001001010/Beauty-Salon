@@ -18,8 +18,8 @@ class AdminController extends Controller
     * Отображение панель администратора
     */
     public function index(): View {
-        $services = Service::get();
-        $masters = Master::with('services')->get();
+        $services = Service::withTrashed()->get();
+        $masters = Master::withTrashed()->with('services')->get();
 
         // Подсчёт записей за текущий месяц
         $startOfMonth = Carbon::now()->startOfMonth();

@@ -3,18 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Service, Master};
+use App\Models\{Service, Master, Record, MasterService};
 
 class ServiceController extends Controller
 {
     /*
     * Добавление услуги
     */
-    public function index() {
-        return view('services.index', [
-            'services' => Service::with('masters')->get(),
-            'masters' => Master::get()
-        ]);
+    public function index(Request $request)
+    {
+        $query = Service::query()->with('masters');
+
+        // Фильтрация по названию
+        if ($request->filled('word')) {
+            $searchWord = $request->input('word');
+            $query->where(function($q) use ($searchWord) {
+                $q->where('name', 'like', "%{$searchWord}%")
+                ->orWhere('description', 'like', "%{$searchWord}%");
+            });
+        }
+
+        // Фильтрация по минимальной цене
+        if ($request->filled('price_min')) {
+            $query->where('price', '>=', $request->price_min);
+        }
+
+        // Фильтрация по максимальной цене
+        if ($request->filled('price_max')) {
+            $query->where('price', '<=', $request->price_max);
+        }
+
+        // Получаем результаты
+        $services = $query->get();
+        $masters = Master::all();
+
+        return view('services.index', compact('services', 'masters'));
     }
 
     /*
@@ -43,19 +66,35 @@ class ServiceController extends Controller
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно добавлена!']);
     }
 
+    /**
+     * Удаление услуги и связанных предстоящих записей
+     */
+    public function delete(Service $service)
+    {
+        // Удаляем все будущие записи, связанные с этой услугой
+        Record::whereHas('masterService', function($query) use ($service) {
+                $query->where('service_id', $service->id);
+            })
+            ->where('datetime', '>', now())
+            ->delete();
+
+        // Удаляем саму услугу
+        $service->delete();
+
+        return redirect()
+            ->back()
+            ->with('message', [
+                'type' => 'message',
+                'text' => 'Услуга и все связанные предстоящие записи успешно удалены!'
+            ]);
+    }
+
     /*
-    * Удаление услуги
+    * Восстановление услуги
     */
-    public function delete(Request $request) {
-        $validate = $request->validate([
-            'service_id' => 'required|integer|min:1',
-        ]);
-
-        // Находим услугу и удаляем
-        $info = Service::find($request->service_id);
-        $info->delete();
-
-        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно удалена!']);
+    public function restore(Service $service) {
+        $service->restore();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно восстановлена!']);
     }
 
     /*

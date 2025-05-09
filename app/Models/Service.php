@@ -17,6 +17,18 @@ class Service extends Model
         'photo'
     ];
 
+    public function records()
+    {
+        return $this->hasManyThrough(
+            Record::class,
+            MasterService::class,
+            'service_id',
+            'master_service_id',
+            'id',
+            'id'
+        );
+    }
+
     public function masters()
     {
         return $this->belongsToMany(Master::class, 'master_service', 'service_id', 'master_id');

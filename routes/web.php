@@ -9,7 +9,6 @@ use App\Http\Middleware\{IsAdmin, IsMaster};
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::post('/search', 'search')->name('search');
 });
 
 Route::controller(FeedbackController::class)->group(function () {
@@ -36,7 +35,8 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/services', 'index')->name('service.index');
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/service/new', 'upload')->name('service.upload');
-        Route::delete('/admin/service/delete', 'delete')->name('service.delete');
+        Route::delete('/admin/service/{service}/delete', 'delete')->name('service.delete');
+        Route::patch('/admin/service/{service}/restore', 'restore')->withTrashed()->name('service.restore');
         Route::patch('/admin/service/update', 'update')->name('service.update');
     });
 });
@@ -48,7 +48,8 @@ Route::controller(MasterController::class)->group(function () {
 
     Route::middleware(IsAdmin::class)->group(function () {
         Route::post('/admin/master/new', 'upload')->name('master.upload');
-        Route::delete('/admin/master/delete', 'delete')->name('master.delete');
+        Route::delete('/admin/master/{master}/delete', 'delete')->name('master.delete');
+        Route::patch('/admin/master/{master}/restore', 'restore')->withTrashed()->name('master.restore');
         Route::patch('/admin/master/update', 'update')->name('master.update');
         Route::get('/api/users/search', 'search')->name('api.users.search');
     });

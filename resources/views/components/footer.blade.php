@@ -8,32 +8,22 @@
                     Предоставляем услуги красоты премиум-класса с 2010 года. Ваша красота — наша страсть.
                 </p>
             </div>
+            <div class="block"></div>
+            <div class="block"></div>
             <div>
-                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Услуги</h3>
-                <ul class="mt-4 space-y-4">
-                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Facial Treatments</a>
-                    </li>
-                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Hair Styling</a></li>
-                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Manicure & Pedicure</a>
-                    </li>
-                    <li><a href="#" class="text-base text-gray-500 hover:text-mauve">Massage Therapy</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Connect</h3>
+                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Соц. сети</h3>
                 <div class="flex space-x-6 mt-4">
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-facebook-f text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
                     <a href="#" class="text-gray-400 hover:text-mauve">
                         <i class="fab fa-twitter text-xl"></i>
                     </a>
                     <a href="#" class="text-gray-400 hover:text-mauve">
                         <i class="fab fa-pinterest text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-mauve">
+                        <i class="fab fa-facebook-f text-xl"></i>
                     </a>
                 </div>
             </div>

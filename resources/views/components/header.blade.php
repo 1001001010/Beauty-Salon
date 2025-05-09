@@ -15,12 +15,8 @@
                          class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium {{ request()->routeIs('service.index') ? 'border-mauve text-gray-900' : 'border-transparent text-gray-500 hover:border-blush hover:text-gray-700' }}">
                          Услуги
                      </a>
-                     <a href="#"
-                         class="ml-8 border-transparent text-gray-500 hover:border-blush hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                         Галерея
-                     </a>
-                     <a href="{{ route('feedback.index') }}"
-                         class="ml-8 border-transparent text-gray-500 hover:border-blush hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                     <a href="{{ route('feedback.index') }}"    
+                         class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium {{ request()->routeIs('feedback.index') ? 'border-mauve text-gray-900' : 'border-transparent text-gray-500 hover:border-blush hover:text-gray-700' }}">
                          Отзывы
                      </a>
                      @if (Auth::user() && Auth::user()->role == 'admin')

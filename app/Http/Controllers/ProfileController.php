@@ -21,17 +21,26 @@ class ProfileController extends Controller
         $userId = Auth::id();
         $now = now();
 
-        $upcomingRecords = Record::where('client_id', $userId)->where('datetime', '>=', $now)->get();
+        // Предстоящие записи (только активные)
+        $upcomingRecords = Record::with(['service' => function($query) {
+                $query->withTrashed();
+            }])
+            ->where('client_id', $userId)
+            ->where('datetime', '>=', $now)
+            ->get();
 
-        $pastRecords = Record::where('client_id', $userId)->where('datetime', '<', $now)->get();
-
-        $upcomingResult = $this->GetComminginfo($upcomingRecords);
-        $pastResult = $this->GetPastInfo($pastRecords);
+        // Прошедшие записи (включая удаленные услуги)
+        $pastRecords = Record::with(['service' => function($query) {
+                $query->withTrashed();
+            }])
+            ->where('client_id', $userId)
+            ->where('datetime', '<', $now)
+            ->get();
 
         return view('profile', [
             'user' => Auth::user(),
-            'upcomingRecords' => $upcomingResult,
-            'pastRecords' => $pastResult,
+            'upcomingRecords' => $upcomingRecords,
+            'pastRecords' => $pastRecords,
         ]);
     }
 

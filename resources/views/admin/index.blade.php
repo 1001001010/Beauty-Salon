@@ -84,32 +84,73 @@
                                     <div class="bg-cream px-4 py-5">
                                         <div class="w-full">
                                             @foreach ($services as $service)
-                                                <div class="bg-white shadow mb-4 rounded-md overflow-hidden">
+                                                <div
+                                                    class="bg-white shadow mb-4 rounded-md overflow-hidden @if ($service->trashed()) border-l-4 border-red-500 opacity-75 @endif">
                                                     <div class="px-4 py-4 sm:px-6">
                                                         <div class="flex items-center justify-between">
+                                                            <!-- Блок с фото и информацией -->
                                                             <div class="flex items-center">
                                                                 <div
-                                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                                    <img src="{{ asset('storage/' . $service->photo) }}"
-                                                                        alt="">
+                                                                    class="flex-shrink-0 h-16 w-16 rounded-md bg-cream flex items-center justify-center overflow-hidden">
+                                                                    @if ($service->photo)
+                                                                        <img src="{{ asset('storage/' . $service->photo) }}"
+                                                                            alt="Фото услуги {{ $service->name }}"
+                                                                            class="h-full w-full object-cover">
+                                                                    @else
+                                                                        <svg class="h-8 w-8 text-gray-400" fill="none"
+                                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                                        </svg>
+                                                                    @endif
                                                                 </div>
+
+                                                                <!-- Информация об услуге -->
                                                                 <div class="ml-4">
                                                                     <p class="text-sm font-medium text-gray-900">
-                                                                        {{ $service->name }}</p>
-                                                                    <p class="text-sm text-gray-500">{{ $service->price }} ₽
+                                                                        {{ $service->name }}
+                                                                        @if ($service->trashed())
+                                                                            <span
+                                                                                class="text-xs text-red-500">(удалена)</span>
+                                                                        @endif
                                                                     </p>
+                                                                    <p class="text-sm text-gray-500">
+                                                                        {{ number_format($service->price, 0, ',', ' ') }} ₽
+                                                                    </p>
+                                                                    @if ($service->trashed())
+                                                                        <p class="text-xs text-gray-400 mt-1">
+                                                                            Удалена:
+                                                                            {{ $service->deleted_at->format('d.m.Y H:i') }}
+                                                                        </p>
+                                                                    @endif
                                                                 </div>
                                                             </div>
+
+                                                            <!-- Блок с кнопками -->
                                                             <div class="flex space-x-2">
-                                                                @include('components.modal-edit-service', [
-                                                                    'service' => $service,
-                                                                ])
-                                                                @include(
-                                                                    'components.modal-delete-service',
-                                                                    [
-                                                                        'service' => $service,
-                                                                    ]
-                                                                )
+                                                                @if ($service->trashed())
+                                                                    <!-- Кнопка восстановления -->
+                                                                    <form action="{{ route('service.restore', $service) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('PATCH')
+                                                                        <button type="submit"
+                                                                            class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                            Восстановить
+                                                                        </button>
+                                                                    </form>
+                                                                @else
+                                                                    <!-- Кнопки редактирования и удаления -->
+                                                                    @include(
+                                                                        'components.modal-edit-service',
+                                                                        ['service' => $service]
+                                                                    )
+                                                                    @include(
+                                                                        'components.modal-delete-service',
+                                                                        ['service' => $service]
+                                                                    )
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -136,31 +177,73 @@
                                     <div class="bg-cream px-4 py-5">
                                         <div class="w-full">
                                             @foreach ($masters as $master)
-                                                <div class="bg-white shadow mb-4 rounded-md overflow-hidden">
+                                                <div
+                                                    class="bg-white shadow mb-4 rounded-md overflow-hidden @if ($master->trashed()) border-l-4 border-red-500 opacity-75 @endif">
                                                     <div class="px-4 py-4 sm:px-6">
                                                         <div class="flex items-center justify-between">
                                                             <div class="flex items-center">
                                                                 <div
-                                                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                                    <img src="{{ asset('storage/' . $master->photo) }}"
-                                                                        alt="">
+                                                                    class="flex-shrink-0 h-16 w-16 rounded-md bg-cream flex items-center justify-center overflow-hidden">
+                                                                    @if ($master->photo)
+                                                                        <img src="{{ asset('storage/' . $master->photo) }}"
+                                                                            alt="Фото мастера {{ $master->name }}"
+                                                                            class="h-full w-full object-cover">
+                                                                    @else
+                                                                        <svg class="h-8 w-8 text-gray-400" fill="none"
+                                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                                        </svg>
+                                                                    @endif
                                                                 </div>
                                                                 <div class="ml-4">
                                                                     <p class="text-sm font-medium text-gray-900">
-                                                                        {{ $master->name }}</p>
+                                                                        {{ $master->surname . ' ' . $master->name . ' ' . $master->fathername }}
+                                                                        @if ($master->trashed())
+                                                                            <span
+                                                                                class="text-xs text-red-500">(удален)</span>
+                                                                        @endif
+                                                                    </p>
                                                                     <p class="text-sm text-gray-500">
                                                                         {{ $master->specialization }}</p>
+                                                                    @if ($master->trashed())
+                                                                        <p class="text-xs text-gray-400 mt-1">
+                                                                            Удален:
+                                                                            {{ $master->deleted_at->format('d.m.Y H:i') }}
+                                                                        </p>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                             <div class="flex space-x-2">
-                                                                @include('components.modal-edit-master', [
-                                                                    'master' => $master,
-                                                                    'services' => $services,
-                                                                    'masterServiceIds' => $master->services->pluck('id')->toArray(),
-                                                                ])
-                                                                @include('components.modal-delete-master', [
-                                                                    'master' => $master,
-                                                                ])
+                                                                @if ($master->trashed())
+                                                                    <!-- Кнопка восстановления -->
+                                                                    <form action="{{ route('master.restore', $master) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('PATCH')
+                                                                        <button type="submit"
+                                                                            class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                            Восстановить
+                                                                        </button>
+                                                                    </form>
+                                                                @else
+                                                                    <!-- Кнопки редактирования и удаления -->
+                                                                    @include(
+                                                                        'components.modal-edit-master',
+                                                                        [
+                                                                            'master' => $master,
+                                                                            'services' => $services,
+                                                                            'masterServiceIds' => $master->services->pluck('id')->toArray(),
+                                                                        ]
+                                                                    )
+                                                                    @include(
+                                                                        'components.modal-delete-master',
+                                                                        [
+                                                                            'master' => $master,
+                                                                        ]
+                                                                    )
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -177,7 +260,8 @@
                             <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                                 <div class="px-4 py-5 sm:px-6">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900">Отчет</h3>
-                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Формирование отчетов о работе салона</p>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Формирование отчетов о работе салона
+                                    </p>
                                 </div>
                                 <div class="border-t border-gray-200">
                                     <div class="bg-cream px-4 py-5">

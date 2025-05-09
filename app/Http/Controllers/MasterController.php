@@ -70,23 +70,19 @@ class MasterController extends Controller
     }
 
     /*
-    * Удаление услуги
+    * Удаление мастера
     */
-    public function delete(Request $request) {
-        $validate = $request->validate([
-            'master_id' => 'required|integer|min:1',
-        ]);
-
-        $masterId = $request->input('master_id');
-        $master = Master::find($masterId);
-        if (!$master) {
-            return redirect()->back()->with('message', ['type' => 'error', 'text' => 'Мастер не найден']);
-        }
-        $master->update([
-            'visibility' => 0
-        ]);
-
+    public function delete(Master $master) {
+        $master->delete();
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно удален']);
+    }
+
+    /*
+    * Восстановление мастера
+    */
+    public function restore(Master $master) {
+        $master->restore();
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно восстановлен']);
     }
 
     /*

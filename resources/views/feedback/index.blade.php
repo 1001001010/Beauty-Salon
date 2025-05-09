@@ -24,8 +24,8 @@
                             Сортировка
                         </h3>
                         <div class="space-y-1">
-                            <a href={{ route('feedback.index', ['sort' => 'desc']) }}
-                                class="block py-2 px-3 rounded-md text-gray-700 dark:text-gray-300 hover:bg-cream hover:text-mauve dark:hover:bg-gray-800 dark:hover:text-white transition-colors duration-200 {{ request()->get('sort') == 'desc' || !request()->has('sort') ? 'bg-cream text-mauve dark:bg-gray-800 dark:text-white font-medium' : '' }}">
+                            <a href="{{ route('feedback.index', array_merge(request()->query(), ['sort' => 'desc'])) }}"
+                                class="block py-2 px-3 rounded-md text-gray-700 dark:text-gray-300 hover:bg-cream hover:text-mauve dark:hover:text-white transition-colors duration-200 {{ request('sort', 'desc') == 'desc' ? 'bg-cream text-mauve dark:bg-gray-800 dark:text-white font-medium' : '' }}">
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -35,8 +35,8 @@
                                     Сначала новые
                                 </div>
                             </a>
-                            <a href={{ route('feedback.index', ['sort' => 'asc']) }}
-                                class="block py-2 px-3 rounded-md text-gray-700 dark:text-gray-300 hover:bg-cream hover:text-mauve dark:hover:bg-gray-800 dark:hover:text-white transition-colors duration-200 {{ request()->get('sort') == 'asc' ? 'bg-cream text-mauve dark:bg-gray-800 dark:text-white font-medium' : '' }}">
+                            <a href="{{ route('feedback.index', array_merge(request()->query(), ['sort' => 'asc'])) }}"
+                                class="block py-2 px-3 rounded-md text-gray-700 dark:text-gray-300 hover:bg-cream hover:text-mauve dark:hover:text-white transition-colors duration-200 {{ request('sort') == 'asc' ? 'bg-cream text-mauve dark:bg-gray-800 dark:text-white font-medium' : '' }}">
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">

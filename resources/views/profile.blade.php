@@ -62,7 +62,8 @@
                                                 <div class="flex items-center">
                                                     <div
                                                         class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                        <i class="fas fa-spa text-mauve"></i>
+                                                        <img src="{{ asset('storage/' . $record->service->photo) }}"
+                                                            alt="">
                                                     </div>
                                                     <div class="ml-4">
                                                         <p class="text-sm font-medium text-gray-900">
@@ -124,16 +125,26 @@
                             <ul role="list" class="divide-y divide-gray-200">
                                 @forelse($pastRecords as $record)
                                     <li>
-                                        <div class="px-4 py-4 sm:px-6">
+                                        <div
+                                            class="px-4 py-4 sm:px-6 @if ($record->service->trashed()) bg-gray-50 opacity-75 @endif">
                                             <div class="flex items-center justify-between">
                                                 <div class="flex items-center">
                                                     <div
                                                         class="flex-shrink-0 h-10 w-10 rounded-full bg-cream flex items-center justify-center">
-                                                        <i class="fas fa-spa text-mauve"></i>
+                                                        @if ($record->service->photo && !$record->service->trashed())
+                                                            <img src="{{ asset('storage/' . $record->service->photo) }}"
+                                                                alt="">
+                                                        @else
+                                                            <i class="fas fa-calendar-times text-gray-400"></i>
+                                                        @endif
                                                     </div>
                                                     <div class="ml-4">
                                                         <p class="text-sm font-medium text-gray-900">
-                                                            {{ $record->service->name }}</p>
+                                                            {{ $record->service->name ?? 'Услуга удалена' }}
+                                                            @if ($record->service->trashed())
+                                                                <span class="text-xs text-red-500">(Услуга удалена)</span>
+                                                            @endif
+                                                        </p>
                                                         <p class="text-sm text-gray-500">
                                                             {{ \Carbon\Carbon::parse($record->datetime)->format('d.m.Y в H:i') }}
                                                             @if (isset($record->master))
@@ -143,26 +154,18 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    @include('components.modal-new-feedback', [
-                                                        'item' => $record,
-                                                    ])
-                                                </div>
+                                                @if (!$record->feedback && !$record->service->trashed())
+                                                    <div>
+                                                        @include('components.modal-new-feedback', [
+                                                            'item' => $record,
+                                                        ])
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </li>
                                 @empty
-                                    <li>
-                                        <div class="px-4 py-8 sm:px-6 text-center">
-                                            <div class="flex flex-col items-center">
-                                                <div
-                                                    class="flex-shrink-0 h-16 w-16 rounded-full bg-cream flex items-center justify-center mb-3">
-                                                    <i class="fas fa-history text-mauve text-xl"></i>
-                                                </div>
-                                                <p class="text-sm text-gray-500">У вас нет истории записей</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <!-- Пустой список -->
                                 @endforelse
                             </ul>
                         </div>

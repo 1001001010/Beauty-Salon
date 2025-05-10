@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Carbon\Carbon;
 
 class FeedbackSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
@@ -48,7 +49,7 @@ class FeedbackSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, 
             $feedback->user->name,
             $feedback->record->masterService->master->surname . ' ' . $feedback->record->masterService->master->name,
             $feedback->record->masterService->service->name,
-            $feedback->record->datetime->format('d.m.Y H:i'),
+            Carbon::parse($feedback->record->datetime)->format('d.m.Y H:i'),
             $feedback->comment,
             $feedback->created_at->format('d.m.Y')
         ];

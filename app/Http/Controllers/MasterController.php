@@ -66,7 +66,7 @@ class MasterController extends Controller
         $services = $validate['services'];
         $master->services()->attach($services);
 
-        return redirect()->back()->with('message', ['type' => 'success', 'text' => 'Мастер успешно добавлен!']);
+        return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно добавлен!']);
     }
 
     /*

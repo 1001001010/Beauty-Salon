@@ -65,14 +65,54 @@
                                             </div>
                                         </div>
 
+                                        <!-- Сортировка -->
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                Сортировка
+                                            </label>
+                                            <div class="flex items-center gap-2">
+                                                <!-- Выбор поля сортировки -->
+                                                <select name="sort"
+                                                    class="flex-1 bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5">
+                                                    <option value="name"
+                                                        {{ request('sort') == 'name' ? 'selected' : '' }}>По названию
+                                                    </option>
+                                                    <option value="price"
+                                                        {{ request('sort') == 'price' ? 'selected' : '' }}>По цене</option>
+                                                </select>
+
+                                                <!-- Кнопка направления сортировки -->
+                                                <button type="button" onclick="toggleSortDirection()"
+                                                    class="p-2.5 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    @if (request('direction', 'asc') == 'asc')
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd"
+                                                                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                    @else
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd"
+                                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                    @endif
+                                                </button>
+                                                <input type="hidden" name="direction" id="direction-field"
+                                                    value="{{ request('direction', 'asc') }}">
+                                            </div>
+                                        </div>
+
                                         <!-- Кнопки -->
                                         <div class="flex flex-col gap-2">
                                             <button type="submit"
                                                 class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                Применить фильтры
+                                                Применить
                                             </button>
 
-                                            @if (request()->has('word') || request()->has('price_min') || request()->has('price_max'))
+                                            @if (request()->has('word') || request()->has('price_min') || request()->has('price_max') || request()->has('sort'))
                                                 <a href="{{ route('service.index') }}"
                                                     class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
                                                     Сбросить все
@@ -124,4 +164,11 @@
             </div>
         </main>
     </div>
+    <script>
+        function toggleSortDirection() {
+            const directionField = document.getElementById('direction-field');
+            directionField.value = directionField.value === 'asc' ? 'desc' : 'asc';
+            document.querySelector('form').submit();
+        }
+    </script>
 @endsection

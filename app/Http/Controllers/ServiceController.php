@@ -15,29 +15,30 @@ class ServiceController extends Controller
         $query = Service::query()->with('masters');
 
         // Фильтрация по названию
-        if ($request->filled('word')) {
-            $searchWord = $request->input('word');
-            $query->where(function($q) use ($searchWord) {
-                $q->where('name', 'like', "%{$searchWord}%")
-                ->orWhere('description', 'like', "%{$searchWord}%");
-            });
+        if ($request->has('word') && !empty($request->word)) {
+            $query->where('name', 'like', '%' . $request->word . '%');
         }
 
-        // Фильтрация по минимальной цене
-        if ($request->filled('price_min')) {
+        // Фильтрация по цене
+        if ($request->has('price_min') && is_numeric($request->price_min)) {
             $query->where('price', '>=', $request->price_min);
         }
-
-        // Фильтрация по максимальной цене
-        if ($request->filled('price_max')) {
+        if ($request->has('price_max') && is_numeric($request->price_max)) {
             $query->where('price', '<=', $request->price_max);
         }
 
-        // Получаем результаты
-        $services = $query->get();
-        $masters = Master::all();
+        // Сортировка
+        $sort = $request->get('sort', 'name'); // По умолчанию сортировка по названию
+        $direction = $request->get('direction', 'asc'); // По умолчанию по возрастанию
 
-        return view('services.index', compact('services', 'masters'));
+        $query->orderBy($sort, $direction);
+
+        $services = $query->paginate(10);
+
+        return view('services.index', [
+            'services' => $services,
+            'masters' => Master::all()
+        ]);
     }
 
     /*

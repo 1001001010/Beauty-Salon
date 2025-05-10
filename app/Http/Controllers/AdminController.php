@@ -34,7 +34,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function exсel()
+    public function excel()
     {
         return Excel::download(new CompleteReport, 'complete-report.xlsx');
     }

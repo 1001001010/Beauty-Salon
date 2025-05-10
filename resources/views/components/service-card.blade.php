@@ -59,60 +59,39 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
                             </div>
                         </div>
 
-                        <!-- Кнопка выбора мастера -->
-                        <div class="w-full sm:w-auto">
-                            <label for="dropdownRadioButton-{{ $service->id }}"
-                                class="block text-sm font-medium text-gray-700 mb-1">Мастер</label>
-                            <button id="dropdownRadioButton-{{ $service->id }}"
-                                data-dropdown-toggle="dropdownDefaultRadio-{{ $service->id }}"
-                                class="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
-                                type="button">
-                                <span class="master-selection-text">Выбрать мастера</span>
-                                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
+                        <!-- Кнопка выбора мастера (остаётся без изменений) -->
+                        <button id="dropdownRadioButton-{{ $service->id }}"
+                            data-dropdown-toggle="dropdownDefaultRadio-{{ $service->id }}"
+                            class="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
+                            type="button">
+                            <span class="master-selection-text">Выбрать мастера</span>
+                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
+                            </svg>
+                        </button>
 
-                            <div id="dropdownDefaultRadio-{{ $service->id }}"
-                                class="z-10 hidden w-max divide-y divide-gray-100 rounded-lg shadow bg-white">
-                                <ul class="p-3 space-y-3 text-sm text-gray-700"
-                                    aria-labelledby="dropdownRadioButton-{{ $service->id }}">
-                                    @if (count($service->masters) > 0)
-                                        @foreach ($service->masters as $item)
-                                            <li>
-                                                <div class="flex items-center">
-                                                    <input id="default-radio-{{ $item->id }}" type="radio"
-                                                        value="{{ $item->id }}" name="master_id"
-                                                        data-master-id="{{ $item->id }}"
-                                                        data-master-name="{{ $item->surname }} {{ $item->name }} {{ $item->fathername }}"
-                                                        data-master-photo="{{ $item->photo ? asset('storage/' . $item->photo) : '' }}"
-                                                        class="w-4 h-4 text-mauve bg-gray-100 border-gray-300 focus:ring-mauve master-radio">
-                                                    <label for="default-radio-{{ $item->id }}"
-                                                        class="ms-2 flex items-center gap-2 text-sm font-medium text-gray-900">
-                                                        @if ($item->photo)
-                                                            <img class="w-10 h-10 rounded-full object-cover"
-                                                                src="{{ asset('storage/' . $item->photo) }}"
-                                                                alt="{{ $item->name }}">
-                                                        @else
-                                                            <div
-                                                                class="w-10 h-10 rounded-full bg-cream flex items-center justify-center">
-                                                                <i class="fas fa-user text-mauve"></i>
-                                                            </div>
-                                                        @endif
-                                                        {{ $item->surname }}
-                                                        {{ $item->name }}
-                                                        {{ $item->fathername }}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    @else
-                                        <li class="p-2">Мастеров нет</li>
-                                    @endif
-                                </ul>
-                            </div>
+                        <!-- Выпадающий список (упрощаем, убираем фото в списке) -->
+                        <div id="dropdownDefaultRadio-{{ $service->id }}"
+                            class="z-10 hidden w-max divide-y divide-gray-100 rounded-lg shadow bg-white">
+                            <ul class="p-3 space-y-3 text-sm text-gray-700">
+                                @foreach ($service->masters as $item)
+                                    <li>
+                                        <div class="flex items-center">
+                                            <input id="default-radio-{{ $service->id }}-{{ $item->id }}"
+                                                type="radio" value="{{ $item->id }}" name="master_id"
+                                                class="master-radio w-4 h-4 text-mauve bg-gray-100 border-gray-300 focus:ring-mauve"
+                                                data-service-id="{{ $service->id }}"
+                                                data-master-name="{{ $item->surname }} {{ $item->name }} {{ $item->fathername }}">
+                                            <label for="default-radio-{{ $service->id }}-{{ $item->id }}"
+                                                class="ms-2 text-sm font-medium text-gray-900">
+                                                {{ $item->surname }} {{ $item->name }} {{ $item->fathername }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
 
                         <input class="hidden" value={{ $service->id }} name="service_id" />
@@ -153,88 +132,36 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
         @endif
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const hourInput = document.getElementById('hour-input');
-        const minuteInput = document.getElementById('minute-input');
-        const timeInput = document.getElementById('time-input');
-
-        // Функция для обновления основного поля ввода времени
-        function updateTimeInput() {
-            if (timeInput) {
-                const hour = hourInput.value.padStart(2, '0');
-                const minute = minuteInput.value;
-                timeInput.value = `${hour}:${minute}`;
-            }
-        }
-
-        // Обработчики событий для обновления времени
-        if (hourInput && minuteInput) {
-            hourInput.addEventListener('input', updateTimeInput);
-            minuteInput.addEventListener('change', updateTimeInput);
-
-            // Инициализация значения времени
-            updateTimeInput();
-        }
-
-        // Обработка выбора мастера
-        const masterRadios = document.querySelectorAll('.master-radio');
-        const dropdownButtons = document.querySelectorAll('[data-dropdown-toggle^="dropdownDefaultRadio-"]');
-
-        masterRadios.forEach(radio => {
+        // Обработка выбора мастера (упрощённая версия)
+        document.querySelectorAll('.master-radio').forEach(radio => {
             radio.addEventListener('change', function() {
                 if (this.checked) {
-                    const masterId = this.getAttribute('data-master-id');
+                    const serviceId = this.getAttribute('data-service-id');
                     const masterName = this.getAttribute('data-master-name');
-                    const masterPhoto = this.getAttribute('data-master-photo');
-                    const serviceId = this.closest('form').querySelector('[name="service_id"]')
-                        .value;
+
+                    // Находим кнопку для текущей услуги
                     const dropdownButton = document.getElementById(
                         `dropdownRadioButton-${serviceId}`);
                     const selectionText = dropdownButton.querySelector(
                         '.master-selection-text');
 
-                    // Удаляем предыдущее изображение, если оно есть
-                    const existingImg = dropdownButton.querySelector('img');
-                    const existingIcon = dropdownButton.querySelector('.master-icon');
-                    if (existingImg) existingImg.remove();
-                    if (existingIcon) existingIcon.remove();
-
-                    // Создаем элемент для отображения мастера
-                    if (masterPhoto) {
-                        // Если есть фото, добавляем его
-                        const img = document.createElement('img');
-                        img.src = masterPhoto;
-                        img.alt = masterName;
-                        img.className = 'w-6 h-6 rounded-full object-cover mr-2';
-                        dropdownButton.insertBefore(img, selectionText);
-                    } else {
-                        // Если нет фото, добавляем иконку
-                        const iconDiv = document.createElement('div');
-                        iconDiv.className =
-                            'w-6 h-6 rounded-full bg-cream flex items-center justify-center mr-2 master-icon';
-                        iconDiv.innerHTML = '<i class="fas fa-user text-mauve text-xs"></i>';
-                        dropdownButton.insertBefore(iconDiv, selectionText);
-                    }
-
-                    // Обновляем текст
+                    // Просто обновляем текст
                     selectionText.textContent = masterName;
 
                     // Закрываем выпадающий список
-                    // Примечание: если вы используете библиотеку для управления выпадающими списками,
-                    // возможно, потребуется использовать её API для закрытия
+                    const dropdown = document.getElementById(
+                        `dropdownDefaultRadio-${serviceId}`);
+                    dropdown.classList.add('hidden');
                 }
             });
         });
 
-        // Проверяем, есть ли уже выбранный мастер при загрузке страницы
-        masterRadios.forEach(radio => {
-            if (radio.checked) {
-                // Имитируем событие change для отображения выбранного мастера
-                const event = new Event('change');
-                radio.dispatchEvent(event);
-            }
+        // Инициализация уже выбранных мастеров
+        document.querySelectorAll('.master-radio:checked').forEach(radio => {
+            radio.dispatchEvent(new Event('change'));
         });
     });
 </script>

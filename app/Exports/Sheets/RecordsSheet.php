@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Carbon\Carbon;
 
 class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
@@ -46,13 +47,13 @@ class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, S
     {
         return [
             $record->id,
-            $record->datetime->format('d.m.Y H:i'),
+            Carbon::parse($record->datetime)->format('d.m.Y H:i'),
             $record->client->name,
             $record->client->phone,
             $record->masterService->master->surname . ' ' . $record->masterService->master->name,
             $record->masterService->service->name,
             $record->masterService->service->price,
-            $record->created_at->format('d.m.Y')
+            Carbon::parse($record->created_at)->format('d.m.Y')
         ];
     }
 

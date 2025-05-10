@@ -114,10 +114,6 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-end space-x-2">
-                                                <button type="button"
-                                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                    <i class="fas fa-edit mr-1"></i> Изменить
-                                                </button>
                                                 <form action="{{ route('records.delete') }}" method="post"
                                                     class="inline-block">
                                                     @method('DELETE')

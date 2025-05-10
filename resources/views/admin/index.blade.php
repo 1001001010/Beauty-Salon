@@ -279,7 +279,7 @@
                                                 <p class="text-2xl font-bold text-gray-900">{{ $recordsCount }}</p>
                                             </div>
                                         </div>
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-center gap-3">
                                             <a href="{{ route('admin.excel') }}">
                                                 <button type="button"
                                                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">

@@ -8,6 +8,7 @@ use App\Models\{Service, Master, User, Feedback, Record};
 use Carbon\Carbon;
 use App\Exports\CompleteReport;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -33,8 +34,33 @@ class AdminController extends Controller
         ]);
     }
 
-    public function exel()
+    public function exсel()
     {
         return Excel::download(new CompleteReport, 'complete-report.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        // Получаем записи с необходимыми отношениями
+        $records = Record::with([
+            'client',
+            'masterService.master',
+            'masterService.service'
+        ])
+        ->orderBy('datetime', 'desc')
+        ->get();
+
+        // Формируем данные для отчета
+        $data = [
+            'title' => 'Отчет по записям',
+            'date' => date('d.m.Y'),
+            'records' => $records
+        ];
+
+        // Генерируем PDF
+        $pdf = PDF::loadView('reports.records', $data);
+
+        // Возвращаем PDF для скачивания
+        return $pdf->download('records_report_'.date('Y-m-d').'.pdf');
     }
 }

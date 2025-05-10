@@ -18,10 +18,12 @@
                             <div>
                                 <h3 class="text-lg leading-6 font-medium text-gray-900">Информация профиля</h3>
                             </div>
-                            <button type="button"
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                Редактировать
-                            </button>
+                            <a href="{{ route('profile.edit') }}">
+                                <button type="button"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                    Редактировать
+                                </button>
+                            </a>
                         </div>
                         <div class="border-t border-gray-200">
                             <div class="bg-cream px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

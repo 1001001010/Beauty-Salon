@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('records_id');
             $table->unsignedTinyInteger('rating')->default(5);
             $table->text('comment');
-            $table->string('photo');
+            $table->string('photo', 100);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

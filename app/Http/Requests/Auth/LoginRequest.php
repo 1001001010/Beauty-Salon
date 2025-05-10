@@ -49,6 +49,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        $user = User::where('email', $this->input('email'))->first();
+
+        if ($user && $user->provider === 'yandex') {
+            throw ValidationException::withMessages([
+                'email' => 'Используйте Yandex для авторизации',
+            ]);
+        }
+
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 

@@ -27,7 +27,8 @@ Route::controller(RecordController::class)->group(function () {
 Route::controller(AdminController::class)->group(function () {
     Route::middleware('auth')->group(function () {
     Route::get('/admin', 'index')->name('admin');
-    Route::get('/admin/exel', 'exel')->name('admin.exel');
+    Route::get('/admin/excel', 'excel')->name('admin.excel');
+    Route::get('/admin/pdf', 'pdf')->name('admin.pdf');
     });
 });
 

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('masters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('surname');
-            $table->string('fathername');
-            $table->string('photo');
+            $table->string('name', 100);
+            $table->string('surname', 100);
+            $table->string('fathername', 100);
+            $table->string('photo', 100);
             $table->timestamps();
             $table->softDeletes();
 

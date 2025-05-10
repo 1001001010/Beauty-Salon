@@ -21,8 +21,8 @@
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="mt-3 sm:mt-0">
-                                <a href="#"
-                                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white md:py-4 md:text-lg md:px-10">
+                                <a href="{{ route('service.index') }}"
+                                    class="w-full flex items-center justify-center px-8 py-3 border border-mauve text-base font-medium rounded-md text-mauve bg-cream hover:bg-blush hover:text-white hover:border-transparent md:py-4 md:text-lg md:px-10">
                                     Наши услуги
                                 </a>
                             </div>
@@ -155,7 +155,8 @@
                                     Омолодите кожу с нашими премиальными процедурами для лица, подобранными в зависимости от
                                     типа вашей кожи
                                 </p>
-                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                <a href="{{ route('service.index') }}"
+                                    class="mt-4 inline-flex items-center text-mauve hover:text-blush">
                                     Узнать больше
                                     <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +180,8 @@
                                 <p class="mt-5 text-base text-gray-500">
                                     Получите идеальный образ с помощью наших услуг по укладке волос, окрашиванию и уходу
                                 </p>
-                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                <a href="{{ route('service.index') }}"
+                                    class="mt-4 inline-flex items-center text-mauve hover:text-blush">
                                     Узнать больше
                                     <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +205,8 @@
                                 <p class="mt-5 text-base text-gray-500">
                                     Побалуйте свои руки и ноги нашими роскошными услугами по уходу за ногтями
                                 </p>
-                                <a href="#" class="mt-4 inline-flex items-center text-mauve hover:text-blush">
+                                <a href="{{ route('service.index') }}"
+                                    class="mt-4 inline-flex items-center text-mauve hover:text-blush">
                                     Узнать больше
                                     <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -436,15 +439,9 @@
             </h2>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
-                    <a href="#"
+                    <a href="{{ route('service.index') }}"
                         class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-mauve hover:bg-blush">
                         Записаться
-                    </a>
-                </div>
-                <div class="ml-3 inline-flex rounded-md shadow">
-                    <a href="#"
-                        class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-mauve bg-white hover:bg-cream">
-                        Связаться с нами
                     </a>
                 </div>
             </div>

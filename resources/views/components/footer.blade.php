@@ -10,23 +10,6 @@
             </div>
             <div class="block"></div>
             <div class="block"></div>
-            <div>
-                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Соц. сети</h3>
-                <div class="flex space-x-6 mt-4">
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-twitter text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-pinterest text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-mauve">
-                        <i class="fab fa-facebook-f text-xl"></i>
-                    </a>
-                </div>
-            </div>
         </div>
         <div class="mt-8 border-t border-gray-200 pt-8">
             <p class="text-base text-gray-400 text-center">

@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MasterUploadRequest;
 use App\Models\{Master, User, Record};
 use Auth;
-use Illuminate\Validation\Rules;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
 class MasterController extends Controller

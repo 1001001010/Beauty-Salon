@@ -2,25 +2,26 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Service>
+ * Фабрика для создания тестовых услуг
  */
 class ServiceFactory extends Factory
 {
+    protected $model = Service::class;
+
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Определение состояния модели по умолчанию
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'name' => $this->faker->word,
-            'description' => $this->faker->sentence,
-            'price' => $this->faker->numberBetween(100, 1000),
-            'photo' => $this->faker->imageUrl(),
+            'name' => $this->faker->words(3, true),
+            'price' => $this->faker->randomFloat(2, 10, 500),
+            'description' => $this->faker->paragraph(),
+            'photo' => 'service/' . $this->faker->uuid . '.jpg',
         ];
     }
 }

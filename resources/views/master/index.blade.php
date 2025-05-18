@@ -114,16 +114,15 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-end space-x-2">
-                                                <form action="{{ route('records.delete') }}" method="post"
-                                                    class="inline-block">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <input name="id" class="hidden" value="{{ $record->id }}">
-                                                    <button type="submit"
-                                                        class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                                        <i class="fas fa-times mr-1"></i> Отменить
-                                                    </button>
-                                                </form>
+                                                <button type="button" data-record-id="{{ $record->id }}"
+                                                    data-client-name="{{ $record->client->name }}"
+                                                    data-client-email="{{ $record->client->email }}"
+                                                    data-client-phone="{{ $record->client->phone ?? 'Не указан' }}"
+                                                    data-appointment-date="{{ \Carbon\Carbon::parse($record->datetime)->format('d.m.Y H:i') }}"
+                                                    data-service-name="{{ $record->service->name }}"
+                                                    class="cancel-button inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                                                    <i class="fas fa-times mr-1"></i> Отменить
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -220,6 +219,81 @@
         </main>
     </div>
 
+    <!-- Модальное окно для отмены записи -->
+    <div id="cancel-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Фоновое затемнение -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <!-- Центрирование модального окна -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Содержимое модального окна -->
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-cream sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fas fa-exclamation-circle text-mauve"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Отмена записи
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Для отмены записи необходимо предварительно связаться с клиентом и сообщить ему об
+                                    отмене. Используйте контактную информацию клиента:
+                                </p>
+                                <div class="mt-4 bg-cream rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <i class="fas fa-user text-mauve mr-2"></i>
+                                        <span class="text-sm font-medium" id="client-name"></span>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <i class="fas fa-envelope text-mauve mr-2"></i>
+                                        <span class="text-sm font-medium" id="client-email"></span>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <i class="fas fa-phone-alt text-mauve mr-2"></i>
+                                        <span class="text-sm font-medium" id="client-phone"></span>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-gray-200">
+                                        <div class="flex items-center mb-2">
+                                            <i class="far fa-calendar-alt text-mauve mr-2"></i>
+                                            <span class="text-sm font-medium" id="appointment-date"></span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-spa text-mauve mr-2"></i>
+                                            <span class="text-sm font-medium" id="service-name"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <form id="cancel-form" action="{{ route('records.delete') }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <input id="record-id-input" name="id" class="hidden" value="">
+                        <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-mauve text-base font-medium text-white hover:bg-mauve-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve sm:ml-3 sm:w-auto sm:text-sm">
+                            Подтвердить отмену
+                        </button>
+                    </form>
+                    <button type="button" id="close-modal"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Поиск по записям
@@ -239,6 +313,75 @@
                     });
                 });
             }
+
+            // Функционал модального окна
+            const modal = document.getElementById('cancel-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const cancelButtons = document.querySelectorAll('.cancel-button');
+            const recordIdInput = document.getElementById('record-id-input');
+
+            // Элементы для отображения информации о клиенте
+            const clientNameEl = document.getElementById('client-name');
+            const clientEmailEl = document.getElementById('client-email');
+            const clientPhoneEl = document.getElementById('client-phone');
+            const appointmentDateEl = document.getElementById('appointment-date');
+            const serviceNameEl = document.getElementById('service-name');
+
+            // Функция форматирования телефонного номера
+            function formatPhoneNumber(phoneNumber) {
+                // Если номер не указан или не является строкой
+                if (!phoneNumber || phoneNumber === 'Не указан') {
+                    return 'Не указан';
+                }
+
+                // Удаляем все нецифровые символы
+                const cleaned = phoneNumber.replace(/\D/g, '');
+
+                // Проверяем длину номера
+                if (cleaned.length !== 11) {
+                    return phoneNumber; // Возвращаем исходный номер, если формат не соответствует
+                }
+
+                // Форматируем номер в формат +7 (XXX) XXX-XX-XX
+                return `+7 (${cleaned.substring(1, 4)}) ${cleaned.substring(4, 7)}-${cleaned.substring(7, 9)}-${cleaned.substring(9, 11)}`;
+            }
+
+            // Открытие модального окна при нажатии на кнопку "Отменить"
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const recordId = this.getAttribute('data-record-id');
+                    const clientName = this.getAttribute('data-client-name');
+                    const clientEmail = this.getAttribute('data-client-email');
+                    const clientPhone = this.getAttribute('data-client-phone');
+                    const appointmentDate = this.getAttribute('data-appointment-date');
+                    const serviceName = this.getAttribute('data-service-name');
+
+                    // Заполняем информацию о клиенте
+                    clientNameEl.textContent = clientName;
+                    clientEmailEl.textContent = clientEmail;
+                    clientPhoneEl.textContent = formatPhoneNumber(clientPhone);
+                    appointmentDateEl.textContent = appointmentDate;
+                    serviceNameEl.textContent = serviceName;
+
+                    // Устанавливаем ID записи для формы отмены
+                    recordIdInput.value = recordId;
+
+                    // Показываем модальное окно
+                    modal.classList.remove('hidden');
+                });
+            });
+
+            // Закрытие модального окна
+            closeModalBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+            });
+
+            // Закрытие модального окна при клике вне его области
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
         });
     </script>
 @endsection

@@ -19,8 +19,9 @@ Route::controller(FeedbackController::class)->group(function () {
 
 Route::controller(RecordController::class)->group(function () {
     Route::middleware('auth')->group(callback: function () {
-    Route::post('/records/new', 'upload')->name('records.upload');
-    Route::delete('/records/delete', 'delete')->name('records.delete');
+        Route::post('/records/new', 'upload')->name('records.upload');
+        Route::delete('/records/delete', 'delete')->name('records.delete');
+        Route::post('/get-available-time-slots', 'getAvailableTimeSlots')->name('records.getAvailableTimeSlots');
     });
 });
 

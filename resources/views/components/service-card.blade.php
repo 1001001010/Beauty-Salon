@@ -27,90 +27,117 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
 
         @if ($variant == 'client')
             <div class="border-t border-gray-200">
-                <form action="{{ route('records.upload') }}" method="post" class="px-4 py-5 sm:px-6">
-                    @csrf
+                <div class="px-4 py-5 sm:px-6">
                     <div class="flex flex-wrap gap-4 items-end">
+                        <!-- Мастер -->
+                        <div class="w-full sm:w-auto">
+                            <label for="master-select-{{ $service->id }}"
+                                class="block text-sm font-medium text-gray-700 mb-1">Мастер</label>
+                            <select id="master-select-{{ $service->id }}"
+                                class="master-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
+                                required>
+                                <option value="">Выберите мастера</option>
+                                @foreach ($service->masters as $item)
+                                    <option value="{{ $item->id }}">{{ $item->surname }} {{ $item->name }}
+                                        {{ $item->fathername }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <!-- Календарь -->
                         <div class="w-full sm:w-auto">
-                            <label for="datepicker-{{ $service->id }}"
+                            <label for="date-select-{{ $service->id }}"
                                 class="block text-sm font-medium text-gray-700 mb-1">Дата</label>
-                            <div class="relative">
-                                <input datepicker id="datepicker-{{ $service->id }}" type="text" name="date"
-                                    datepicker-min-date="<?php echo $tomorrow; ?>"
-                                    class="bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full ps-10 p-2.5"
-                                    placeholder="Выберите дату" required>
-                            </div>
+                            <select id="date-select-{{ $service->id }}"
+                                class="date-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
+                                required>
+                                <option value="">Выберите дату</option>
+                                @for ($i = 1; $i <= 14; $i++)
+                                    <?php
+                                    $date = date('Y-m-d', strtotime("+$i day"));
+                                    $formattedDate = date('d.m.Y', strtotime("+$i day"));
+                                    $dayOfWeek = date('l', strtotime("+$i day"));
+                                    $dayOfWeekRu = [
+                                        'Monday' => 'Понедельник',
+                                        'Tuesday' => 'Вторник',
+                                        'Wednesday' => 'Среда',
+                                        'Thursday' => 'Четверг',
+                                        'Friday' => 'Пятница',
+                                        'Saturday' => 'Суббота',
+                                        'Sunday' => 'Воскресенье',
+                                    ][$dayOfWeek];
+                                    ?>
+                                    <option value="{{ $date }}">{{ $formattedDate }} ({{ $dayOfWeekRu }})
+                                    </option>
+                                @endfor
+                            </select>
                         </div>
 
-                        <!-- Часы -->
-                        <div class="w-full sm:w-auto">
-                            <label for="hour-input" class="block text-sm font-medium text-gray-700 mb-1">Время</label>
-                            <div class="flex">
-                                <input type="text" id="hour-input" name="hour"
-                                    class="bg-cream border leading-none border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-mauve focus:border-mauve block w-16 p-2.5"
-                                    min="07" max="21" value=08 required />
-                                <span
-                                    class="inline-flex items-center px-2 bg-gray-200 border-t border-b border-gray-300 text-gray-900 text-sm">:</span>
-                                <select id="minute-input" name="minute"
-                                    class="bg-cream border leading-none border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-mauve focus:border-mauve block w-16 p-2.5">
-                                    <option value=00>00</option>
-                                    <option value=30>30</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Кнопка выбора мастера (остаётся без изменений) -->
-                        <button id="dropdownRadioButton-{{ $service->id }}"
-                            data-dropdown-toggle="dropdownDefaultRadio-{{ $service->id }}"
-                            class="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
-                            type="button">
-                            <span class="master-selection-text">Выбрать мастера</span>
-                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 4 4 4-4" />
-                            </svg>
-                        </button>
-
-                        <!-- Выпадающий список (упрощаем, убираем фото в списке) -->
-                        <div id="dropdownDefaultRadio-{{ $service->id }}"
-                            class="z-10 hidden w-max divide-y divide-gray-100 rounded-lg shadow bg-white">
-                            <ul class="p-3 space-y-3 text-sm text-gray-700">
-                                @foreach ($service->masters as $item)
-                                    <li>
-                                        <div class="flex items-center">
-                                            <input id="default-radio-{{ $service->id }}-{{ $item->id }}"
-                                                type="radio" value="{{ $item->id }}" name="master_id"
-                                                class="master-radio w-4 h-4 text-mauve bg-gray-100 border-gray-300 focus:ring-mauve"
-                                                data-service-id="{{ $service->id }}"
-                                                data-master-name="{{ $item->surname }} {{ $item->name }} {{ $item->fathername }}">
-                                            <label for="default-radio-{{ $service->id }}-{{ $item->id }}"
-                                                class="ms-2 text-sm font-medium text-gray-900">
-                                                {{ $item->surname }} {{ $item->name }} {{ $item->fathername }}
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <input class="hidden" value={{ $service->id }} name="service_id" />
-
-                        <!-- Кнопка записи -->
+                        <!-- Кнопка выбора времени -->
                         @if (count($service->masters) > 0)
-                            <button type="submit"
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                                Записаться
+                            <button type="button" id="show-time-btn-{{ $service->id }}"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
+                                data-modal-target="time-modal-{{ $service->id }}"
+                                data-modal-toggle="time-modal-{{ $service->id }}" disabled>
+                                Выбрать время
                             </button>
                         @else
                             <button type="button" disabled
                                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed">
-                                Записаться
+                                Выбрать время
                             </button>
                         @endif
                     </div>
-                </form>
+                </div>
             </div>
+
+            <!-- Модальное окно выбора времени -->
+            <div id="time-modal-{{ $service->id }}" tabindex="-1" aria-hidden="true"
+                class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-2xl max-h-full">
+                    <!-- Содержимое модального окна -->
+                    <div class="relative bg-white rounded-lg shadow">
+                        <!-- Заголовок модального окна -->
+                        <div class="flex items-start justify-between p-4 border-b rounded-t">
+                            <h3 class="text-xl font-semibold text-gray-900">
+                                Выбор времени
+                            </h3>
+                            <button type="button"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
+                                data-modal-hide="time-modal-{{ $service->id }}">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Закрыть</span>
+                            </button>
+                        </div>
+
+                        <!-- Тело модального окна -->
+                        <div class="p-6 space-y-6">
+                            <div id="time-slots-container-{{ $service->id }}" class="time-slots-container">
+                                <div class="text-center py-8">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-mauve mx-auto">
+                                    </div>
+                                    <p class="mt-4 text-gray-700">Загрузка доступного времени...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Форма для отправки данных -->
+            <form id="booking-form-{{ $service->id }}" action="{{ route('records.upload') }}" method="post"
+                class="hidden">
+                @csrf
+                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <input type="hidden" name="master_id" id="form-master-id-{{ $service->id }}">
+                <input type="hidden" name="date" id="form-date-{{ $service->id }}">
+                <input type="hidden" name="hour" id="form-hour-{{ $service->id }}">
+                <input type="hidden" name="minute" id="form-minute-{{ $service->id }}">
+            </form>
         @else
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
                 <div class="flex gap-4 flex-wrap">
@@ -132,36 +159,259 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
         @endif
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Обработка выбора мастера (упрощённая версия)
-        document.querySelectorAll('.master-radio').forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.checked) {
-                    const serviceId = this.getAttribute('data-service-id');
-                    const masterName = this.getAttribute('data-master-name');
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Appointment script loaded")
 
-                    // Находим кнопку для текущей услуги
-                    const dropdownButton = document.getElementById(
-                        `dropdownRadioButton-${serviceId}`);
-                    const selectionText = dropdownButton.querySelector(
-                        '.master-selection-text');
+        // Фиксированные слоты для записи
+        const FIXED_SLOTS = [{
+                hour: 9,
+                minute: 0
+            },
+            {
+                hour: 11,
+                minute: 30
+            },
+            {
+                hour: 15,
+                minute: 0
+            },
+            {
+                hour: 17,
+                minute: 30
+            }
+        ];
 
-                    // Просто обновляем текст
-                    selectionText.textContent = masterName;
+        // Обеденный перерыв
+        const LUNCH_BREAK_START = 14 // 2 PM
+        const LUNCH_BREAK_END = 15 // 3 PM
+        const APPOINTMENT_DURATION = 150 // 2 часа 30 минут в минутах
 
-                    // Закрываем выпадающий список
-                    const dropdown = document.getElementById(
-                        `dropdownDefaultRadio-${serviceId}`);
-                    dropdown.classList.add('hidden');
+        // Кэш для временных слотов
+        const timeSlotCache = {}
+
+        // Обработка выбора мастера
+        document.querySelectorAll(".master-select").forEach((select) => {
+            select.addEventListener("change", function() {
+                const serviceId = this.id.replace("master-select-", "")
+                const dateSelect = document.getElementById(`date-select-${serviceId}`)
+                const showTimeBtn = document.getElementById(`show-time-btn-${serviceId}`)
+
+                // Сбросить выбор даты
+                dateSelect.value = ""
+                showTimeBtn.disabled = true
+
+                // Сохранить ID мастера в форме
+                document.getElementById(`form-master-id-${serviceId}`).value = this.value
+            })
+        })
+
+        // Обработка выбора даты
+        document.querySelectorAll(".date-select").forEach((select) => {
+            select.addEventListener("change", function() {
+                const serviceId = this.id.replace("date-select-", "")
+                const masterSelect = document.getElementById(`master-select-${serviceId}`)
+                const showTimeBtn = document.getElementById(`show-time-btn-${serviceId}`)
+
+                if (!masterSelect.value) {
+                    alert("Пожалуйста, сначала выберите мастера")
+                    this.value = ""
+                    return
                 }
-            });
-        });
 
-        // Инициализация уже выбранных мастеров
-        document.querySelectorAll('.master-radio:checked').forEach(radio => {
-            radio.dispatchEvent(new Event('change'));
-        });
-    });
+                // Активировать кнопку выбора времени
+                showTimeBtn.disabled = !this.value
+
+                // Сохранить дату в форме в формате m/d/Y
+                if (this.value) {
+                    // Преобразуем дату из формата YYYY-MM-DD в формат MM/DD/YYYY
+                    const dateParts = this.value.split("-")
+                    const formattedDate = `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`
+                    document.getElementById(`form-date-${serviceId}`).value = formattedDate
+                    console.log("Formatted date for form:", formattedDate)
+                }
+            })
+        })
+
+        // Обработка нажатия на кнопку выбора времени
+        document.querySelectorAll("[id^='show-time-btn-']").forEach((button) => {
+            button.addEventListener("click", function() {
+                const serviceId = this.id.replace("show-time-btn-", "")
+                const masterSelect = document.getElementById(`master-select-${serviceId}`)
+                const dateSelect = document.getElementById(`date-select-${serviceId}`)
+
+                if (!masterSelect.value || !dateSelect.value) {
+                    alert("Пожалуйста, выберите мастера и дату")
+                    return
+                }
+
+                // Загрузить временные слоты
+                loadTimeSlots(serviceId, masterSelect.value, dateSelect.value)
+            })
+        })
+
+        // Функция загрузки временных слотов
+        function loadTimeSlots(serviceId, masterId, date) {
+            const container = document.getElementById(`time-slots-container-${serviceId}`)
+            const cacheKey = `${serviceId}-${masterId}-${date}`
+
+            // Показать загрузку
+            container.innerHTML = `
+            <div class="text-center py-8">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-mauve mx-auto"></div>
+                <p class="mt-4 text-gray-700">Загрузка доступного времени...</p>
+            </div>
+        `
+
+            // Проверить кэш
+            if (timeSlotCache[cacheKey]) {
+                renderTimeSlots(serviceId, timeSlotCache[cacheKey])
+                return
+            }
+
+            // Получить CSRF-токен
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content")
+            if (!csrfToken) {
+                container.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+                    <p class="text-lg text-red-500">Ошибка: CSRF-токен не найден</p>
+                </div>
+            `
+                return
+            }
+
+            // Запрос на сервер для получения доступных временных слотов
+            fetch("/get-available-time-slots", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                    body: JSON.stringify({
+                        service_id: serviceId,
+                        master_id: masterId,
+                        date: date,
+                    }),
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`)
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log("Available time slots:", data)
+
+                    if (data.success) {
+                        // Кэшировать результат
+                        timeSlotCache[cacheKey] = data.slots
+                        // Отрисовать временные слоты
+                        renderTimeSlots(serviceId, data.slots)
+                    } else {
+                        container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+                        <p class="text-lg text-red-500">Ошибка: ${data.message || "Не удалось загрузить доступное время"}</p>
+                    </div>
+                `
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching available time slots:", error)
+                    container.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+                    <p class="text-lg text-red-500">Ошибка: ${error.message}</p>
+                </div>
+            `
+                })
+        }
+
+        // Функция отрисовки временных слотов
+        function renderTimeSlots(serviceId, slots) {
+            const container = document.getElementById(`time-slots-container-${serviceId}`)
+
+            if (slots.length === 0) {
+                container.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fas fa-calendar-times text-gray-400 text-5xl mb-4"></i>
+                    <p class="text-lg text-gray-700">На выбранную дату нет доступного времени.</p>
+                </div>
+            `
+                return
+            }
+
+            let html = `
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Доступное время:</h3>
+            <p class="text-sm text-gray-500 mb-4">Продолжительность записи: 2 часа 30 минут.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        `
+
+            slots.forEach((slot) => {
+                html += `
+                <div class="time-slot">
+                    <button type="button"
+                        class="w-full p-3 text-gray-700 bg-cream border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100 time-slot-btn"
+                        data-hour="${slot.hour}"
+                        data-minute="${slot.minute}"
+                        data-service-id="${serviceId}">
+                        ${slot.formatted}
+                    </button>
+                </div>
+            `
+            })
+
+            html += `
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button type="button" id="confirm-time-btn-${serviceId}"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed"
+                    disabled>
+                    Записаться
+                </button>
+            </div>
+        `
+
+            container.innerHTML = html
+
+            // Добавить обработчики для кнопок времени
+            container.querySelectorAll(".time-slot-btn").forEach((btn) => {
+                btn.addEventListener("click", function() {
+                    // Убрать выделение со всех кнопок
+                    container.querySelectorAll(".time-slot-btn").forEach((b) => {
+                        b.classList.remove("bg-mauve", "text-white")
+                        b.classList.add("bg-cream", "text-gray-700")
+                    })
+
+                    // Выделить выбранную кнопку
+                    this.classList.remove("bg-cream", "text-gray-700")
+                    this.classList.add("bg-mauve", "text-white")
+
+                    // Активировать кнопку подтверждения
+                    const confirmBtn = document.getElementById(`confirm-time-btn-${serviceId}`)
+                    confirmBtn.disabled = false
+                    confirmBtn.classList.remove("bg-gray-400", "cursor-not-allowed")
+                    confirmBtn.classList.add("bg-mauve", "hover:bg-blush")
+
+                    // Сохранить выбранное время в форме
+                    document.getElementById(`form-hour-${serviceId}`).value = this.dataset.hour
+                    document.getElementById(`form-minute-${serviceId}`).value = this.dataset
+                        .minute
+                })
+            })
+
+            // Добавить обработчик для кнопки подтверждения
+            const confirmBtn = document.getElementById(`confirm-time-btn-${serviceId}`)
+            if (confirmBtn) {
+                confirmBtn.addEventListener("click", function() {
+                    if (this.disabled) return
+
+                    // Отправить форму
+                    document.getElementById(`booking-form-${serviceId}`).submit()
+                })
+            }
+        }
+    })
 </script>

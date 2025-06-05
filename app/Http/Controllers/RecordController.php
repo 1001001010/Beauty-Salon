@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{Record, Service, Master, MasterService};
+use App\Models\{Record, Service, Master, MasterService, User};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Events\RecordCancelled;
 
 class RecordController extends Controller
 {
@@ -32,8 +33,8 @@ class RecordController extends Controller
     public function upload(Request $request)
     {
         $requestData = $request->all();
-        $requestData['hour'] = (int)$requestData['hour'];
-        $requestData['minute'] = (int)$requestData['minute'];
+        $requestData['hour'] = (int) $requestData['hour'];
+        $requestData['minute'] = (int) $requestData['minute'];
 
         // Валидация входящих данных
         $validator = Validator::make($requestData, [
@@ -172,11 +173,11 @@ class RecordController extends Controller
             }
 
             // Получаем все записи этого мастера на эту дату
-            $existingAppointments = Record::whereIn('master_service_id', function($query) use ($request) {
-                    $query->select('id')
-                        ->from('master_service')
-                        ->where('master_id', $request->master_id);
-                })
+            $existingAppointments = Record::whereIn('master_service_id', function ($query) use ($request) {
+                $query->select('id')
+                    ->from('master_service')
+                    ->where('master_id', $request->master_id);
+            })
                 ->whereDate('datetime', $date)
                 ->get(['datetime'])
                 ->pluck('datetime')
@@ -258,10 +259,10 @@ class RecordController extends Controller
             $busyDates = Record::whereIn('master_service_id', $masterServices)
                 ->where('datetime', '>=', Carbon::today())
                 ->get()
-                ->groupBy(function($date) {
+                ->groupBy(function ($date) {
                     return Carbon::parse($date->datetime)->format('Y-m-d');
                 })
-                ->map(function($group) {
+                ->map(function ($group) {
                     return [
                         'date' => $group->first()->datetime->format('Y-m-d'),
                         'count' => $group->count(),
@@ -284,7 +285,7 @@ class RecordController extends Controller
     }
 
     /**
-     * Удаление записи
+     * Удаление записи клиентом
      */
     public function delete(Request $request)
     {
@@ -293,8 +294,64 @@ class RecordController extends Controller
         ]);
 
         $record = Record::findOrFail($request->id);
+
+        // Получаем информацию о мастере
+        $masterService = MasterService::findOrFail($record->master_service_id);
+        $master = Master::findOrFail($masterService->master_id);
+        $masterUser = User::findOrFail($master->user_id);
+
+        // Получаем информацию о клиенте
+        $client = Auth::user();
+
+        // Сохраняем запись перед удалением для использования в событии
+        $recordCopy = clone $record;
+
+        // Удаляем запись
         $record->delete();
 
+        // Отправляем уведомление мастеру через событие
+        event(new RecordCancelled($recordCopy, $client, $masterUser));
+
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Запись успешно отменена']);
+    }
+
+    /**
+     * Отмена записи мастером
+     */
+    public function cancelByMaster(Request $request)
+    {
+        $validate = $request->validate([
+            'id' => 'required|integer|min:1',
+        ]);
+
+        $record = Record::findOrFail($request->id);
+
+        // Проверяем, что текущий пользователь - мастер этой записи
+        $masterService = MasterService::findOrFail($record->master_service_id);
+        $master = Master::findOrFail($masterService->master_id);
+
+        if ($master->user_id != Auth::id()) {
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'text' => 'У вас нет прав для отмены этой записи'
+            ]);
+        }
+
+        // Получаем информацию о клиенте
+        $client = User::findOrFail($record->client_id);
+
+        // Сохраняем запись перед удалением для использования в событии
+        $recordCopy = clone $record;
+
+        // Удаляем запись
+        $record->delete();
+
+        // Отправляем уведомление клиенту через событие
+        event(new RecordCancelled($recordCopy, Auth::user(), $client));
+
+        return redirect()->back()->with('message', [
+            'type' => 'message',
+            'text' => 'Запись успешно отменена'
+        ]);
     }
 }

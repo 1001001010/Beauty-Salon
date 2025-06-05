@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Record extends Model
 {
@@ -14,6 +15,11 @@ class Record extends Model
         'master_service_id',
         'datetime',
         'status'
+    ];
+
+    // Добавляем cast для datetime
+    protected $casts = [
+        'datetime' => 'datetime',
     ];
 
     public function client()

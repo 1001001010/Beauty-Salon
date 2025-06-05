@@ -44,7 +44,7 @@
                         <div class="mt-1">
                             <input type="number" name="price" id="price"
                                 class="bg-cream border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-mauve focus:border-mauve block w-full p-2.5"
-                                placeholder="₽" required min="1">
+                                placeholder="₽" required min="0.01" step="0.01">
                         </div>
                     </div>
 

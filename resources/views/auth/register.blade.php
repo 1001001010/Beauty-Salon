@@ -19,16 +19,7 @@
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div class="bg-white py-4 px-4 shadow sm:rounded-lg sm:px-10">
-                @if ($errors->any())
-                    <div class="bg-red-500 text-white p-4 rounded mb-6">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form class="space-y-6" action={{ route('register') }} method="POST">
+                <form class="space-y-6" action="{{ route('register') }}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">
@@ -36,8 +27,11 @@
                         </label>
                         <div class="mt-1">
                             <input type="text" name="name" id="name" autocomplete="given-name" required
-                                placeholder="Введите имя"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                                placeholder="Введите имя" value="{{ old('name') }}"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm @error('name') border-red-500 @enderror">
+                            @error('name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -47,8 +41,11 @@
                         </label>
                         <div class="mt-1">
                             <input id="email" name="email" type="email" autocomplete="email" required
-                                placeholder="Введите почту"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                                placeholder="Введите почту" value="{{ old('email') }}"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm @error('email') border-red-500 @enderror">
+                            @error('email')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -57,9 +54,12 @@
                             Номер телефона
                         </label>
                         <div class="mt-1">
-                            <input type="text" id="phone" name="phone"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm"
+                            <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm @error('phone') border-red-500 @enderror"
                                 placeholder="Введите телефон">
+                            @error('phone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -70,7 +70,10 @@
                         <div class="mt-1">
                             <input id="password" name="password" type="password" autocomplete="new-password" required
                                 placeholder="Введите пароль"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm @error('password') border-red-500 @enderror">
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -81,7 +84,10 @@
                         <div class="mt-1">
                             <input id="password_confirmation" name="password_confirmation" type="password"
                                 autocomplete="new-password" required placeholder="Подтвердите пароль"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm">
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-mauve focus:border-mauve sm:text-sm @error('password_confirmation') border-red-500 @enderror">
+                            @error('password_confirmation')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -93,7 +99,7 @@
                     </div>
                 </form>
 
-                <div class="mt-6">
+                <div class="mt-3">
                     <div class="relative">
                         <div class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-gray-300"></div>
@@ -104,13 +110,13 @@
                             </span>
                         </div>
                     </div>
-                    <div>
-                        <a href="{{ route('yandex') }}"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            <i class="fab fa-yandex text-red-500 mr-2"></i>
-                            Yandex
-                        </a>
-                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="{{ route('yandex') }}"
+                        class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fab fa-yandex text-red-500 mr-2"></i>
+                        Yandex
+                    </a>
                 </div>
             </div>
         </div>

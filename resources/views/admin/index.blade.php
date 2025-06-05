@@ -116,7 +116,7 @@
                                                                         @endif
                                                                     </p>
                                                                     <p class="text-sm text-gray-500">
-                                                                        {{ number_format($service->price, 0, ',', ' ') }} ₽
+                                                                        {{ $service->price }} ₽
                                                                     </p>
                                                                     @if ($service->trashed())
                                                                         <p class="text-xs text-gray-400 mt-1">

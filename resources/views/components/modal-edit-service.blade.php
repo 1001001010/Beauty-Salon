@@ -52,7 +52,8 @@
                             <div class="relative">
                                 <input type="number" name="price" id="price"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5 pr-12 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-mauve dark:focus:border-mauve"
-                                    placeholder="Цена" value="{{ $service->price }}" required min="1">
+                                    placeholder="Цена" value="{{ $service->price }}" required min="0.01"
+                                    step="0.01">
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <span class="text-gray-500 dark:text-gray-400">₽</span>
                                 </div>

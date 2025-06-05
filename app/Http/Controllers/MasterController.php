@@ -11,16 +11,17 @@ use Carbon\Carbon;
 class MasterController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         $currentDateTime = Carbon::now();
         $records = Record::with('client', 'master', 'service')
-        ->where('datetime', '>', $currentDateTime)
-        ->whereHas('master', function ($query) {
-            $query->whereHas('user', function ($query) {
-                $query->where('users.id', Auth::id());
-            });
-        })->orderBy('datetime', 'asc')
-        ->get();
+            ->where('datetime', '>', $currentDateTime)
+            ->whereHas('master', function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('users.id', Auth::id());
+                });
+            })->orderBy('datetime', 'asc')
+            ->get();
         return view('master.index', [
             'records' => $records
         ]);
@@ -29,7 +30,8 @@ class MasterController extends Controller
     /**
      * Добавление мастера
      */
-    public function upload(MasterUploadRequest $request) {
+    public function upload(MasterUploadRequest $request)
+    {
         $validate = $request->validated();
 
         // Получаем существующего пользователя
@@ -48,7 +50,7 @@ class MasterController extends Controller
         // Получаем и сохраняем фото
         $file = $request->file('photo');
         $timestamp = time();
-        $photoPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+        $photoPath = $file->storeAs('service', $timestamp . '.' . $file->getClientOriginalExtension(), 'public');
 
         // Создаем запись мастера
         $master = Master::create([
@@ -67,25 +69,43 @@ class MasterController extends Controller
     }
 
     /*
-    * Удаление мастера
-    */
-    public function delete(Master $master) {
+     * Удаление мастера
+     */
+    public function delete(Master $master)
+    {
+        $user = $master->user;
+        if ($user) {
+            $user->role = 'user';
+            $user->save();
+        }
+
         $master->delete();
+
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно удален']);
     }
 
     /*
-    * Восстановление мастера
-    */
-    public function restore(Master $master) {
+     * Восстановление мастера
+     */
+    public function restore(Master $master)
+    {
+        $user = $master->user;
+        if ($user) {
+            $user->role = 'master';
+            $user->save();
+        }
+
         $master->restore();
+
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Мастер успешно восстановлен']);
     }
 
+
     /*
-    * Редактирование услуги
-    */
-    public function update(Request $request) {
+     * Редактирование услуги
+     */
+    public function update(Request $request)
+    {
         $validate = $request->validate([
             'id' => 'required|integer|min:1',
             'name' => 'required|string|max:255',
@@ -104,7 +124,7 @@ class MasterController extends Controller
             // Сохраняем файл
             $file = $request->file('photo');
             $timestamp = time();
-            $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+            $coverPath = $file->storeAs('service', $timestamp . '.' . $file->getClientOriginalExtension(), 'public');
 
             $master->update([
                 'name' => $request->name,
@@ -135,10 +155,10 @@ class MasterController extends Controller
         }
 
         $users = User::where('email', 'like', "%{$query}%")
-                    ->orWhere('name', 'like', "%{$query}%")
-                    ->with('master.services')
-                    ->limit(10)
-                    ->get(['id', 'name', 'email']);
+            ->orWhere('name', 'like', "%{$query}%")
+            ->with('master.services')
+            ->limit(10)
+            ->get(['id', 'name', 'email']);
 
         return response()->json($users);
     }

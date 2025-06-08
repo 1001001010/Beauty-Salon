@@ -63,7 +63,7 @@ class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, S
         $headerStyle = [
             'font' => [
                 'bold' => true,
-                'color' => ['rgb' => 'FFFFFF'],
+                'color' => ['rgb' => 'FFFFFF'], // Белый текст для заголовков
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
@@ -83,6 +83,9 @@ class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, S
 
         // Стиль для данных
         $dataStyle = [
+            'font' => [
+                'color' => ['rgb' => '000000'], // Явно указываем черный цвет для данных
+            ],
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -108,6 +111,8 @@ class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, S
                     $sheet->getStyle('A' . $i . ':H' . $i)->getFill()
                         ->setFillType(Fill::FILL_SOLID)
                         ->getStartColor()->setRGB('DDEBF7');
+                    // Сохраняем черный цвет текста для четных строк
+                    $sheet->getStyle('A' . $i . ':H' . $i)->getFont()->getColor()->setRGB('000000');
                 }
             }
 
@@ -120,7 +125,7 @@ class RecordsSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, S
         $sheet->insertNewRowBefore(1);
         $sheet->mergeCells('A1:H1');
         $sheet->setCellValue('A1', 'Журнал записей');
-        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->getColor()->setRGB('000000');
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         return [];

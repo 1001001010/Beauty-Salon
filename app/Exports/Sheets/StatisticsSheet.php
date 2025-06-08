@@ -55,9 +55,9 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
 
         // Статистика по мастерам
         $topMasters = Master::select(
-                DB::raw("CONCAT(masters.surname, ' ', masters.name) as master_name"),
-                DB::raw('COUNT(records.id) as record_count')
-            )
+            DB::raw("CONCAT(masters.surname, ' ', masters.name) as master_name"),
+            DB::raw('COUNT(records.id) as record_count')
+        )
             ->leftJoin('master_service', 'masters.id', '=', 'master_service.master_id')
             ->leftJoin('records', 'master_service.id', '=', 'records.master_service_id')
             ->groupBy('masters.id', 'masters.name', 'masters.surname')
@@ -67,10 +67,10 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
 
         // Статистика по месяцам
         $recordsByMonth = Record::select(
-                DB::raw('MONTH(datetime) as month'),
-                DB::raw('YEAR(datetime) as year'),
-                DB::raw('COUNT(*) as count')
-            )
+            DB::raw('MONTH(datetime) as month'),
+            DB::raw('YEAR(datetime) as year'),
+            DB::raw('COUNT(*) as count')
+        )
             ->whereYear('datetime', date('Y'))
             ->groupBy('year', 'month')
             ->orderBy('year')
@@ -78,9 +78,18 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
             ->get()
             ->map(function ($item) {
                 $monthNames = [
-                    1 => 'Январь', 2 => 'Февраль', 3 => 'Март', 4 => 'Апрель',
-                    5 => 'Май', 6 => 'Июнь', 7 => 'Июль', 8 => 'Август',
-                    9 => 'Сентябрь', 10 => 'Октябрь', 11 => 'Ноябрь', 12 => 'Декабрь'
+                    1 => 'Январь',
+                    2 => 'Февраль',
+                    3 => 'Март',
+                    4 => 'Апрель',
+                    5 => 'Май',
+                    6 => 'Июнь',
+                    7 => 'Июль',
+                    8 => 'Август',
+                    9 => 'Сентябрь',
+                    10 => 'Октябрь',
+                    11 => 'Ноябрь',
+                    12 => 'Декабрь'
                 ];
 
                 return [
@@ -91,7 +100,7 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
 
         // Формируем данные для отчета
         $data = [
-            ['Общая статистика системы', ''],
+            ['Статистика системы', ''],
             ['Показатель', 'Значение'],
             ['Всего пользователей', $totalUsers],
             ['Клиентов', $totalClients],
@@ -169,6 +178,9 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
 
         // Стиль для данных
         $dataStyle = [
+            'font' => [
+                'color' => ['rgb' => '000000'],
+            ],
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -177,73 +189,94 @@ class StatisticsSheet implements WithTitle, WithCustomStartCell, ShouldAutoSize,
             ],
         ];
 
-        // Применяем стили
-        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
-        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-        // Общая статистика
-        $sheet->getStyle('A2')->applyFromArray($sectionHeaderStyle);
-        $sheet->getStyle('A3:B3')->applyFromArray($tableHeaderStyle);
-        $sheet->getStyle('A4:B10')->applyFromArray($dataStyle);
-
-        // Топ услуг
-        $sheet->getStyle('A12')->applyFromArray($sectionHeaderStyle);
-        $sheet->getStyle('A13:B13')->applyFromArray($tableHeaderStyle);
-
-        // Находим последнюю строку с услугами
-        $lastServiceRow = 13 + count(Service::select('services.name', DB::raw('COUNT(records.id) as record_count'))
+        // Получаем данные для правильного расчета количества строк
+        $topServices = Service::select('services.name', DB::raw('COUNT(records.id) as record_count'))
             ->leftJoin('master_service', 'services.id', '=', 'master_service.service_id')
             ->leftJoin('records', 'master_service.id', '=', 'records.master_service_id')
             ->groupBy('services.id', 'services.name')
             ->orderBy('record_count', 'desc')
             ->limit(5)
-            ->get());
+            ->get();
 
-        $sheet->getStyle('A14:B' . $lastServiceRow)->applyFromArray($dataStyle);
-
-        // Топ мастеров
-        $masterStartRow = $lastServiceRow + 2;
-        $sheet->getStyle('A' . $masterStartRow)->applyFromArray($sectionHeaderStyle);
-        $sheet->getStyle('A' . ($masterStartRow + 1) . ':B' . ($masterStartRow + 1))->applyFromArray($tableHeaderStyle);
-
-        // Находим последнюю строку с мастерами
-        $lastMasterRow = $masterStartRow + 1 + count(Master::select(
-                DB::raw("CONCAT(masters.surname, ' ', masters.name) as master_name"),
-                DB::raw('COUNT(records.id) as record_count')
-            )
+        $topMasters = Master::select(
+            DB::raw("CONCAT(masters.surname, ' ', masters.name) as master_name"),
+            DB::raw('COUNT(records.id) as record_count')
+        )
             ->leftJoin('master_service', 'masters.id', '=', 'master_service.master_id')
             ->leftJoin('records', 'master_service.id', '=', 'records.master_service_id')
             ->groupBy('masters.id', 'masters.name', 'masters.surname')
             ->orderBy('record_count', 'desc')
             ->limit(5)
-            ->get());
+            ->get();
 
-        $sheet->getStyle('A' . ($masterStartRow + 2) . ':B' . $lastMasterRow)->applyFromArray($dataStyle);
-
-        // Статистика по месяцам
-        $monthStartRow = $lastMasterRow + 2;
-        $sheet->getStyle('A' . $monthStartRow)->applyFromArray($sectionHeaderStyle);
-        $sheet->getStyle('A' . ($monthStartRow + 1) . ':B' . ($monthStartRow + 1))->applyFromArray($tableHeaderStyle);
-
-        // Находим последнюю строку с месяцами
-        $recordsByMonthCount = Record::select(
-                DB::raw('MONTH(datetime) as month'),
-                DB::raw('YEAR(datetime) as year'),
-                DB::raw('COUNT(*) as count')
-            )
+        $recordsByMonth = Record::select(
+            DB::raw('MONTH(datetime) as month'),
+            DB::raw('YEAR(datetime) as year'),
+            DB::raw('COUNT(*) as count')
+        )
             ->whereYear('datetime', date('Y'))
             ->groupBy('year', 'month')
             ->orderBy('year')
             ->orderBy('month')
-            ->get()
-            ->count();
+            ->get();
 
-        $lastMonthRow = $monthStartRow + 1 + $recordsByMonthCount;
-        $sheet->getStyle('A' . ($monthStartRow + 2) . ':B' . $lastMonthRow)->applyFromArray($dataStyle);
-
-        // Заголовок листа
+        // Заголовок листа - убираем, так как он уже в данных
+        $sheet->getStyle('A1:B1')->applyFromArray($sectionHeaderStyle);
         $sheet->mergeCells('A1:B1');
-        $sheet->setCellValue('A1', 'Статистика системы');
+
+        // Общая статистика - заголовки столбцов
+        $sheet->getStyle('A2:B2')->applyFromArray($tableHeaderStyle);
+
+        // Общая статистика - данные
+        $sheet->getStyle('A3:B9')->applyFromArray($dataStyle);
+
+        // Топ услуг - заголовок раздела
+        $sheet->getStyle('A11:B11')->applyFromArray($sectionHeaderStyle);
+        $sheet->mergeCells('A11:B11');
+
+        // Топ услуг - заголовки столбцов
+        $sheet->getStyle('A12:B12')->applyFromArray($tableHeaderStyle);
+
+        // Топ услуг - данные
+        $topServicesCount = $topServices->count();
+        if ($topServicesCount > 0) {
+            $lastServiceRow = 12 + $topServicesCount;
+            $sheet->getStyle('A13:B' . $lastServiceRow)->applyFromArray($dataStyle);
+            $masterStartRow = $lastServiceRow + 2;
+        } else {
+            $masterStartRow = 14;
+        }
+
+        // Топ мастеров - заголовок раздела
+        $sheet->getStyle('A' . $masterStartRow . ':B' . $masterStartRow)->applyFromArray($sectionHeaderStyle);
+        $sheet->mergeCells('A' . $masterStartRow . ':B' . $masterStartRow);
+
+        // Топ мастеров - заголовки столбцов
+        $sheet->getStyle('A' . ($masterStartRow + 1) . ':B' . ($masterStartRow + 1))->applyFromArray($tableHeaderStyle);
+
+        // Топ мастеров - данные
+        $topMastersCount = $topMasters->count();
+        if ($topMastersCount > 0) {
+            $lastMasterRow = $masterStartRow + 1 + $topMastersCount;
+            $sheet->getStyle('A' . ($masterStartRow + 2) . ':B' . $lastMasterRow)->applyFromArray($dataStyle);
+            $monthStartRow = $lastMasterRow + 2;
+        } else {
+            $monthStartRow = $masterStartRow + 3;
+        }
+
+        // Статистика по месяцам - заголовок раздела
+        $sheet->getStyle('A' . $monthStartRow . ':B' . $monthStartRow)->applyFromArray($sectionHeaderStyle);
+        $sheet->mergeCells('A' . $monthStartRow . ':B' . $monthStartRow);
+
+        // Статистика по месяцам - заголовки столбцов
+        $sheet->getStyle('A' . ($monthStartRow + 1) . ':B' . ($monthStartRow + 1))->applyFromArray($tableHeaderStyle);
+
+        // Статистика по месяцам - данные
+        $recordsByMonthCount = $recordsByMonth->count();
+        if ($recordsByMonthCount > 0) {
+            $lastMonthRow = $monthStartRow + 1 + $recordsByMonthCount;
+            $sheet->getStyle('A' . ($monthStartRow + 2) . ':B' . $lastMonthRow)->applyFromArray($dataStyle);
+        }
 
         return [];
     }

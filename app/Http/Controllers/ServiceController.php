@@ -8,8 +8,8 @@ use App\Models\{Service, Master, Record, MasterService};
 class ServiceController extends Controller
 {
     /*
-    * Добавление услуги
-    */
+     * Добавление услуги
+     */
     public function index(Request $request)
     {
         $query = Service::query()->with('masters');
@@ -42,9 +42,10 @@ class ServiceController extends Controller
     }
 
     /*
-    * Добавление услуги
-    */
-    public function upload(Request $request) {
+     * Добавление услуги
+     */
+    public function upload(Request $request)
+    {
         $validate = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
@@ -55,7 +56,7 @@ class ServiceController extends Controller
         // Получаем фото и сохраняем его
         $file = $request->file('photo');
         $timestamp = time();
-        $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+        $coverPath = $file->storeAs('service', $timestamp . '.' . $file->getClientOriginalExtension(), 'public');
         // Добавляем услугу в бд
         Service::create([
             'name' => $request->name,
@@ -72,36 +73,48 @@ class ServiceController extends Controller
      */
     public function delete(Service $service)
     {
-        // Удаляем все будущие записи, связанные с этой услугой
-        Record::whereHas('masterService', function($query) use ($service) {
-                $query->where('service_id', $service->id);
-            })
+        // Проверяем наличие предстоящих записей
+        $hasUpcomingRecords = Record::whereHas('masterService', function ($query) use ($service) {
+            $query->where('service_id', $service->id);
+        })
             ->where('datetime', '>', now())
-            ->delete();
+            ->exists();
 
-        // Удаляем саму услугу
+        // Если есть предстоящие записи, возвращаем ошибку
+        if ($hasUpcomingRecords) {
+            return redirect()
+                ->back()
+                ->with('message', [
+                    'type' => 'error',
+                    'text' => 'Невозможно удалить услугу, так как на неё есть предстоящие записи!'
+                ]);
+        }
+
+        // Если предстоящих записей нет, удаляем услугу
         $service->delete();
 
         return redirect()
             ->back()
             ->with('message', [
                 'type' => 'message',
-                'text' => 'Услуга и все связанные предстоящие записи успешно удалены!'
+                'text' => 'Услуга успешно удалена!'
             ]);
     }
 
     /*
-    * Восстановление услуги
-    */
-    public function restore(Service $service) {
+     * Восстановление услуги
+     */
+    public function restore(Service $service)
+    {
         $service->restore();
         return redirect()->back()->with('message', ['type' => 'message', 'text' => 'Услуга успешно восстановлена!']);
     }
 
     /*
-    * Редактирование услуги
-    */
-    public function update(Request $request) {
+     * Редактирование услуги
+     */
+    public function update(Request $request)
+    {
         $validate = $request->validate([
             'id' => 'required|integer|min:1',
             'name' => 'required|string|max:255',
@@ -115,7 +128,7 @@ class ServiceController extends Controller
             // Сохраняем фото
             $file = $request->file('photo');
             $timestamp = time();
-            $coverPath = $file->storeAs('service', $timestamp. '.'. $file->getClientOriginalExtension(), 'public');
+            $coverPath = $file->storeAs('service', $timestamp . '.' . $file->getClientOriginalExtension(), 'public');
             // Редактируем запись в таблице
             Service::where('id', $request->id)->update([
                 'name' => $request->name,

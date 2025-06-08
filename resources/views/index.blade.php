@@ -379,9 +379,6 @@
                             <p class="mt-3 text-gray-500 text-sm">
                                 Узнайте основные шаги для поддержания здоровой и сияющей кожи круглый год
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
-                            </div>
                         </div>
                     </div>
 
@@ -397,9 +394,6 @@
                             <p class="mt-3 text-gray-500 text-sm">
                                 Узнайте лучшие способы поддержания цвета волос и сохранения их свежести
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
-                            </div>
                         </div>
                     </div>
 
@@ -415,9 +409,6 @@
                             <p class="mt-3 text-gray-500 text-sm">
                                 Исследуйте последние дизайны ногтей и цвета, которые популярны в этом сезоне
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="text-mauve hover:text-blush font-medium">Читать далее →</a>
-                            </div>
                         </div>
                     </div>
                 </div>

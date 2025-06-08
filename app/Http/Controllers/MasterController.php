@@ -73,6 +73,23 @@ class MasterController extends Controller
      */
     public function delete(Master $master)
     {
+        // Проверяем наличие предстоящих записей
+        $currentDateTime = Carbon::now();
+        $hasUpcomingRecords = Record::where('datetime', '>', $currentDateTime)
+            ->whereHas('master', function ($query) use ($master) {
+                $query->where('masters.id', $master->id);
+            })
+            ->exists();
+
+        // Если есть предстоящие записи, возвращаем ошибку
+        if ($hasUpcomingRecords) {
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'text' => 'Невозможно удалить мастера, так как на него есть предстоящие записи!'
+            ]);
+        }
+
+        // Если предстоящих записей нет, удаляем мастера
         $user = $master->user;
         if ($user) {
             $user->role = 'user';

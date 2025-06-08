@@ -94,7 +94,7 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
                                 class="flex items-center justify-between p-3 bg-cream/50 border border-mauve/20 rounded-lg">
                                 <div class="flex items-center space-x-2">
                                     <i class="fas fa-user-lock text-mauve"></i>
-                                    <span class="text-sm text-gray-700">Для записи ребуется авторизация</span>
+                                    <span class="text-sm text-gray-700">Для записи требуется авторизация</span>
                                 </div>
                             </div>
                         @endauth

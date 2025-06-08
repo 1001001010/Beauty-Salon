@@ -29,64 +29,75 @@ $tomorrow = date('m/d/Y', strtotime('+1 day'));
             <div class="border-t border-gray-200">
                 <div class="px-4 py-5 sm:px-6">
                     <div class="flex flex-wrap gap-4 items-end">
-                        <!-- Мастер -->
-                        <div class="w-full sm:w-auto">
-                            <label for="master-select-{{ $service->id }}"
-                                class="block text-sm font-medium text-gray-700 mb-1">Мастер</label>
-                            <select id="master-select-{{ $service->id }}"
-                                class="master-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
-                                required>
-                                <option value="">Выберите мастера</option>
-                                @foreach ($service->masters as $item)
-                                    <option value="{{ $item->id }}">{{ $item->surname }} {{ $item->name }}
-                                        {{ $item->fathername }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @auth
+                            <!-- Мастер -->
+                            <div class="w-full sm:w-auto">
+                                <label for="master-select-{{ $service->id }}"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Мастер</label>
+                                <select id="master-select-{{ $service->id }}"
+                                    class="master-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
+                                    required>
+                                    <option value="">Выберите мастера</option>
+                                    @foreach ($service->masters as $item)
+                                        <option value="{{ $item->id }}">{{ $item->surname }} {{ $item->name }}
+                                            {{ $item->fathername }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <!-- Календарь -->
-                        <div class="w-full sm:w-auto">
-                            <label for="date-select-{{ $service->id }}"
-                                class="block text-sm font-medium text-gray-700 mb-1">Дата</label>
-                            <select id="date-select-{{ $service->id }}"
-                                class="date-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
-                                required>
-                                <option value="">Выберите дату</option>
-                                @for ($i = 1; $i <= 14; $i++)
-                                    <?php
-                                    $date = date('Y-m-d', strtotime("+$i day"));
-                                    $formattedDate = date('d.m.Y', strtotime("+$i day"));
-                                    $dayOfWeek = date('l', strtotime("+$i day"));
-                                    $dayOfWeekRu = [
-                                        'Monday' => 'Понедельник',
-                                        'Tuesday' => 'Вторник',
-                                        'Wednesday' => 'Среда',
-                                        'Thursday' => 'Четверг',
-                                        'Friday' => 'Пятница',
-                                        'Saturday' => 'Суббота',
-                                        'Sunday' => 'Воскресенье',
-                                    ][$dayOfWeek];
-                                    ?>
-                                    <option value="{{ $date }}">{{ $formattedDate }} ({{ $dayOfWeekRu }})
-                                    </option>
-                                @endfor
-                            </select>
-                        </div>
+                            <!-- Календарь -->
+                            <div class="w-full sm:w-auto">
+                                <label for="date-select-{{ $service->id }}"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Дата</label>
+                                <select id="date-select-{{ $service->id }}"
+                                    class="date-select bg-cream border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mauve focus:border-mauve block w-full p-2.5"
+                                    required>
+                                    <option value="">Выберите дату</option>
+                                    @for ($i = 1; $i <= 14; $i++)
+                                        <?php
+                                        $date = date('Y-m-d', strtotime("+$i day"));
+                                        $formattedDate = date('d.m.Y', strtotime("+$i day"));
+                                        $dayOfWeek = date('l', strtotime("+$i day"));
+                                        $dayOfWeekRu = [
+                                            'Monday' => 'Понедельник',
+                                            'Tuesday' => 'Вторник',
+                                            'Wednesday' => 'Среда',
+                                            'Thursday' => 'Четверг',
+                                            'Friday' => 'Пятница',
+                                            'Saturday' => 'Суббота',
+                                            'Sunday' => 'Воскресенье',
+                                        ][$dayOfWeek];
+                                        ?>
+                                        <option value="{{ $date }}">{{ $formattedDate }} ({{ $dayOfWeekRu }})
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
 
-                        <!-- Кнопка выбора времени -->
-                        @if (count($service->masters) > 0)
-                            <button type="button" id="show-time-btn-{{ $service->id }}"
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
-                                data-modal-target="time-modal-{{ $service->id }}"
-                                data-modal-toggle="time-modal-{{ $service->id }}" disabled>
-                                Выбрать время
-                            </button>
+                            <!-- Кнопка выбора времени -->
+                            @if (count($service->masters) > 0)
+                                <button type="button" id="show-time-btn-{{ $service->id }}"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-mauve hover:bg-blush focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve"
+                                    data-modal-target="time-modal-{{ $service->id }}"
+                                    data-modal-toggle="time-modal-{{ $service->id }}" disabled>
+                                    Выбрать время
+                                </button>
+                            @else
+                                <button type="button" disabled
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed">
+                                    Выбрать время
+                                </button>
+                            @endif
                         @else
-                            <button type="button" disabled
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed">
-                                Выбрать время
-                            </button>
-                        @endif
+                            <!-- Очень компактное сообщение -->
+                            <div
+                                class="flex items-center justify-between p-3 bg-cream/50 border border-mauve/20 rounded-lg">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-user-lock text-mauve"></i>
+                                    <span class="text-sm text-gray-700">Требуется авторизация</span>
+                                </div>
+                            </div>
+                        @endauth
                     </div>
                 </div>
             </div>
